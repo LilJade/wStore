@@ -4,12 +4,16 @@
  */
 package views;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
+
 /**
  *
  * @author pc
  */
 public class V_categoryCrud extends javax.swing.JFrame {
 
+    int x, y;
     /**
      * Creates new form V_categoryCrud
      */
@@ -34,8 +38,6 @@ public class V_categoryCrud extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnRefresh = new javax.swing.JButton();
-        lblTittle = new javax.swing.JLabel();
         pnTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbCategory = new javax.swing.JTable();
@@ -50,23 +52,15 @@ public class V_categoryCrud extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDescriptionCat = new javax.swing.JTextArea();
+        btnRefresh = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        lblTittle = new javax.swing.JLabel();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnRefresh.setText("Refresh");
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 90, 40));
-
-        lblTittle.setFont(new java.awt.Font("MADE TOMMY", 1, 36)); // NOI18N
-        lblTittle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTittle.setText("Configurar Categorías");
-        getContentPane().add(lblTittle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 60));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -102,6 +96,8 @@ public class V_categoryCrud extends javax.swing.JFrame {
 
         getContentPane().add(pnTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 380, 440));
 
+        pnConfig.setBackground(new java.awt.Color(153, 204, 255));
+
         jLabel1.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel1.setText("ID:");
 
@@ -113,16 +109,24 @@ public class V_categoryCrud extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel3.setText("Descripción:");
 
+        btnCancel.setBackground(new java.awt.Color(204, 0, 0));
         btnCancel.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnCancel.setText("Cancelar");
+        btnCancel.setBorder(null);
+        btnCancel.setBorderPainted(false);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
 
+        btnChange.setBackground(new java.awt.Color(0, 153, 0));
         btnChange.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnChange.setForeground(new java.awt.Color(255, 255, 255));
         btnChange.setText("Guardar");
+        btnChange.setBorder(null);
+        btnChange.setBorderPainted(false);
         btnChange.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnChangeActionPerformed(evt);
@@ -133,8 +137,12 @@ public class V_categoryCrud extends javax.swing.JFrame {
         txtIdCat.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         txtIdCat.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        btnDelete.setBackground(new java.awt.Color(204, 0, 0));
         btnDelete.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
         btnDelete.setText("Eliminar");
+        btnDelete.setBorder(null);
+        btnDelete.setBorderPainted(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -145,6 +153,18 @@ public class V_categoryCrud extends javax.swing.JFrame {
         txtDescriptionCat.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
         txtDescriptionCat.setRows(5);
         jScrollPane2.setViewportView(txtDescriptionCat);
+
+        btnRefresh.setBackground(new java.awt.Color(51, 0, 204));
+        btnRefresh.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnRefresh.setForeground(new java.awt.Color(255, 255, 255));
+        btnRefresh.setText("Refrescar Datos");
+        btnRefresh.setBorder(null);
+        btnRefresh.setBorderPainted(false);
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnConfigLayout = new javax.swing.GroupLayout(pnConfig);
         pnConfig.setLayout(pnConfigLayout);
@@ -161,7 +181,8 @@ public class V_categoryCrud extends javax.swing.JFrame {
                     .addComponent(btnChange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtIdCat, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnConfigLayout.setVerticalGroup(
@@ -179,16 +200,70 @@ public class V_categoryCrud extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(btnChange)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(btnChange, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDelete)
-                .addGap(4, 4, 4)
-                .addComponent(btnCancel)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         getContentPane().add(pnConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, 220, 440));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        lblTittle.setFont(new java.awt.Font("MADE TOMMY", 1, 36)); // NOI18N
+        lblTittle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTittle.setText("Configurar Categorías");
+        lblTittle.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                lblTittleMouseDragged(evt);
+            }
+        });
+        lblTittle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lblTittleMousePressed(evt);
+            }
+        });
+
+        btnExit.setBackground(new java.awt.Color(204, 0, 0));
+        btnExit.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnExit.setForeground(new java.awt.Color(255, 255, 255));
+        btnExit.setText("Cerrar");
+        btnExit.setBorder(null);
+        btnExit.setBorderPainted(false);
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 60));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -222,6 +297,20 @@ public class V_categoryCrud extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void lblTittleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTittleMousePressed
+        x = evt.getX();
+        y = evt.getY();
+    }//GEN-LAST:event_lblTittleMousePressed
+
+    private void lblTittleMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTittleMouseDragged
+        Point p = MouseInfo.getPointerInfo().getLocation();
+        setLocation(p.x - x, p.y - y);
+    }//GEN-LAST:event_lblTittleMouseDragged
 
     /**
      * @param args the command line arguments
@@ -262,10 +351,12 @@ public class V_categoryCrud extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnChange;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblTittle;

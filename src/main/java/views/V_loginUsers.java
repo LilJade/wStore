@@ -11,7 +11,7 @@ import business.B_users;
 
 /**
  *
- * @author pc
+ * @author LilJade
  */
 public class V_loginUsers extends javax.swing.JFrame {
 
@@ -170,11 +170,13 @@ public class V_loginUsers extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //use to move the form
     private void lblMoveFrmMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMoveFrmMouseDragged
         Point p = MouseInfo.getPointerInfo().getLocation();
         setLocation(p.x - x, p.y - y);
     }//GEN-LAST:event_lblMoveFrmMouseDragged
 
+    //use to move the form
     private void lblMoveFrmMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMoveFrmMousePressed
         x = evt.getX();
         y = evt.getY();
@@ -200,6 +202,7 @@ public class V_loginUsers extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserNameActionPerformed
 
+    //login of the user
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
         lblErrName.setText("");
         lblErrPass.setText("");
@@ -226,6 +229,11 @@ public class V_loginUsers extends javax.swing.JFrame {
             lblErrResult.setForeground(new Color(0, 255, 0));
             lblErrResult.setText("Login Success! Welcome " + user.getFirstName() + " " + user.getLastName());
             System.out.println("User logged: " + user.toString());
+            
+            V_Sale win = new V_Sale();
+            win.setVisible(true);
+                        
+            this.dispose();
         }
     }//GEN-LAST:event_btnLoginMouseClicked
 

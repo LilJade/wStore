@@ -82,9 +82,12 @@ public class V_productsCrud extends javax.swing.JFrame {
         pnTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProducts = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        cmbCategoryProds = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        txtSearchProd = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         lblImgProd = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtNameProd = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -113,6 +116,7 @@ public class V_productsCrud extends javax.swing.JFrame {
         txtQuantityPP = new javax.swing.JTextField();
         txtStockP = new javax.swing.JTextField();
         btnRefresh = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblTittle = new javax.swing.JLabel();
         btnRefresh1 = new javax.swing.JButton();
@@ -145,20 +149,47 @@ public class V_productsCrud extends javax.swing.JFrame {
             tbProducts.getColumnModel().getColumn(3).setPreferredWidth(95);
         }
 
+        jLabel2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        jLabel2.setText("Ver productos por categoría: ");
+
+        cmbCategoryProds.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel13.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        jLabel13.setText("Buscar un producto: ");
+
+        txtSearchProd.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
+
         javax.swing.GroupLayout pnTableLayout = new javax.swing.GroupLayout(pnTable);
         pnTable.setLayout(pnTableLayout);
         pnTableLayout.setHorizontalGroup(
             pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                .addGroup(pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                    .addGroup(pnTableLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbCategoryProds, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnTableLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSearchProd)))
                 .addContainerGap())
         );
         pnTableLayout.setVerticalGroup(
             pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnTableLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
+                .addGroup(pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cmbCategoryProds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(txtSearchProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -172,10 +203,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         lblImgProd.setIcon(new javax.swing.ImageIcon("F:\\NetBeansProjects\\wStore\\src\\main\\java\\imgs\\paquete.png")); // NOI18N
         lblImgProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.add(lblImgProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 36, 197, 110));
-
-        jLabel2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel2.setText("Imagen del producto:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 12, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel3.setText("Nombre del producto:");
@@ -368,6 +395,10 @@ public class V_productsCrud extends javax.swing.JFrame {
         });
         jPanel1.add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 140, 40));
 
+        jLabel9.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        jLabel9.setText("Imagen del producto:");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 12, -1, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 380, 660));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -540,9 +571,11 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JButton btnRefresh1;
     private javax.swing.JButton btnSaveAll;
     private javax.swing.JComboBox<String> cmbCategoryProd;
+    private javax.swing.JComboBox<String> cmbCategoryProds;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -550,6 +583,7 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -564,6 +598,7 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JTextField txtPriceSale_P;
     private javax.swing.JTextField txtPriceSale_U;
     private javax.swing.JTextField txtQuantityPP;
+    private javax.swing.JTextField txtSearchProd;
     private javax.swing.JTextField txtStockP;
     private javax.swing.JTextField txtStockU;
     // End of variables declaration//GEN-END:variables

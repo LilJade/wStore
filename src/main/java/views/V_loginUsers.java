@@ -164,7 +164,7 @@ public class V_loginUsers extends javax.swing.JFrame {
 
         getContentPane().add(jpContBtnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 400, 250, 50));
 
-        lblBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("../imgs/background-03.jpg"))); // NOI18N
+        lblBackground.setIcon(new javax.swing.ImageIcon("F:\\NetBeansProjects\\wStore\\src\\main\\java\\imgs\\background-03.jpg")); // NOI18N
         getContentPane().add(lblBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 500));
 
         pack();

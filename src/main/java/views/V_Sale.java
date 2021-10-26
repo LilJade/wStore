@@ -25,7 +25,7 @@ public class V_Sale extends javax.swing.JFrame {
     void cleanFields() {
         lblSelectedProd.setText("");
         txtQuantityU.setText("");
-        txtQuantityP.setText("");
+        lblPrice.setText("");
         lblStock.setText("");
         lblIdProd.setText("");
         lblArtSale.setText("");
@@ -36,23 +36,24 @@ public class V_Sale extends javax.swing.JFrame {
     
     void blockFields() {
         txtQuantityU.setEnabled(false);
-        txtQuantityP.setEnabled(false);
         tbDetailSale.setEnabled(false);
         txtTotal.setEnabled(false);
         
         txtSearchClient.setEnabled(false);
         tbClient.setEnabled(false);
         
-        ckbAddClient.setEnabled(false);
+        rbGenericClient.setEnabled(false);
+        rbRegisterClient.setEnabled(false);
+        rbGenericClient.setSelected(true);
     }
     
     void unblockFields() {
         txtQuantityU.setEnabled(true);
-        txtQuantityP.setEnabled(true);
         tbDetailSale.setEnabled(true);
         txtTotal.setEnabled(true);
         
-        ckbAddClient.setEnabled(true);
+        rbGenericClient.setEnabled(true);
+        rbRegisterClient.setEnabled(true);
     }
     
     void blockButtons() {
@@ -89,6 +90,7 @@ public class V_Sale extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btngTypeClient = new javax.swing.ButtonGroup();
         pnlConfigSale = new javax.swing.JPanel();
         lblIdSale = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -101,11 +103,13 @@ public class V_Sale extends javax.swing.JFrame {
         tbClient = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
         btnSelectClient = new javax.swing.JButton();
-        ckbAddClient = new javax.swing.JCheckBox();
         btnNewSale = new javax.swing.JButton();
         btnCompleteSale = new javax.swing.JButton();
         btnCancelSale = new javax.swing.JButton();
         btnPrint = new javax.swing.JButton();
+        rbGenericClient = new javax.swing.JRadioButton();
+        rbRegisterClient = new javax.swing.JRadioButton();
+        jLabel17 = new javax.swing.JLabel();
         pnlProdsAdd = new javax.swing.JPanel();
         lblLogoWStore = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -120,8 +124,8 @@ public class V_Sale extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         btnCancelAddProd = new javax.swing.JButton();
         lblStock = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        txtQuantityP = new javax.swing.JTextField();
+        lblPrice = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         pnlOptions = new javax.swing.JPanel();
         btnProduct = new javax.swing.JButton();
         btnCategory = new javax.swing.JButton();
@@ -225,35 +229,13 @@ public class V_Sale extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtSearchClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSelectClient)
                 .addGap(29, 29, 29)
                 .addComponent(btnAddClient)
                 .addContainerGap())
         );
-
-        ckbAddClient.setText("Especificar cliente");
-        ckbAddClient.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                ckbAddClientItemStateChanged(evt);
-            }
-        });
-        ckbAddClient.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                ckbAddClientStateChanged(evt);
-            }
-        });
-        ckbAddClient.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ckbAddClientMouseClicked(evt);
-            }
-        });
-        ckbAddClient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ckbAddClientActionPerformed(evt);
-            }
-        });
 
         btnNewSale.setBackground(new java.awt.Color(0, 153, 51));
         btnNewSale.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
@@ -303,6 +285,27 @@ public class V_Sale extends javax.swing.JFrame {
             }
         });
 
+        btngTypeClient.add(rbGenericClient);
+        rbGenericClient.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        rbGenericClient.setText("Genérico");
+        rbGenericClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rbGenericClientMouseClicked(evt);
+            }
+        });
+
+        btngTypeClient.add(rbRegisterClient);
+        rbRegisterClient.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        rbRegisterClient.setText("Específico");
+        rbRegisterClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rbRegisterClientMouseClicked(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        jLabel17.setText("Cliente:");
+
         javax.swing.GroupLayout pnlConfigSaleLayout = new javax.swing.GroupLayout(pnlConfigSale);
         pnlConfigSale.setLayout(pnlConfigSaleLayout);
         pnlConfigSaleLayout.setHorizontalGroup(
@@ -324,7 +327,13 @@ public class V_Sale extends javax.swing.JFrame {
                     .addComponent(btnCancelSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPrint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNewSale, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ckbAddClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlConfigSaleLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlConfigSaleLayout.createSequentialGroup()
+                        .addComponent(rbGenericClient)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rbRegisterClient)))
                 .addContainerGap())
         );
         pnlConfigSaleLayout.setVerticalGroup(
@@ -340,9 +349,13 @@ public class V_Sale extends javax.swing.JFrame {
                     .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ckbAddClient)
-                .addGap(80, 80, 80)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlConfigSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbGenericClient)
+                    .addComponent(rbRegisterClient))
+                .addGap(61, 61, 61)
                 .addComponent(btnCompleteSale, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -361,7 +374,7 @@ public class V_Sale extends javax.swing.JFrame {
         lblLogoWStore.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel2.setText("Seleccionar producto: ");
+        jLabel2.setText("Buscar producto: ");
 
         btnSearchProd.setBackground(new java.awt.Color(51, 51, 255));
         btnSearchProd.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
@@ -387,7 +400,7 @@ public class V_Sale extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel4.setText("Cantidad:");
+        jLabel4.setText("Código del producto");
 
         lblIdProd.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblIdProd.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -418,21 +431,24 @@ public class V_Sale extends javax.swing.JFrame {
         btnCancelAddProd.setText("Cancelar");
         btnCancelAddProd.setBorder(null);
         btnCancelAddProd.setBorderPainted(false);
+        btnCancelAddProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelAddProdActionPerformed(evt);
+            }
+        });
 
         lblStock.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblStock.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblStock.setText("11111001111");
         lblStock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel17.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel17.setText("Vender por paquete:");
+        lblPrice.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        lblPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPrice.setText("11111001111");
+        lblPrice.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        txtQuantityP.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
-        txtQuantityP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQuantityPActionPerformed(evt);
-            }
-        });
+        jLabel11.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        jLabel11.setText("Precio: $");
 
         javax.swing.GroupLayout pnlProdsAddLayout = new javax.swing.GroupLayout(pnlProdsAdd);
         pnlProdsAdd.setLayout(pnlProdsAddLayout);
@@ -445,30 +461,34 @@ public class V_Sale extends javax.swing.JFrame {
                 .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel17))
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSearchProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnlProdsAddLayout.createSequentialGroup()
-                        .addComponent(txtQuantityU, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblStock, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblIdProd, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProdsAddLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(lblSelectedProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(pnlProdsAddLayout.createSequentialGroup()
-                        .addComponent(txtQuantityP, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnCancelAddProd, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtQuantityU, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProdsAddLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlProdsAddLayout.createSequentialGroup()
+                                .addComponent(btnCancelAddProd, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(89, 89, 89)
+                                .addComponent(btnAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlProdsAddLayout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblStock, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblIdProd, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(4, 4, 4)))
                 .addContainerGap())
         );
         pnlProdsAddLayout.setVerticalGroup(
@@ -478,28 +498,30 @@ public class V_Sale extends javax.swing.JFrame {
                 .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlProdsAddLayout.createSequentialGroup()
                         .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtQuantityU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSearchProd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(lblSelectedProd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtQuantityU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
+                            .addComponent(lblSelectedProd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblIdProd, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
                             .addComponent(jLabel10)
-                            .addComponent(lblStock, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                            .addComponent(btnCancelAddProd, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                            .addComponent(jLabel17)
-                            .addComponent(txtQuantityP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblLogoWStore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                            .addComponent(lblStock, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnAddProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                            .addComponent(btnCancelAddProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblLogoWStore, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         pnlOptions.setBackground(new java.awt.Color(255, 255, 255));
@@ -588,13 +610,13 @@ public class V_Sale extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addComponent(txtTotal)
                 .addContainerGap())
         );
         pnlTableSaleLayout.setVerticalGroup(
             pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTableSaleLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -634,10 +656,6 @@ public class V_Sale extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtQuantityUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityUActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantityUActionPerformed
-
     private void btnDeleteProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteProdActionPerformed
@@ -663,10 +681,6 @@ public class V_Sale extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPrintActionPerformed
 
-    private void ckbAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbAddClientActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ckbAddClientActionPerformed
-
     private void btnProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductActionPerformed
         V_productsCrud win = new V_productsCrud();
         
@@ -679,84 +693,77 @@ public class V_Sale extends javax.swing.JFrame {
         win.setVisible(true);
     }//GEN-LAST:event_btnCategoryActionPerformed
 
-    private void ckbAddClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ckbAddClientMouseClicked
-        if (ckbAddClient.isSelected()) {
-            txtSearchClient.setEnabled(true);
-            tbClient.setEnabled(true);
-            
-            btnSelectClient.setEnabled(true);
-            btnAddClient.setEnabled(true);
-        
-            pnlCliente.setEnabled(true);
-        } else {
-            txtSearchClient.setEnabled(true);
-            tbClient.setEnabled(true);
-        
-            btnSelectClient.setEnabled(true);
-            btnAddClient.setEnabled(true);
-            
-            pnlCliente.setEnabled(true);
-        }
-    }//GEN-LAST:event_ckbAddClientMouseClicked
-
     private void btnAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClientActionPerformed
         V_addClient win = new V_addClient(this, true);
         win.setVisible(true);
     }//GEN-LAST:event_btnAddClientActionPerformed
-
-    private void txtQuantityPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityPActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantityPActionPerformed
-
-    private void ckbAddClientStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ckbAddClientStateChanged
-
-    }//GEN-LAST:event_ckbAddClientStateChanged
-
-    private void ckbAddClientItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ckbAddClientItemStateChanged
-        
-    }//GEN-LAST:event_ckbAddClientItemStateChanged
 
     private void btnSearchProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchProdActionPerformed
         V_SearchProduct win = new V_SearchProduct(this, true);
         win.setVisible(true);
     }//GEN-LAST:event_btnSearchProdActionPerformed
 
+    private void btnCancelAddProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAddProdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelAddProdActionPerformed
+
+    private void txtQuantityUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityUActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQuantityUActionPerformed
+
+    private void rbGenericClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbGenericClientMouseClicked
+        if (rbGenericClient.isSelected()) {
+            txtSearchClient.setText("");
+            txtSearchClient.setEnabled(false);
+            btnSelectClient.setEnabled(false);
+            btnAddClient.setEnabled(false);
+        }
+    }//GEN-LAST:event_rbGenericClientMouseClicked
+
+    private void rbRegisterClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbRegisterClientMouseClicked
+        if (rbRegisterClient.isSelected()) {
+            txtSearchClient.setEnabled(true);
+            btnSelectClient.setEnabled(true);
+            btnAddClient.setEnabled(true);
+        }
+    }//GEN-LAST:event_rbRegisterClientMouseClicked
+
     /*  MAIN METHOD  */
     
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new V_Sale().setVisible(true);
-//            }
-//        });
-//    }
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new V_Sale().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddClient;
@@ -771,9 +778,10 @@ public class V_Sale extends javax.swing.JFrame {
     private javax.swing.JButton btnProduct;
     private javax.swing.JButton btnSearchProd;
     private javax.swing.JButton btnSelectClient;
-    private javax.swing.JCheckBox ckbAddClient;
+    private javax.swing.ButtonGroup btngTypeClient;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
@@ -790,6 +798,7 @@ public class V_Sale extends javax.swing.JFrame {
     private javax.swing.JLabel lblIdProd;
     private javax.swing.JLabel lblIdSale;
     private javax.swing.JLabel lblLogoWStore;
+    private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblSelectedProd;
     private javax.swing.JLabel lblStock;
     private javax.swing.JPanel pnlCliente;
@@ -797,9 +806,10 @@ public class V_Sale extends javax.swing.JFrame {
     private javax.swing.JPanel pnlOptions;
     private javax.swing.JPanel pnlProdsAdd;
     private javax.swing.JPanel pnlTableSale;
+    private javax.swing.JRadioButton rbGenericClient;
+    private javax.swing.JRadioButton rbRegisterClient;
     private javax.swing.JTable tbClient;
     private javax.swing.JTable tbDetailSale;
-    private javax.swing.JTextField txtQuantityP;
     private javax.swing.JTextField txtQuantityU;
     private javax.swing.JTextField txtSearchClient;
     private javax.swing.JTextField txtTotal;

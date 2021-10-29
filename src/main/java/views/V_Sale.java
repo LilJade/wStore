@@ -127,6 +127,8 @@ public class V_Sale extends javax.swing.JFrame {
         lblPrice = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         pnlOptions = new javax.swing.JPanel();
+        btnUsers = new javax.swing.JButton();
+        btnClients = new javax.swing.JButton();
         btnProduct = new javax.swing.JButton();
         btnCategory = new javax.swing.JButton();
         pnlTableSale = new javax.swing.JPanel();
@@ -528,6 +530,30 @@ public class V_Sale extends javax.swing.JFrame {
         pnlOptions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlOptions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnUsers.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnUsers.setText("Administrar Usuarios");
+        btnUsers.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnUsers.setContentAreaFilled(false);
+        btnUsers.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsersActionPerformed(evt);
+            }
+        });
+        pnlOptions.add(btnUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 160, 20));
+
+        btnClients.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnClients.setText("Administrar Clientes");
+        btnClients.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnClients.setContentAreaFilled(false);
+        btnClients.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClientsActionPerformed(evt);
+            }
+        });
+        pnlOptions.add(btnClients, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 160, 20));
+
         btnProduct.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         btnProduct.setText("Inventario");
         btnProduct.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -538,7 +564,7 @@ public class V_Sale extends javax.swing.JFrame {
                 btnProductActionPerformed(evt);
             }
         });
-        pnlOptions.add(btnProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 200, 20));
+        pnlOptions.add(btnProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 110, 20));
 
         btnCategory.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         btnCategory.setText("Config Categorías");
@@ -550,7 +576,7 @@ public class V_Sale extends javax.swing.JFrame {
                 btnCategoryActionPerformed(evt);
             }
         });
-        pnlOptions.add(btnCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 200, 20));
+        pnlOptions.add(btnCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 20));
 
         pnlTableSale.setBackground(new java.awt.Color(153, 204, 255));
         pnlTableSale.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -694,7 +720,7 @@ public class V_Sale extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCategoryActionPerformed
 
     private void btnAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClientActionPerformed
-        V_addClient win = new V_addClient(this, true);
+        V_addClient win = new V_addClient(new javax.swing.JDialog(), true);
         win.setVisible(true);
     }//GEN-LAST:event_btnAddClientActionPerformed
 
@@ -728,42 +754,52 @@ public class V_Sale extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_rbRegisterClientMouseClicked
 
+    private void btnClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientsActionPerformed
+        V_clientCrud win = new V_clientCrud(this, true);
+        win.setVisible(true);
+    }//GEN-LAST:event_btnClientsActionPerformed
+
+    private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
+        V_userCrud win = new V_userCrud(this, true);
+        win.setVisible(true);
+    }//GEN-LAST:event_btnUsersActionPerformed
+
     /*  MAIN METHOD  */
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new V_Sale().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(V_Sale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new V_Sale().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddClient;
@@ -771,6 +807,7 @@ public class V_Sale extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelAddProd;
     private javax.swing.JButton btnCancelSale;
     private javax.swing.JButton btnCategory;
+    private javax.swing.JButton btnClients;
     private javax.swing.JButton btnCompleteSale;
     private javax.swing.JButton btnDeleteProd;
     private javax.swing.JButton btnNewSale;
@@ -778,6 +815,7 @@ public class V_Sale extends javax.swing.JFrame {
     private javax.swing.JButton btnProduct;
     private javax.swing.JButton btnSearchProd;
     private javax.swing.JButton btnSelectClient;
+    private javax.swing.JButton btnUsers;
     private javax.swing.ButtonGroup btngTypeClient;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

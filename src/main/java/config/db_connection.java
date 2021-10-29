@@ -17,7 +17,7 @@ public class db_connection {
     
     private String host = "localhost";
     private String user = "root";
-    private String password = "liljade09";
+    private String password = "";
     private String db = "w_Store";
     private String url = "jdbc:mysql://" + host + "/" + db;
     

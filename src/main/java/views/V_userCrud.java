@@ -1,22 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package views;
-
+import entities.E_users;
+import business.B_users;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author pc
+ * @author LilJade
  */
 public class V_userCrud extends javax.swing.JDialog {
 
     int x, y;
-    /**
-     * Creates new form V_userCrud
-     */
+    B_users business = new B_users();
+    E_users user = new E_users();
+    
+    // Creates new form V_userCrud
     public V_userCrud(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -24,6 +28,43 @@ public class V_userCrud extends javax.swing.JDialog {
         cleanFields();
         blockFields();
         buttonsByDefault();
+        
+        showListUsers();
+    }
+    
+    void showListUsers() {
+        String titles[] = {"Id", "Nombres", "Apellidos", "Correo", "Password"};
+        
+        DefaultTableModel df = new DefaultTableModel(null, titles);
+        
+        ArrayList<E_users> list = business.B_listUsers();
+        Iterator i = list.iterator();
+        String rows[] = new String[5];
+        
+        while (i.hasNext()) {            
+            E_users user;
+            user = (E_users) i.next();
+            
+            rows[0] = String.valueOf(user.getIdUser());
+            rows[1] = user.getFirstName();
+            rows[2] = user.getLastName();
+            rows[3] = user.getEmail();
+            rows[4] = user.getPass();
+            
+            df.addRow(rows);
+        }
+        
+        tbUsers.setModel(df);
+        
+        tbUsers.getColumnModel().getColumn(0).setMaxWidth(25);
+        tbUsers.getColumnModel().getColumn(0).setMinWidth(25);
+        tbUsers.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(25);
+        tbUsers.getTableHeader().getColumnModel().getColumn(0).setMinWidth(25);
+        
+        tbUsers.getColumnModel().getColumn(4).setMaxWidth(0);
+        tbUsers.getColumnModel().getColumn(4).setMinWidth(0);
+        tbUsers.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(0);
+        tbUsers.getTableHeader().getColumnModel().getColumn(4).setMinWidth(0);
     }
 
     void cleanFields() {
@@ -31,6 +72,8 @@ public class V_userCrud extends javax.swing.JDialog {
         txtFirstNameUser.setText("");
         txtLastNameUser.setText("");
         txtEmailUser.setText("");
+        txtPassUser.setText("");
+        txtRepeatPassUser.setText("");
     }
     
     void blockFields() {
@@ -94,7 +137,7 @@ public class V_userCrud extends javax.swing.JDialog {
         txtRepeatPassUser = new javax.swing.JPasswordField();
         lblTitleToMove8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scplTableUsers = new javax.swing.JScrollPane();
         tbUsers = new javax.swing.JTable();
         btnRefresh = new javax.swing.JButton();
 
@@ -188,6 +231,11 @@ public class V_userCrud extends javax.swing.JDialog {
         btnDeleteUser.setText("Borrar");
         btnDeleteUser.setBorder(null);
         btnDeleteUser.setBorderPainted(false);
+        btnDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteUserActionPerformed(evt);
+            }
+        });
 
         btnEditUser.setBackground(new java.awt.Color(255, 153, 0));
         btnEditUser.setFont(new java.awt.Font("MADE TOMMY", 1, 20)); // NOI18N
@@ -195,6 +243,11 @@ public class V_userCrud extends javax.swing.JDialog {
         btnEditUser.setText("Editar");
         btnEditUser.setBorder(null);
         btnEditUser.setBorderPainted(false);
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditUserActionPerformed(evt);
+            }
+        });
 
         btnNewUser.setBackground(new java.awt.Color(0, 153, 51));
         btnNewUser.setFont(new java.awt.Font("MADE TOMMY", 1, 20)); // NOI18N
@@ -250,10 +303,10 @@ public class V_userCrud extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(lblTitleToMove1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIdUser)
-                    .addComponent(lblTitleToMove3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTitleToMove3)
+                    .addComponent(lblIdUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTitleToMove2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFirstNameUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -273,7 +326,7 @@ public class V_userCrud extends javax.swing.JDialog {
                 .addComponent(lblTitleToMove8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtRepeatPassUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
                 .addComponent(btnNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -295,10 +348,18 @@ public class V_userCrud extends javax.swing.JDialog {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "I", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tbUsers);
+        tbUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbUsers.setShowGrid(true);
+        tbUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbUsersMouseClicked(evt);
+            }
+        });
+        scplTableUsers.setViewportView(tbUsers);
 
         btnRefresh.setBackground(new java.awt.Color(0, 0, 204));
         btnRefresh.setFont(new java.awt.Font("MADE TOMMY", 1, 20)); // NOI18N
@@ -319,7 +380,7 @@ public class V_userCrud extends javax.swing.JDialog {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scplTableUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -329,7 +390,7 @@ public class V_userCrud extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                .addComponent(scplTableUsers, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -390,19 +451,94 @@ public class V_userCrud extends javax.swing.JDialog {
         cleanFields();
         blockFields();
         buttonsByDefault();
+        showListUsers();
+        btnNewUser.setText("Nuevo Usuario");
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewUserActionPerformed
-        cleanFields();
-        unblockFields();
-        evilButtonsByDefault();
+        String valueButton = btnNewUser.getText();
+        
+        System.out.println(valueButton);
+        
+        switch(valueButton) {
+            case "Nuevo Usuario":
+                cleanFields();
+                unblockFields();
+                
+                btnNewUser.setEnabled(true);
+                btnNewUser.setText("Agregar");
+                btnCancel.setEnabled(true);
+                
+                System.out.println("Por agregar");
+            break;
+                
+            case "Agregar":
+                user.setFirstName(txtFirstNameUser.getText());
+                user.setLastName(txtLastNameUser.getText());
+                user.setEmail(txtEmailUser.getText());
+                user.setPass(txtPassUser.getText());
+                business.B_insertUser(user);
+                btnNewUser.setText("Nuevo Usuario");
+                
+                cleanFields();
+                blockFields();
+                buttonsByDefault();
+                System.out.println("Agregando");
+            break;
+        }
+        
+        showListUsers();
     }//GEN-LAST:event_btnNewUserActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         cleanFields();
         blockFields();
         buttonsByDefault();
+        showListUsers();
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void tbUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsersMouseClicked
+        btnNewUser.setEnabled(false);
+        btnEditUser.setEnabled(true);
+        btnDeleteUser.setEnabled(true);
+        btnCancel.setEnabled(true);
+        
+        unblockFields();
+        
+        Point p = evt.getPoint();
+        int selectedRow = tbUsers.rowAtPoint(p);
+        
+        lblIdUser.setText(tbUsers.getValueAt(selectedRow, 0).toString());
+        txtFirstNameUser.setText(tbUsers.getValueAt(selectedRow, 1).toString());
+        txtLastNameUser.setText(tbUsers.getValueAt(selectedRow, 2).toString());
+        txtEmailUser.setText(tbUsers.getValueAt(selectedRow, 3).toString());
+    }//GEN-LAST:event_tbUsersMouseClicked
+
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
+        user.setIdUser(Integer.parseInt(lblIdUser.getText()));
+        user.setFirstName(txtFirstNameUser.getText());
+        user.setLastName(txtLastNameUser.getText());
+        user.setEmail(txtEmailUser.getText());
+        user.setPass(txtPassUser.getText());
+        
+        business.B_updateUser(user);
+        
+        cleanFields();
+        blockFields();
+        buttonsByDefault();
+        showListUsers();
+    }//GEN-LAST:event_btnEditUserActionPerformed
+
+    private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
+        user.setIdUser(Integer.parseInt(lblIdUser.getText()));
+        
+        business.B_deleteUser(user);
+
+        cleanFields();
+        blockFields();
+        buttonsByDefault();
+        showListUsers();
+    }//GEN-LAST:event_btnDeleteUserActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -457,8 +593,7 @@ public class V_userCrud extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblIdUser;
+    public javax.swing.JLabel lblIdUser;
     private javax.swing.JLabel lblTitleToMove;
     private javax.swing.JLabel lblTitleToMove1;
     private javax.swing.JLabel lblTitleToMove2;
@@ -467,6 +602,7 @@ public class V_userCrud extends javax.swing.JDialog {
     private javax.swing.JLabel lblTitleToMove6;
     private javax.swing.JLabel lblTitleToMove7;
     private javax.swing.JLabel lblTitleToMove8;
+    private javax.swing.JScrollPane scplTableUsers;
     private javax.swing.JTable tbUsers;
     private javax.swing.JTextField txtEmailUser;
     private javax.swing.JTextField txtFirstNameUser;

@@ -1,22 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package views;
-
+import entities.E_clients;
+import business.B_clients;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author pc
+ * @author LilJade
  */
 public class V_clientCrud extends javax.swing.JDialog {
 
     int x, y;
-    /**
-     * Creates new form V_clientCrud
-     */
+    E_clients client = new E_clients();
+    B_clients business = new B_clients();
+    // Creates new form V_clientCrud
     public V_clientCrud(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -24,6 +24,37 @@ public class V_clientCrud extends javax.swing.JDialog {
         cleanFields();
         blockFields();
         buttonsByDefault();
+        
+        showListClients();
+    }
+    
+    public void showListClients() {
+        String titles[] = {"Id", "Nombres", "Apellidos", "Telefono"};
+        
+        DefaultTableModel df = new DefaultTableModel(null, titles);
+        
+        ArrayList<E_clients> list = business.B_listClients();
+        Iterator i = list.iterator();
+        String rows[] = new String[4];
+        
+        while (i.hasNext()) {            
+            E_clients client;
+            client= (E_clients) i.next();
+            
+            rows[0] = String.valueOf(client.getIdClient());
+            rows[1] = client.getFirstName();
+            rows[2] = client.getLastName();
+            rows[3] = client.getNumberphone();
+            
+            df.addRow(rows);
+        }
+        
+        tbClients.setModel(df);
+        
+        tbClients.getColumnModel().getColumn(0).setMaxWidth(25);
+        tbClients.getColumnModel().getColumn(0).setMinWidth(25);
+        tbClients.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(25);
+        tbClients.getTableHeader().getColumnModel().getColumn(0).setMinWidth(25);
     }
     
     void cleanFields() {
@@ -46,12 +77,7 @@ public class V_clientCrud extends javax.swing.JDialog {
     }
     
     void buttonsByDefault() {
-        btnEditClient.setEnabled(false);
-        btnDeleteClient.setEnabled(false);
-        btnCancel.setEnabled(false);
-    }
-    
-    void evilButtonsByDefault() {
+        btnNewClient.setEnabled(true);
         btnEditClient.setEnabled(false);
         btnDeleteClient.setEnabled(false);
         btnCancel.setEnabled(false);
@@ -179,6 +205,11 @@ public class V_clientCrud extends javax.swing.JDialog {
         btnDeleteClient.setText("Borrar");
         btnDeleteClient.setBorder(null);
         btnDeleteClient.setBorderPainted(false);
+        btnDeleteClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteClientActionPerformed(evt);
+            }
+        });
 
         btnEditClient.setBackground(new java.awt.Color(255, 153, 0));
         btnEditClient.setFont(new java.awt.Font("MADE TOMMY", 1, 20)); // NOI18N
@@ -186,6 +217,11 @@ public class V_clientCrud extends javax.swing.JDialog {
         btnEditClient.setText("Editar");
         btnEditClient.setBorder(null);
         btnEditClient.setBorderPainted(false);
+        btnEditClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditClientActionPerformed(evt);
+            }
+        });
 
         btnNewClient.setBackground(new java.awt.Color(0, 153, 51));
         btnNewClient.setFont(new java.awt.Font("MADE TOMMY", 1, 20)); // NOI18N
@@ -269,6 +305,11 @@ public class V_clientCrud extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbClients.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbClientsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbClients);
 
         btnRefresh.setBackground(new java.awt.Color(0, 0, 204));
@@ -361,18 +402,61 @@ public class V_clientCrud extends javax.swing.JDialog {
         cleanFields();
         blockFields();
         buttonsByDefault();
+        showListClients();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         cleanFields();
         blockFields();
         buttonsByDefault();
+        showListClients();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewClientActionPerformed
         V_addClient win = new V_addClient(new javax.swing.JDialog(), true);
         win.setVisible(true);
     }//GEN-LAST:event_btnNewClientActionPerformed
+
+    private void btnEditClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditClientActionPerformed
+        client.setIdClient(Integer.parseInt(lblIdClient.getText()));
+        client.setFirstName(txtFirstNameClient.getText());
+        client.setLastName(txtLastNameClient.getText());
+        client.setNumberphone(txtNumberPhoneClient.getText());
+        
+        business.B_updateClient(client);
+        
+        cleanFields();
+        blockFields();
+        buttonsByDefault();
+        showListClients();
+    }//GEN-LAST:event_btnEditClientActionPerformed
+
+    private void btnDeleteClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteClientActionPerformed
+        client.setIdClient(Integer.parseInt(lblIdClient.getText()));
+        
+        business.B_deleteClient(client);
+        
+        cleanFields();
+        blockFields();
+        buttonsByDefault();
+        showListClients();
+    }//GEN-LAST:event_btnDeleteClientActionPerformed
+
+    private void tbClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClientsMouseClicked
+        int selectedRow = tbClients.rowAtPoint(evt.getPoint());
+        
+        btnNewClient.setEnabled(false);
+        btnEditClient.setEnabled(true);
+        btnDeleteClient.setEnabled(true);
+        btnCancel.setEnabled(true);
+        
+        unblockFields();
+        
+        lblIdClient.setText(tbClients.getValueAt(selectedRow, 0).toString());
+        txtFirstNameClient.setText(tbClients.getValueAt(selectedRow, 1).toString());
+        txtLastNameClient.setText(tbClients.getValueAt(selectedRow, 2).toString());
+        txtNumberPhoneClient.setText(tbClients.getValueAt(selectedRow, 3).toString());
+    }//GEN-LAST:event_tbClientsMouseClicked
 
 //    /**
 //     * @param args the command line arguments

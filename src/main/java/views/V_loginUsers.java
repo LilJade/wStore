@@ -222,7 +222,7 @@ public class V_loginUsers extends javax.swing.JFrame {
        /* lblErrResult.setText(business.B_loginUsers(user));
         System.out.println("User logged: " + user.toString());*/
        
-        if (business.B_loginUsers2(user) == null) {
+        if (business.B_loginUsers(user) == null) {
             lblErrResult.setForeground(Color.red);
             lblErrResult.setText("Login Fail!");
         } else {

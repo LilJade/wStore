@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package views;
-
+import entities.E_clients;
+import business.B_clients;
 import java.awt.MouseInfo;
 import java.awt.Point;
 
@@ -14,9 +11,9 @@ import java.awt.Point;
 public class V_addClient extends javax.swing.JDialog {
 
     int x, y;
-    /**
-     * Creates new form V_addUser
-     */
+    E_clients client = new E_clients();
+    B_clients business = new B_clients();
+    // Creates new form V_addUser
     public V_addClient(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -41,7 +38,7 @@ public class V_addClient extends javax.swing.JDialog {
         txtPhone = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnCancel = new javax.swing.JButton();
-        btnCancel1 = new javax.swing.JButton();
+        btnAddNewClient = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblTitleToMove = new javax.swing.JLabel();
 
@@ -96,15 +93,15 @@ public class V_addClient extends javax.swing.JDialog {
             }
         });
 
-        btnCancel1.setBackground(new java.awt.Color(0, 153, 51));
-        btnCancel1.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
-        btnCancel1.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancel1.setText("Agregar");
-        btnCancel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnCancel1.setBorderPainted(false);
-        btnCancel1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddNewClient.setBackground(new java.awt.Color(0, 153, 51));
+        btnAddNewClient.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
+        btnAddNewClient.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddNewClient.setText("Agregar");
+        btnAddNewClient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnAddNewClient.setBorderPainted(false);
+        btnAddNewClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancel1ActionPerformed(evt);
+                btnAddNewClientActionPerformed(evt);
             }
         });
 
@@ -119,7 +116,7 @@ public class V_addClient extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnAddNewClient, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -148,7 +145,7 @@ public class V_addClient extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddNewClient, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -232,9 +229,18 @@ public class V_addClient extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPhoneActionPerformed
 
-    private void btnCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancel1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancel1ActionPerformed
+    private void btnAddNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewClientActionPerformed
+        client.setFirstName(txtNames.getText());
+        client.setLastName(txtLastNames.getText());
+        client.setNumberphone(txtPhone.getText());
+        
+        business.B_insertClient(client);
+        V_clientCrud win = new V_clientCrud(null, false);
+        
+        win.showListClients();
+        
+        this.dispose();
+    }//GEN-LAST:event_btnAddNewClientActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -279,8 +285,8 @@ public class V_addClient extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddNewClient;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnCancel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

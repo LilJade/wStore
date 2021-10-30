@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entities;
 
 /**
@@ -15,10 +11,8 @@ public class E_product {
     private int idProduct;
     private String productName;
     private int quantityPerPackage;
-    private double packageInitialPrice;
-    private double unityInitialPrice;
-    private double packageSalePrice;
-    private double unitySalePrice;
+    private double initialPrice;
+    private double salePrice;
     private int stock;
     private String image;
     private E_category idCategory;
@@ -49,36 +43,20 @@ public class E_product {
         this.quantityPerPackage = quantityPerPackage;
     }
 
-    public double getPackageInitialPrice() {
-        return packageInitialPrice;
+    public double getInitialPrice() {
+        return initialPrice;
     }
 
-    public void setPackageInitialPrice(double packageInitialPrice) {
-        this.packageInitialPrice = packageInitialPrice;
+    public void setInitialPrice(double initialPrice) {
+        this.initialPrice = initialPrice;
     }
 
-    public double getUnityInitialPrice() {
-        return unityInitialPrice;
+    public double getSalePrice() {
+        return salePrice;
     }
 
-    public void setUnityInitialPrice(double unityInitialPrice) {
-        this.unityInitialPrice = unityInitialPrice;
-    }
-
-    public double getPackageSalePrice() {
-        return packageSalePrice;
-    }
-
-    public void setPackageSalePrice(double packageSalePrice) {
-        this.packageSalePrice = packageSalePrice;
-    }
-
-    public double getUnitySalePrice() {
-        return unitySalePrice;
-    }
-
-    public void setUnitySalePrice(double unitySalePrice) {
-        this.unitySalePrice = unitySalePrice;
+    public void setSalePrice(double salePrice) {
+        this.salePrice = salePrice;
     }
 
     public int getStock() {
@@ -110,26 +88,22 @@ public class E_product {
     public E_product() {
     }
 
-    public E_product(String productName, int quantityPerPackage, double packageInitialPrice, double unityInitialPrice, double packageSalePrice, double unitySalePrice, int stock, String image, E_category idCategory) {
+    public E_product(String productName, int quantityPerPackage, double initialPrice, double salePrice, int stock, String image, E_category idCategory) {
         this.productName = productName;
         this.quantityPerPackage = quantityPerPackage;
-        this.packageInitialPrice = packageInitialPrice;
-        this.unityInitialPrice = unityInitialPrice;
-        this.packageSalePrice = packageSalePrice;
-        this.unitySalePrice = unitySalePrice;
+        this.initialPrice = initialPrice;
+        this.salePrice = salePrice;
         this.stock = stock;
         this.image = image;
         this.idCategory = idCategory;
     }
 
-    public E_product(int idProduct, String productName, int quantityPerPackage, double packageInitialPrice, double unityInitialPrice, double packageSalePrice, double unitySalePrice, int stock, String image, E_category idCategory) {
+    public E_product(int idProduct, String productName, int quantityPerPackage, double initialPrice, double salePrice, int stock, String image, E_category idCategory) {
         this.idProduct = idProduct;
         this.productName = productName;
         this.quantityPerPackage = quantityPerPackage;
-        this.packageInitialPrice = packageInitialPrice;
-        this.unityInitialPrice = unityInitialPrice;
-        this.packageSalePrice = packageSalePrice;
-        this.unitySalePrice = unitySalePrice;
+        this.initialPrice = initialPrice;
+        this.salePrice = salePrice;
         this.stock = stock;
         this.image = image;
         this.idCategory = idCategory;
@@ -141,9 +115,7 @@ public class E_product {
     public String toString() {
         return "D_product{" + "idProduct=" + idProduct + ", productName=" + 
                 productName + ", quantityPerPackage=" + quantityPerPackage +
-                ", packageInitialPrice=" + packageInitialPrice + ", unityInitialPrice=" +
-                unityInitialPrice + ", packageSalePrice=" + packageSalePrice + 
-                ", unitySalePrice=" + unitySalePrice + ", stock=" + stock +
-                ", image=" + image + ", idCategory=" + idCategory + '}';
+                ", initialPrice=" + initialPrice + ", salePrice=" + salePrice + 
+                ", stock=" + stock + ", image=" + image + ", idCategory=" + idCategory + '}';
     }
 }

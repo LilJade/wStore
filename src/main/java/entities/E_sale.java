@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entities;
 
 import java.sql.Date;
@@ -17,7 +13,6 @@ public class E_sale {
     private Date saleDate;
     private double totalNeto;
     private E_clients idClient;
-    private E_saleDetail idSaleDetail;
 
     
     
@@ -53,15 +48,6 @@ public class E_sale {
     public void setIdClient(E_clients idClient) {
         this.idClient = idClient;
     }
-
-    public E_saleDetail getIdSaleDetail() {
-        return idSaleDetail;
-    }
-
-    public void setIdSaleDetail(E_saleDetail idSaleDetail) {
-        this.idSaleDetail = idSaleDetail;
-    }
-
     
     /***** Metodo Constructor *****/
     public E_sale() {
@@ -71,7 +57,6 @@ public class E_sale {
         this.saleDate = saleDate;
         this.totalNeto = totalNeto;
         this.idClient = idClient;
-        this.idSaleDetail = idSaleDetail;
     }
 
     public E_sale(int idSale, Date saleDate, double totalNeto, E_clients idClient, E_saleDetail idSaleDetail) {
@@ -79,7 +64,6 @@ public class E_sale {
         this.saleDate = saleDate;
         this.totalNeto = totalNeto;
         this.idClient = idClient;
-        this.idSaleDetail = idSaleDetail;
     }
 
     
@@ -87,7 +71,6 @@ public class E_sale {
     @Override
     public String toString() {
         return "E_sale{" + "idSale=" + idSale + ", saleDate=" + saleDate + 
-                ", totalNeto=" + totalNeto + ", idClient=" + idClient + 
-                ", idSaleDetail=" + idSaleDetail + '}';
+                ", totalNeto=" + totalNeto + ", idClient=" + idClient + '}';
     }
 }

@@ -43,4 +43,16 @@ public class B_clients {
         
         return true;
     }
+    
+     public boolean B_insertGenericClient() {
+        if (data.insertGenericClient()== false) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public E_clients B_lastIdClient() {
+        return data.lastIdClient();
+    }
 }

@@ -4,11 +4,40 @@
  */
 package views;
 
+import business.B_clients;
+import business.B_sale;
+import business.B_saleDetail;
+import entities.E_clients;
+import entities.E_product;
+import entities.E_sale;
+import entities.E_saleDetail;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author LilJade
  */
 public class V_Sale extends javax.swing.JFrame {
+    
+    
+     E_saleDetail saleDetail= new E_saleDetail();
+    B_saleDetail businessSaleDetail = new B_saleDetail();
+    
+    E_sale sale = new E_sale();
+    B_sale businessSale = new B_sale();
+    
+    E_clients client = new E_clients();
+    B_clients businessClient = new B_clients();
+    
+    E_product product = new E_product();
+    
+    DefaultTableModel model = new DefaultTableModel();
+    
+    int cantidad;
+    double precio;
+    double totalPagar;
 
     /**
      * Creates new form V_Sale
@@ -22,6 +51,17 @@ public class V_Sale extends javax.swing.JFrame {
         blockFields();
     }
     
+    
+      //Recibe y carga la informacion del producto buscado
+    public static void reciveProductData(E_product product) {
+        if (product != null) {
+            lblSelectedProd.setText(product.getProductName());
+            lblPrice.setText(String.valueOf(product.getSalePrice()));
+            lblStock.setText(String.valueOf(product.getStock()));
+            lblIdProd.setText(String.valueOf(product.getIdProduct()));
+        }
+    }
+    
     void cleanFields() {
         lblSelectedProd.setText("");
         txtQuantityU.setText("");
@@ -29,7 +69,7 @@ public class V_Sale extends javax.swing.JFrame {
         lblStock.setText("");
         lblIdProd.setText("");
         lblArtSale.setText("");
-        txtTotal.setText("");
+        txtTotalNeto.setText("");
         
         txtSearchClient.setText("");
     }
@@ -37,7 +77,7 @@ public class V_Sale extends javax.swing.JFrame {
     void blockFields() {
         txtQuantityU.setEnabled(false);
         tbDetailSale.setEnabled(false);
-        txtTotal.setEnabled(false);
+        txtTotalNeto.setEnabled(false);
         
         txtSearchClient.setEnabled(false);
         tbClient.setEnabled(false);
@@ -50,7 +90,7 @@ public class V_Sale extends javax.swing.JFrame {
     void unblockFields() {
         txtQuantityU.setEnabled(true);
         tbDetailSale.setEnabled(true);
-        txtTotal.setEnabled(true);
+        txtTotalNeto.setEnabled(true);
         
         rbGenericClient.setEnabled(true);
         rbRegisterClient.setEnabled(true);
@@ -132,7 +172,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnProduct = new javax.swing.JButton();
         btnCategory = new javax.swing.JButton();
         pnlTableSale = new javax.swing.JPanel();
-        txtTotal = new javax.swing.JTextField();
+        txtTotalNeto = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbDetailSale = new javax.swing.JTable();
@@ -170,7 +210,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnAddClient.setText("Registrar nuevo cliente");
         btnAddClient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnAddClient.setContentAreaFilled(false);
-        btnAddClient.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAddClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAddClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddClientActionPerformed(evt);
@@ -202,7 +242,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnSelectClient.setText("Seleccionar");
         btnSelectClient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnSelectClient.setContentAreaFilled(false);
-        btnSelectClient.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSelectClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout pnlClienteLayout = new javax.swing.GroupLayout(pnlCliente);
         pnlCliente.setLayout(pnlClienteLayout);
@@ -372,7 +412,6 @@ public class V_Sale extends javax.swing.JFrame {
         pnlProdsAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblLogoWStore.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogoWStore.setIcon(new javax.swing.ImageIcon("F:\\NetBeansProjects\\wStore\\src\\main\\java\\imgs\\bolsaCompra.png")); // NOI18N
         lblLogoWStore.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -384,7 +423,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnSearchProd.setText("Buscar Producto");
         btnSearchProd.setBorder(null);
         btnSearchProd.setBorderPainted(false);
-        btnSearchProd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSearchProd.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnSearchProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchProdActionPerformed(evt);
@@ -423,6 +462,11 @@ public class V_Sale extends javax.swing.JFrame {
         btnAddProduct.setText("Agregar Producto");
         btnAddProduct.setBorder(null);
         btnAddProduct.setBorderPainted(false);
+        btnAddProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProductActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel10.setText("Stock:");
@@ -534,7 +578,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnUsers.setText("Administrar Usuarios");
         btnUsers.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnUsers.setContentAreaFilled(false);
-        btnUsers.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUsers.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUsersActionPerformed(evt);
@@ -546,7 +590,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnClients.setText("Administrar Clientes");
         btnClients.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnClients.setContentAreaFilled(false);
-        btnClients.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnClients.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnClients.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClientsActionPerformed(evt);
@@ -558,7 +602,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnProduct.setText("Inventario");
         btnProduct.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnProduct.setContentAreaFilled(false);
-        btnProduct.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnProduct.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProductActionPerformed(evt);
@@ -570,7 +614,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnCategory.setText("Config Categorías");
         btnCategory.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnCategory.setContentAreaFilled(false);
-        btnCategory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCategory.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCategoryActionPerformed(evt);
@@ -581,22 +625,19 @@ public class V_Sale extends javax.swing.JFrame {
         pnlTableSale.setBackground(new java.awt.Color(153, 204, 255));
         pnlTableSale.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        txtTotal.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTotal.setText("11111001111");
+        txtTotalNeto.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        txtTotalNeto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtTotalNeto.setText("11111001111");
 
         jLabel1.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel1.setText("Total: $");
 
         tbDetailSale.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "IdProducto", "NombreProducto", "Cantidad", "Precio", "SubTotal"
             }
         ));
         jScrollPane1.setViewportView(tbDetailSale);
@@ -636,7 +677,7 @@ public class V_Sale extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTotal)
+                .addComponent(txtTotalNeto)
                 .addContainerGap())
         );
         pnlTableSaleLayout.setVerticalGroup(
@@ -646,7 +687,7 @@ public class V_Sale extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTotalNeto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
                         .addComponent(jLabel8)
                         .addComponent(lblArtSale, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -690,12 +731,56 @@ public class V_Sale extends javax.swing.JFrame {
         unblockFields();
         unblockButtons();
         btnNewSale.setEnabled(false);
+        
+          businessSale.B_insertDirectSale();
+        sale = businessSale.B_lastIdSale();
+        
+        System.out.println("Sale Id: " + sale.getIdSale());
+        lblIdSale.setText(String.valueOf(sale.getIdSale()));
     }//GEN-LAST:event_btnNewSaleActionPerformed
 
     private void btnCompleteSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteSaleActionPerformed
-        // TODO add your handling code here:
+        calcularTotales();
+        completeSale();
+        saveSaleDetail();
     }//GEN-LAST:event_btnCompleteSaleActionPerformed
 
+      void completeSale() {
+        
+        if (rbGenericClient.isSelected()) {
+            businessClient.B_insertGenericClient();
+            
+            client = businessClient.B_lastIdClient();
+            System.out.println("Id client: " + client.getIdClient());
+        }
+        
+        sale.setIdSale(Integer.parseInt(lblIdSale.getText()));
+        sale.setTotalNeto(totalPagar);
+        
+        sale.setIdClient(client);
+        
+        businessSale.B_completeSale(sale);
+    }
+    
+    void  saveSaleDetail(){
+        int idSale = Integer.parseInt(lblIdSale.getText());
+        sale.setIdSale(idSale);
+        for (int i = 0; i < tbDetailSale.getRowCount(); i++) {
+            product.setIdProduct(Integer.parseInt(tbDetailSale.getValueAt(i, 0).toString()));
+            int canti = Integer.parseInt(tbDetailSale.getValueAt(i, 2).toString());
+            double subtotal = Double.parseDouble(tbDetailSale.getValueAt(i, 4).toString());
+            saleDetail = new E_saleDetail();
+            
+            saleDetail.setSoldUnits(canti);
+            saleDetail.setSubtotal(subtotal);
+            saleDetail.setIdSale(sale);
+            saleDetail.setIdProduct(product);
+            
+            businessSaleDetail.B_insertSaleDetail(saleDetail);
+        }
+        
+    }
+    
     private void btnCancelSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelSaleActionPerformed
         cleanFields();
         blockFields();
@@ -764,6 +849,65 @@ public class V_Sale extends javax.swing.JFrame {
         win.setVisible(true);
     }//GEN-LAST:event_btnUsersActionPerformed
 
+    private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
+        double total;
+        model = (DefaultTableModel)tbDetailSale.getModel();
+        //int idP = Integer.parseInt(lblIdProd.getText());
+        //int idC = Integer.parseInt(lblIdSale.getText());
+        //String nombreP = lblSelectedProd.getText();
+        //cantidad = Integer.parseInt(spCantidad.getValue().toString());
+        precio = Double.parseDouble(lblPrice.getText());
+        int stock = Integer.parseInt(lblStock.getText());
+        //String fecha = lblDate.getText();
+        total = 1 * precio;
+        
+        ArrayList lista = new ArrayList();
+        
+        if(stock > 0){
+            lista.add(Integer.parseInt(lblIdProd.getText()));
+            lista.add(lblSelectedProd.getText());
+            lista.add(1);
+            lista.add(Double.parseDouble(lblPrice.getText()));
+            lista.add(total);
+            
+            Object[] ob = new Object[5];
+            
+            ob[0] = lista.get(0);
+            ob[1] = lista.get(1);
+            ob[2] = lista.get(2);
+            ob[3] = lista.get(3);
+            ob[4] = lista.get(4);
+
+            model.addRow(ob);
+            tbDetailSale.setModel(model);
+        }else{
+           JOptionPane.showMessageDialog(this, "Stock Producto no disponible"); 
+        }
+        
+        calcularTotales();
+                                           
+    }//GEN-LAST:event_btnAddProductActionPerformed
+
+    
+    
+    void calcularTotales(){
+        totalPagar=0;
+        
+        for (int i = 0; i < tbDetailSale.getRowCount(); i++) {
+            cantidad = Integer.parseInt(tbDetailSale.getValueAt(i, 2).toString());
+            precio = Double.parseDouble(tbDetailSale.getValueAt(i, 3).toString());
+            
+            double subTotal = (cantidad * precio);
+            
+            tbDetailSale.setValueAt(subTotal, i, 4);
+            
+            totalPagar = totalPagar + (cantidad * precio);  
+        }
+        
+        txtTotalNeto.setText("" + totalPagar);
+        
+    }
+    
     /*  MAIN METHOD  */
     
 //    /**
@@ -833,12 +977,12 @@ public class V_Sale extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblArtSale;
     private javax.swing.JLabel lblDate;
-    private javax.swing.JLabel lblIdProd;
+    private static javax.swing.JLabel lblIdProd;
     private javax.swing.JLabel lblIdSale;
     private javax.swing.JLabel lblLogoWStore;
-    private javax.swing.JLabel lblPrice;
-    private javax.swing.JLabel lblSelectedProd;
-    private javax.swing.JLabel lblStock;
+    public static javax.swing.JLabel lblPrice;
+    public static javax.swing.JLabel lblSelectedProd;
+    public static javax.swing.JLabel lblStock;
     private javax.swing.JPanel pnlCliente;
     private javax.swing.JPanel pnlConfigSale;
     private javax.swing.JPanel pnlOptions;
@@ -850,6 +994,6 @@ public class V_Sale extends javax.swing.JFrame {
     private javax.swing.JTable tbDetailSale;
     private javax.swing.JTextField txtQuantityU;
     private javax.swing.JTextField txtSearchClient;
-    private javax.swing.JTextField txtTotal;
+    private javax.swing.JTextField txtTotalNeto;
     // End of variables declaration//GEN-END:variables
 }

@@ -109,4 +109,50 @@ public class D_clients {
         }
         return false;
     }
+    
+     public boolean insertGenericClient() {
+        Connection con = db.connectDB();
+        PreparedStatement ps;
+        ResultSet rs;
+        
+        try {
+            ps = con.prepareStatement("insert into clients(firstName, lastName, numberphone) values (?, ?, ?)");
+            
+            ps.setString(1, "");
+            ps.setString(2, "");
+            ps.setString(3, "");
+            
+            ps.executeUpdate();
+            
+            System.out.println("Generic Client add!...");
+            
+        } catch (SQLException e) {
+            System.out.println("Error al intentar registrar un cliente generico: " + e.getMessage());
+        }
+        
+        return true;
+    }
+    
+    public E_clients lastIdClient() {
+        Connection con = db.connectDB();
+        PreparedStatement ps;
+        ResultSet rs;
+        E_clients client = new E_clients();
+        
+        try {
+            ps = con.prepareStatement("select * from clients order by idClient desc limit 1");
+            
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                client.setIdClient(rs.getInt("idClient"));
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al consultar ultimo cliente: " + e.getMessage());
+        }
+        
+        return client;
+    }
 }

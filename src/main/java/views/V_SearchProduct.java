@@ -4,14 +4,22 @@
  */
 package views;
 
+import business.B_products;
+import entities.E_product;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author LilJade
  */
 public class V_SearchProduct extends javax.swing.JDialog {
+    
+     B_products business = new B_products();
 
     int x,y;
     /**
@@ -21,6 +29,58 @@ public class V_SearchProduct extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        showListProducts();
+    }
+    
+    
+     void showListProducts() {
+        String titles[] = {"Id", "Nombre", "Cantidad por Paquete", "Precio Inicial", "Precio Venta", "Stock", "Imagen", "Categoria"};
+        
+        DefaultTableModel df = new DefaultTableModel(null, titles);
+        
+        ArrayList<E_product> list = business.B_listProducts();
+        Iterator i = list.iterator();
+        String rows[] = new String[8];
+        
+        while (i.hasNext()) {            
+            E_product product;
+            product= (E_product) i.next();
+            
+            rows[0] = String.valueOf(product.getIdProduct());
+            rows[1] = product.getProductName();
+            rows[2] = String.valueOf(product.getQuantityPerPackage());
+            rows[3] = String.valueOf(product.getInitialPrice());
+            rows[4] = String.valueOf(product.getSalePrice());
+            rows[5] = String.valueOf(product.getStock());
+            rows[6] = String.valueOf(product.getImage());
+            rows[7] = String.valueOf(product.getIdCategory());
+            
+            
+            df.addRow(rows);
+        }
+        
+        tbResultProd.setModel(df);
+        
+        tbResultProd.getColumnModel().getColumn(0).setMaxWidth(75);
+        tbResultProd.getColumnModel().getColumn(0).setMinWidth(75);
+        tbResultProd.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(75);
+        tbResultProd.getTableHeader().getColumnModel().getColumn(0).setMinWidth(75);
+        
+        tbResultProd.getColumnModel().getColumn(3).setMaxWidth(0);
+        tbResultProd.getColumnModel().getColumn(3).setMinWidth(0);
+        tbResultProd.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
+        tbResultProd.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+        
+        tbResultProd.getColumnModel().getColumn(6).setMaxWidth(0);
+        tbResultProd.getColumnModel().getColumn(6).setMinWidth(0);
+        tbResultProd.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
+        tbResultProd.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
+        
+        tbResultProd.getColumnModel().getColumn(7).setMaxWidth(0);
+        tbResultProd.getColumnModel().getColumn(7).setMinWidth(0);
+        tbResultProd.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
+        tbResultProd.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
     }
 
     /**
@@ -209,7 +269,40 @@ public class V_SearchProduct extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSelectProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectProdActionPerformed
-        // TODO add your handling code here:
+      
+          //Objeto para enviar los datos del producto
+        E_product product = new E_product();
+        
+        if(tbResultProd.getSelectedRow()>=0){
+          
+          try {
+              DefaultTableModel enviar = ( DefaultTableModel)tbResultProd.getModel();
+            
+              int idProduct = Integer.parseInt(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(),0)));
+              String nombre = String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(),1));
+              double precioVenta = Double.parseDouble(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(),4)));
+              int stock = Integer.parseInt(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(),5)));
+              
+              //Se pasan los datos de la tabla al objeto
+              product.setIdProduct(idProduct);
+              product.setProductName(nombre);
+              product.setSalePrice(precioVenta);
+              product.setStock(stock);
+                
+              //Se envian al form V_Sale
+              V_Sale.reciveProductData(product);
+           
+              System.out.println(product);
+          } catch (Exception e) {
+              JOptionPane.showMessageDialog(this, "No se ha podido cargar ningun dato" );
+          }          
+        }else{
+            JOptionPane.showMessageDialog(this, "DEBE SELECCIONAR ALMENOS UN PRODUCTO","", JOptionPane.WARNING_MESSAGE);
+        }
+    
+        //Se cierra el form V_SearchProduct
+        this.dispose();
+                                                
     }//GEN-LAST:event_btnSelectProdActionPerformed
 
     private void txtSearchProdBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchProdBarActionPerformed

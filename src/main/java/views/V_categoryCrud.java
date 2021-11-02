@@ -4,8 +4,13 @@
  */
 package views;
 
+import data.D_category;
+import entities.E_category;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,8 +26,11 @@ public class V_categoryCrud extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cleanFields();
+        cargar();
     }
-
+E_category categoria=new E_category();
+     D_category dataC=new D_category();
+    
     //Clean all fields of the form
     void cleanFields() {
         txtIdCat.setText("");
@@ -77,6 +85,11 @@ public class V_categoryCrud extends javax.swing.JFrame {
             }
         ));
         tbCategory.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tbCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbCategoryMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbCategory);
         if (tbCategory.getColumnModel().getColumnCount() > 0) {
             tbCategory.getColumnModel().getColumn(0).setPreferredWidth(25);
@@ -144,6 +157,11 @@ public class V_categoryCrud extends javax.swing.JFrame {
         btnDelete.setText("Eliminar");
         btnDelete.setBorder(null);
         btnDelete.setBorderPainted(false);
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+        });
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -161,6 +179,11 @@ public class V_categoryCrud extends javax.swing.JFrame {
         btnRefresh.setText("Refrescar Datos");
         btnRefresh.setBorder(null);
         btnRefresh.setBorderPainted(false);
+        btnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRefreshMouseClicked(evt);
+            }
+        });
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshActionPerformed(evt);
@@ -276,11 +299,21 @@ public class V_categoryCrud extends javax.swing.JFrame {
     private void btnChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeActionPerformed
         if (txtIdCat.getText().equals("")) {
             btnChange.setText("Guardar");
-        } else {
+       } else {
             btnChange.setText("Editar");
+          
+            categoria.setNameC(txtNameCat.getText());
+            categoria.setDescriptionC(txtDescriptionCat.getText());
+            categoria.setIdCategory(Integer.parseInt(txtIdCat.getText()));
+            
+            dataC.updateCategoty(categoria);
         }
         
         if (btnChange.getText().equals("Guardar")) {
+             btnChange.setText("Guardar");
+             categoria.setNameC(txtNameCat.getText());
+             categoria.setDescriptionC(txtDescriptionCat.getText());
+             dataC.insertarCategoria(categoria);
             System.out.println("Guardando registro....");
         }
         
@@ -313,6 +346,54 @@ public class V_categoryCrud extends javax.swing.JFrame {
         setLocation(p.x - x, p.y - y);
     }//GEN-LAST:event_lblTittleMouseDragged
 
+    private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
+        cargar();
+    }//GEN-LAST:event_btnRefreshMouseClicked
+
+    private void tbCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCategoryMouseClicked
+         int seleccionar =tbCategory.rowAtPoint(evt.getPoint());
+       
+       txtIdCat.setText(String.valueOf(tbCategory.getValueAt(seleccionar, 0)));
+       txtNameCat.setText(String.valueOf(tbCategory.getValueAt(seleccionar, 1)));
+       txtDescriptionCat.setText(String.valueOf(tbCategory.getValueAt(seleccionar, 2)));
+    }//GEN-LAST:event_tbCategoryMouseClicked
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        // TODO add your handling code here:
+        
+         categoria.setIdCategory(Integer.parseInt(txtIdCat.getText()));
+        dataC.deletecategoria(categoria);
+    }//GEN-LAST:event_btnDeleteMouseClicked
+
+    void cargar(){
+        String titulos[]={"ID","Nombre Categoria","Descripcion"};
+        DefaultTableModel  df=new DefaultTableModel(null,titulos){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        
+    };
+        D_category dc =new D_category();
+        ArrayList<E_category> ps=dc.showcatergory();
+        Iterator i =ps.iterator();
+        String filas[]=new String[3];
+        while(i.hasNext()){
+            E_category categoria;
+            categoria=(E_category)i.next();
+            int id=categoria.getIdCategory();
+            filas[0]=String.valueOf(id);
+            filas[1]=categoria.getNameC();
+            filas[2]=categoria.getDescriptionC();
+            
+            df.addRow(filas);
+        }
+        tbCategory.setModel(df);
+    }
+    
+    
+    
+    
     /*  MAIN METHOD  */
     
 //    /**

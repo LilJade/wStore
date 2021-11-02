@@ -58,8 +58,9 @@ public class E_category {
 
     
     /***** Metodo toString *****/
+   
     @Override
     public String toString() {
-        return "D_category{" + "idCategory=" + idCategory + ", nameC=" + nameC + ", descriptionC=" + descriptionC + '}';
+        return this.nameC;
     }
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data;
 
 import config.db_connection;
@@ -37,7 +33,7 @@ public class D_products {
                 product = new E_product();
                 product.setIdProduct(Integer.parseInt(rs.getString("idProduct")));
                 product.setProductName(rs.getString("productName"));
-                product.setQuantityPerPackage(rs.getInt("quantityPerPackage"));
+                product.setQuantityPerProduct(rs.getInt("quantityPerPackage"));
                 product.setInitialPrice(rs.getDouble("initialPrice"));
                 product.setSalePrice(rs.getDouble("salePrice"));
                 product.setStock(rs.getInt("stock"));

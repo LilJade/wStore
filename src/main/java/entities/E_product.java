@@ -10,7 +10,7 @@ public class E_product {
      /***** Atributos *****/
     private int idProduct;
     private String productName;
-    private int quantityPerPackage;
+    private int quantityPerProduct;
     private double initialPrice;
     private double salePrice;
     private int stock;
@@ -35,12 +35,12 @@ public class E_product {
         this.productName = productName;
     }
 
-    public int getQuantityPerPackage() {
-        return quantityPerPackage;
+    public int getQuantityPerProduct() {
+        return quantityPerProduct;
     }
 
-    public void setQuantityPerPackage(int quantityPerPackage) {
-        this.quantityPerPackage = quantityPerPackage;
+    public void setQuantityPerProduct(int quantityPerPackage) {
+        this.quantityPerProduct = quantityPerPackage;
     }
 
     public double getInitialPrice() {
@@ -88,9 +88,9 @@ public class E_product {
     public E_product() {
     }
 
-    public E_product(String productName, int quantityPerPackage, double initialPrice, double salePrice, int stock, String image, E_category idCategory) {
+    public E_product(String productName, int quantityPerProduct, double initialPrice, double salePrice, int stock, String image, E_category idCategory) {
         this.productName = productName;
-        this.quantityPerPackage = quantityPerPackage;
+        this.quantityPerProduct = quantityPerProduct;
         this.initialPrice = initialPrice;
         this.salePrice = salePrice;
         this.stock = stock;
@@ -98,10 +98,10 @@ public class E_product {
         this.idCategory = idCategory;
     }
 
-    public E_product(int idProduct, String productName, int quantityPerPackage, double initialPrice, double salePrice, int stock, String image, E_category idCategory) {
+    public E_product(int idProduct, String productName, int quantityPerProduct, double initialPrice, double salePrice, int stock, String image, E_category idCategory) {
         this.idProduct = idProduct;
         this.productName = productName;
-        this.quantityPerPackage = quantityPerPackage;
+        this.quantityPerProduct = quantityPerProduct;
         this.initialPrice = initialPrice;
         this.salePrice = salePrice;
         this.stock = stock;
@@ -114,7 +114,7 @@ public class E_product {
     @Override
     public String toString() {
         return "D_product{" + "idProduct=" + idProduct + ", productName=" + 
-                productName + ", quantityPerPackage=" + quantityPerPackage +
+                productName + ", quantityPerProduct=" + quantityPerProduct +
                 ", initialPrice=" + initialPrice + ", salePrice=" + salePrice + 
                 ", stock=" + stock + ", image=" + image + ", idCategory=" + idCategory + '}';
     }

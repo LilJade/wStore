@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package views;
 
 import data.D_product;
@@ -11,7 +7,11 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -20,9 +20,13 @@ import javax.swing.table.DefaultTableModel;
 public class V_productsCrud extends javax.swing.JFrame {
 
     int x, y;
-    /**
-     * Creates new form V_productsCrud
-     */
+    E_product ep = new E_product();
+    D_product dp = new D_product();
+    E_category categoryDefault = new E_category();
+
+    DefaultTableModel dfm;
+
+    // Creates new form V_productsCrud
     public V_productsCrud() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -30,54 +34,75 @@ public class V_productsCrud extends javax.swing.JFrame {
         buttonsByDefault();
         cargar();
         llenar();
+        cmbCategoryProds.setSelectedIndex(cmbCategoryProds.getItemCount() - 1);
+
     }
-    
+
     //put the default state for all buttons
     void buttonsByDefault() {
         btnChangeImg.setEnabled(false);
-        btnEditPriceSale.setEnabled(false);
         btnEditStock.setEnabled(false);
 
         btnNewProd.setEnabled(true);
+        btnNewProd.setText("Nuevo Producto");
         btnEditProd.setEnabled(false);
         btnDeleteProd.setEnabled(false);
-        
-        btnSaveAll.setEnabled(false);
+
         btnCancelAll.setEnabled(false);
     }
-    
+
     //clean all fields of the form
     void cleanFields() {
         lblImgProd.setIcon(null);
         lblId.setText("");
+        txtSearchProd.setText("");
         txtNameProd.setText("");
-        txtPriceInit_U.setText("");
-        txtPriceSale_U.setText("");
-        txtQuantityPP.setText("");
-        txtPriceInit_P.setText("");
-        txtPriceSale_P.setText("");
+        txtPriceInit.setText("");
+        txtPriceSale.setText("");
+        txtQuantity.setText("");
+        txtPriceInit.setText("");
+        txtPriceSale.setText("");
+        txtStock.setText("");
+        cmbCategoryProds.setSelectedIndex(cmbCategoryProds.getItemCount() - 1);
     }
-    
+
     //block all fields of the form
     void blockFields() {
-        txtNameProd.setEditable(false);
-        txtPriceInit_U.setEditable(false);
-        txtPriceSale_U.setEditable(false);
-        txtPriceInit_P.setEditable(false);
-        txtPriceSale_P.setEditable(false);
+        txtNameProd.setEnabled(false);
+        txtQuantity.setEnabled(false);
+        txtPriceInit.setEnabled(false);
+        txtPriceSale.setEnabled(false);
+        txtPriceInit.setEnabled(false);
+        txtPriceSale.setEnabled(false);
+        txtStock.setEnabled(false);
         cmbCategoryProd.setEnabled(false);
     }
-    
+
     //unblock all fields of the form
     void unblockFields() {
-        txtNameProd.setEditable(true);
-        txtPriceInit_U.setEditable(true);
-        txtPriceSale_U.setEditable(true);
-       // txtPriceInit_P.setEditable(true);
-       // txtPriceSale_P.setEditable(true);
+        txtNameProd.setEnabled(true);
+        txtPriceInit.setEnabled(true);
+        txtPriceSale.setEnabled(true);
+        // txtPriceInit_P.setEditable(true);
+        // txtPriceSale_P.setEditable(true);
         cmbCategoryProd.setEnabled(true);
-        txtStockP.setEditable(true);
-        txtQuantityPP.setEditable(true);
+        txtStock.setEnabled(true);
+        txtQuantity.setEnabled(true);
+    }
+
+    void filtro(String consulta, JTable jtableBuscar) {
+        dfm = (DefaultTableModel) jtableBuscar.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dfm);
+        jtableBuscar.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(consulta));
+    }
+
+    void deleteRows() {
+        DefaultTableModel df = (DefaultTableModel) tbProducts.getModel();
+
+        while (tbProducts.getRowCount() > 0) {
+            df.removeRow(0);
+        }
     }
 
     /**
@@ -96,26 +121,20 @@ public class V_productsCrud extends javax.swing.JFrame {
         cmbCategoryProds = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         txtSearchProd = new javax.swing.JTextField();
+        btnRefresh = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblImgProd = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtNameProd = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        txtPriceInit_U = new javax.swing.JTextField();
-        txtPriceInit_P = new javax.swing.JTextField();
+        txtPriceInit = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtPriceSale_U = new javax.swing.JTextField();
-        txtPriceSale_P = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        txtPriceSale = new javax.swing.JTextField();
         cmbCategoryProd = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        btnEditPriceSale = new javax.swing.JButton();
         btnChangeImg = new javax.swing.JButton();
-        txtStockU = new javax.swing.JTextField();
+        txtStock = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         btnEditStock = new javax.swing.JButton();
-        btnSaveAll = new javax.swing.JButton();
         btnCancelAll = new javax.swing.JButton();
         btnEditProd = new javax.swing.JButton();
         btnDeleteProd = new javax.swing.JButton();
@@ -123,10 +142,9 @@ public class V_productsCrud extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         lblId = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtQuantityPP = new javax.swing.JTextField();
-        txtStockP = new javax.swing.JTextField();
-        btnRefresh = new javax.swing.JButton();
+        txtQuantity = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblTittle = new javax.swing.JLabel();
         btnRefresh1 = new javax.swing.JButton();
@@ -150,7 +168,6 @@ public class V_productsCrud extends javax.swing.JFrame {
                 "ID", "Producto", "Precio Venta", "Existencias"
             }
         ));
-        tbProducts.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tbProducts.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbProductsMouseClicked(evt);
@@ -182,6 +199,27 @@ public class V_productsCrud extends javax.swing.JFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchProdKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchProdKeyTyped(evt);
+            }
+        });
+
+        btnRefresh.setBackground(new java.awt.Color(0, 51, 204));
+        btnRefresh.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnRefresh.setForeground(new java.awt.Color(255, 255, 255));
+        btnRefresh.setText("Refrescar Datos");
+        btnRefresh.setBorder(null);
+        btnRefresh.setBorderPainted(false);
+        btnRefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRefreshMouseClicked(evt);
+            }
+        });
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
         });
 
         javax.swing.GroupLayout pnTableLayout = new javax.swing.GroupLayout(pnTable);
@@ -191,6 +229,7 @@ public class V_productsCrud extends javax.swing.JFrame {
             .addGroup(pnTableLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
                     .addGroup(pnTableLayout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -206,6 +245,8 @@ public class V_productsCrud extends javax.swing.JFrame {
             pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnTableLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(cmbCategoryProds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -213,8 +254,8 @@ public class V_productsCrud extends javax.swing.JFrame {
                 .addGroup(pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txtSearchProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -232,41 +273,36 @@ public class V_productsCrud extends javax.swing.JFrame {
         jLabel3.setText("Nombre del producto:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 157, 360, -1));
 
-        txtNameProd.setEditable(false);
         txtNameProd.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
         jPanel1.add(txtNameProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 181, 360, -1));
 
-        jLabel4.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel4.setText("Precio Inicial por Unidad");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 292, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel5.setText("Precio Inicial por Paquete");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, -1, -1));
-
-        txtPriceInit_U.setEditable(false);
-        txtPriceInit_U.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
-        jPanel1.add(txtPriceInit_U, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 166, -1));
-
-        txtPriceInit_P.setEditable(false);
-        txtPriceInit_P.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
-        jPanel1.add(txtPriceInit_P, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 174, -1));
+        txtPriceInit.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
+        txtPriceInit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPriceInitKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPriceInitKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtPriceInit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 360, -1));
 
         jLabel6.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel6.setText("Precio Venta por Unidad");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, -1));
+        jLabel6.setText("Precio de Venta");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
-        txtPriceSale_U.setEditable(false);
-        txtPriceSale_U.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
-        jPanel1.add(txtPriceSale_U, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 167, -1));
-
-        txtPriceSale_P.setEditable(false);
-        txtPriceSale_P.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
-        jPanel1.add(txtPriceSale_P, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 360, 175, -1));
-
-        jLabel7.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel7.setText("Precio Venta por Paquete");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, -1, -1));
+        txtPriceSale.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
+        txtPriceSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPriceSaleActionPerformed(evt);
+            }
+        });
+        txtPriceSale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPriceSaleKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtPriceSale, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 360, -1));
 
         cmbCategoryProd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(cmbCategoryProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 209, 279, -1));
@@ -274,19 +310,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel8.setText("Categoría:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 209, -1, -1));
-
-        btnEditPriceSale.setBackground(new java.awt.Color(153, 204, 255));
-        btnEditPriceSale.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        btnEditPriceSale.setText("Editar Precio de Venta");
-        btnEditPriceSale.setBorder(null);
-        btnEditPriceSale.setBorderPainted(false);
-        btnEditPriceSale.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEditPriceSale.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditPriceSaleActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnEditPriceSale, new org.netbeans.lib.awtextra.AbsoluteConstraints(175, 390, 200, 26));
 
         btnChangeImg.setBackground(new java.awt.Color(102, 51, 255));
         btnChangeImg.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -302,13 +325,17 @@ public class V_productsCrud extends javax.swing.JFrame {
         });
         jPanel1.add(btnChangeImg, new org.netbeans.lib.awtextra.AbsoluteConstraints(231, 106, 140, 40));
 
-        txtStockU.setEditable(false);
-        txtStockU.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
-        jPanel1.add(txtStockU, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, 273, -1));
+        txtStock.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
+        txtStock.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtStockKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, 273, -1));
 
         jLabel10.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel10.setText("Existencias:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, -1, -1));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, -1, -1));
 
         btnEditStock.setBackground(new java.awt.Color(153, 204, 255));
         btnEditStock.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -321,26 +348,7 @@ public class V_productsCrud extends javax.swing.JFrame {
                 btnEditStockActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 470, 195, 26));
-
-        btnSaveAll.setBackground(new java.awt.Color(0, 153, 51));
-        btnSaveAll.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        btnSaveAll.setForeground(new java.awt.Color(255, 255, 255));
-        btnSaveAll.setText("Guardar Cambios");
-        btnSaveAll.setBorder(null);
-        btnSaveAll.setBorderPainted(false);
-        btnSaveAll.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnSaveAll.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSaveAllMouseClicked(evt);
-            }
-        });
-        btnSaveAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveAllActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSaveAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 597, 177, 36));
+        jPanel1.add(btnEditStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 430, 190, 26));
 
         btnCancelAll.setBackground(new java.awt.Color(204, 0, 0));
         btnCancelAll.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -353,7 +361,7 @@ public class V_productsCrud extends javax.swing.JFrame {
                 btnCancelAllActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(194, 597, 177, 36));
+        jPanel1.add(btnCancelAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 597, 360, 36));
 
         btnEditProd.setBackground(new java.awt.Color(255, 204, 51));
         btnEditProd.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -406,42 +414,35 @@ public class V_productsCrud extends javax.swing.JFrame {
         lblId.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblId.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblId.setText("11111001111");
-        jPanel1.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 12, 145, -1));
+        lblId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 12, 145, 20));
 
         jLabel12.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel12.setText("Cantidad por Paquete:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 174, -1));
+        jLabel12.setText("Cantidad por Producto:");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 170, -1));
 
-        txtQuantityPP.setEditable(false);
-        txtQuantityPP.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
-        jPanel1.add(txtQuantityPP, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 174, -1));
-
-        txtStockP.setEditable(false);
-        txtStockP.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
-        jPanel1.add(txtStockP, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, 273, -1));
-
-        btnRefresh.setBackground(new java.awt.Color(0, 51, 204));
-        btnRefresh.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        btnRefresh.setForeground(new java.awt.Color(255, 255, 255));
-        btnRefresh.setText("Refrescar Datos");
-        btnRefresh.setBorder(null);
-        btnRefresh.setBorderPainted(false);
-        btnRefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRefreshMouseClicked(evt);
-            }
-        });
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+        txtQuantity.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
+        txtQuantity.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtQuantity.setText("1");
+        txtQuantity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
+                txtQuantityActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 140, 40));
+        txtQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtQuantityKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 170, -1));
 
         jLabel9.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel9.setText("Imagen del producto:");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 12, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        jLabel5.setText("Precio Inicial");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 380, 660));
 
@@ -498,11 +499,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEditPriceSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPriceSaleActionPerformed
-        V_pricesProductsConfig win = new V_pricesProductsConfig(this, true);
-        win.setVisible(true);
-    }//GEN-LAST:event_btnEditPriceSaleActionPerformed
-
     private void btnChangeImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeImgActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnChangeImgActionPerformed
@@ -512,12 +508,10 @@ public class V_productsCrud extends javax.swing.JFrame {
         winStockConfig.setVisible(true);
     }//GEN-LAST:event_btnEditStockActionPerformed
 
-    private void btnSaveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAllActionPerformed
-        
-    }//GEN-LAST:event_btnSaveAllActionPerformed
-
     //cancell all operations
     private void btnCancelAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAllActionPerformed
+        cargar();
+        llenar();
         cleanFields();
         blockFields();
         buttonsByDefault();
@@ -527,20 +521,55 @@ public class V_productsCrud extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditProdActionPerformed
 
-    private void btnNewProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewProdActionPerformed
-        cleanFields();
-        unblockFields();
-        
-        btnChangeImg.setEnabled(true);
-        btnEditPriceSale.setEnabled(true);
-        btnEditStock.setEnabled(true);
+    boolean NoRepeatProduct() {
+        for (int i = 0; i < tbProducts.getRowCount(); i++) {
+            if (txtNameProd.getText().equals(tbProducts.getValueAt(i, 1)) && txtQuantity.getText().equals(tbProducts.getValueAt(i, 2))
+                    && txtPriceInit.getText().equals(tbProducts.getValueAt(i, 3)) && txtPriceSale.getText().equals(tbProducts.getValueAt(i, 4))) {
+                JOptionPane.showMessageDialog(null, "Ya existe un producto idéntico a éste.\nRevise el producto #" + tbProducts.getValueAt(i, 0));
+                return false;
+            }
+        }
+        return true;
+    }
 
-        btnNewProd.setEnabled(false);
-        btnEditProd.setEnabled(true);
-        btnDeleteProd.setEnabled(true);
-        
-        btnSaveAll.setEnabled(true);
-        btnCancelAll.setEnabled(true);
+    private void btnNewProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewProdActionPerformed
+        String buttonValue = btnNewProd.getText();
+
+        switch (buttonValue) {
+            case "Nuevo Producto":
+                btnNewProd.setText("Agregar");
+                btnEditProd.setEnabled(false);
+                btnDeleteProd.setEnabled(false);
+                btnCancelAll.setEnabled(true);
+                btnChangeImg.setEnabled(true);
+                btnEditStock.setEnabled(true);
+
+                unblockFields();
+                break;
+            case "Agregar":
+                if (txtNameProd.getText().equals("") || txtQuantity.getText().equals("")
+                        || txtPriceInit.getText().equals("") || txtPriceSale.getText().equals("")
+                        || txtStock.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios!");
+                } else {
+                    if (NoRepeatProduct() == true) {
+                        ep.setProductName(txtNameProd.getText());
+                        ep.setQuantityPerProduct(Integer.parseInt(txtQuantity.getText()));
+                        ep.setInitialPrice(Double.parseDouble(txtPriceInit.getText()));
+                        ep.setSalePrice(Double.parseDouble(txtPriceSale.getText()));
+                        ep.setStock(Integer.parseInt(txtStock.getText()));
+                        ep.setIdCategory((E_category) cmbCategoryProd.getSelectedItem());
+                        dp.insertproduct(ep);
+
+                        cargar();
+                        llenar();
+                        cleanFields();
+                        blockFields();
+                        buttonsByDefault();
+                    }
+                }
+                break;
+        }
     }//GEN-LAST:event_btnNewProdActionPerformed
 
     //refresh components of the form
@@ -567,230 +596,358 @@ public class V_productsCrud extends javax.swing.JFrame {
     }//GEN-LAST:event_lblTittleMousePressed
 
     private void txtSearchProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchProdKeyReleased
-         String busqueda=txtSearchProd.getText();
-         cargarbyserch(busqueda);
+        filtro(txtSearchProd.getText(), tbProducts);
     }//GEN-LAST:event_txtSearchProdKeyReleased
 
     private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
-         cargar();
+        cargar();
     }//GEN-LAST:event_btnRefreshMouseClicked
 
     private void tbProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProductsMouseClicked
-       int seleccionar =tbProducts.rowAtPoint(evt.getPoint());
+        int seleccionar = tbProducts.rowAtPoint(evt.getPoint());
         lblId.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 0)));
         txtNameProd.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 1)));
-        txtPriceSale_U.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 2)));
-        txtStockP.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 3)));
-        txtQuantityPP.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 4)));
-        txtPriceInit_U.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 5)));
+        txtQuantity.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 2)));
+        txtPriceInit.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 3)));
+        txtPriceSale.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 4)));
+        txtStock.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 5)));
+        /*        System.out.println("Img" + String.valueOf(tbProducts.getValueAt(seleccionar, 6)));
+        E_category categoryReceived;
+        categoryReceived = (E_category) tbProducts.getValueAt(seleccionar, 7);
+        cmbCategoryProd.setSelectedItem(categoryReceived);
+        System.out.println("cat: " + categoryReceived.getIdCategory());*/
+
+        btnNewProd.setEnabled(false);
+        btnEditProd.setEnabled(true);
+        btnDeleteProd.setEnabled(true);
+        btnCancelAll.setEnabled(true);
     }//GEN-LAST:event_tbProductsMouseClicked
 
     private void cmbCategoryProdsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoryProdsActionPerformed
-           
+        deleteRows();
         E_category categoria = (E_category) cmbCategoryProds.getItemAt(cmbCategoryProds.getSelectedIndex());
-//         cargarbycategory(cmbCategoryProds.getItemAt(cmbCategoryProds.getSelectedIndex()));
-         System.out.println(""+categoria);
-         
-         if (categoria != null) {
-            System.out.println("IdCategory: " + categoria.getIdCategory());
-            System.out.println("Name Category: " + categoria.getNameC());
+
+        if (categoria != null) {
+            cargarByCategory(categoria.getNameC());
+        }
+
+        if (cmbCategoryProds.getSelectedItem() == categoryDefault) {
+            cargar();
         }
     }//GEN-LAST:event_cmbCategoryProdsActionPerformed
 
     private void btnDeleteProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteProdMouseClicked
-        E_product ep=new E_product();
-         D_product dp=new D_product();
-         
-         ep.setIdProduct(Integer.parseInt(lblId.getText()));
-         dp.deleteproduct(ep);
+        ep = new E_product();
+
+        ep.setIdProduct(Integer.parseInt(lblId.getText()));
+        dp.deleteproduct(ep);
+
+        cargar();
+        llenar();
+        cleanFields();
+        blockFields();
+        buttonsByDefault();
     }//GEN-LAST:event_btnDeleteProdMouseClicked
 
     private void btnEditProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditProdMouseClicked
-         E_product ep=new E_product();
-       D_product dp=new D_product();
-       
-       ep.setProductName(txtNameProd.getText());
-       ep.setQuantityPerPackage(Integer.parseInt(txtQuantityPP.getText()));
-       ep.setInitialPrice(Double.parseDouble(txtPriceInit_U.getText()));
-       ep.setSalePrice(Double.parseDouble(txtPriceSale_U.getText()));
-       ep.setStock(Integer.parseInt(txtStockP.getText()));
-       ep.setIdCategory((E_category) cmbCategoryProd.getSelectedItem());
-        ep.setIdProduct(Integer.parseInt(lblId.getText()));
-       dp.updateproduct(ep);
+        String buttonValue = btnEditProd.getText();
+
+        switch (buttonValue) {
+            case "Editar":
+                btnEditProd.setText("Guardar Cambios");
+                btnNewProd.setEnabled(false);
+                btnDeleteProd.setEnabled(false);
+                btnCancelAll.setEnabled(true);
+                unblockFields();
+
+                break;
+
+            case "Guardar Cambios":
+                if (txtNameProd.getText().equals("") || txtQuantity.getText().equals("")
+                        || txtPriceInit.getText().equals("") || txtPriceSale.getText().equals("")
+                        || txtStock.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios!");
+                } else {
+
+                    if (NoRepeatProduct() == true) {
+                        ep = new E_product();
+
+                        ep.setProductName(txtNameProd.getText());
+                        ep.setQuantityPerProduct(Integer.parseInt(txtQuantity.getText()));
+                        ep.setInitialPrice(Double.parseDouble(txtPriceInit.getText()));
+                        ep.setSalePrice(Double.parseDouble(txtPriceSale.getText()));
+                        ep.setStock(Integer.parseInt(txtStock.getText()));
+                        ep.setIdCategory((E_category) cmbCategoryProd.getSelectedItem());
+                        ep.setIdProduct(Integer.parseInt(lblId.getText()));
+
+                        dp.updateproduct(ep);
+
+                        btnEditProd.setText("Editar");
+
+                        cargar();
+                        llenar();
+                        cleanFields();
+                        blockFields();
+                        buttonsByDefault();
+                    }
+                }
+                break;
+        }
     }//GEN-LAST:event_btnEditProdMouseClicked
 
-    private void btnSaveAllMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveAllMouseClicked
-        E_product ep=new E_product();
-       D_product dp=new D_product();
-       
-       ep.setProductName(txtNameProd.getText());
-       ep.setQuantityPerPackage(Integer.parseInt(txtQuantityPP.getText()));
-       ep.setInitialPrice(Double.parseDouble(txtPriceInit_U.getText()));
-       ep.setSalePrice(Double.parseDouble(txtPriceSale_U.getText()));
-       ep.setStock(Integer.parseInt(txtStockP.getText()));
-       ep.setIdCategory((E_category) cmbCategoryProd.getSelectedItem());
-       ep.setIdCategory((E_category) cmbCategoryProd.getSelectedItem());
-       dp.insertproduct(ep);
-    }//GEN-LAST:event_btnSaveAllMouseClicked
+    private void txtPriceSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceSaleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPriceSaleActionPerformed
 
-    
+    private void txtQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQuantityActionPerformed
+
+    private void txtPriceInitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceInitKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPriceInitKeyReleased
+
+    private void txtPriceInitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceInitKeyTyped
+        char caracter = evt.getKeyChar();
+
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.')) {
+            evt.consume();
+            System.out.println("NOO!");
+        }
+    }//GEN-LAST:event_txtPriceInitKeyTyped
+
+    private void txtPriceSaleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceSaleKeyTyped
+        char caracter = evt.getKeyChar();
+
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.')) {
+            evt.consume();
+            System.out.println("NOO!");
+        }
+    }//GEN-LAST:event_txtPriceSaleKeyTyped
+
+    private void txtStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStockKeyTyped
+        char caracter = evt.getKeyChar();
+
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b')) {
+            evt.consume();
+            System.out.println("NOO!");
+        }
+    }//GEN-LAST:event_txtStockKeyTyped
+
+    private void txtQuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyTyped
+        char caracter = evt.getKeyChar();
+
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b')) {
+            evt.consume();
+            System.out.println("NOO!");
+        }
+    }//GEN-LAST:event_txtQuantityKeyTyped
+
+    private void txtSearchProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchProdKeyTyped
+
+    }//GEN-LAST:event_txtSearchProdKeyTyped
+
     //llenar combobox
-    
-    public void llenar(){
-        D_product data= new D_product();
-        
+    public void llenar() {
+        D_product data = new D_product();
+
         //Se eliminan items por defecto en combobox
         cmbCategoryProds.removeAllItems();
         cmbCategoryProd.removeAllItems();
         ArrayList<E_category> lista;
         lista = data.llenarcbx();
-        
+
         System.out.println("List Combobox Size: " + lista.size());
-        
-        for(int i=0; i<lista.size(); i++){
+
+        for (int i = 0; i < lista.size(); i++) {
             E_category categoryCmb = new E_category();
             categoryCmb.setIdCategory(lista.get(i).getIdCategory());
             categoryCmb.setNameC(lista.get(i).getNameC());
-            
+
             cmbCategoryProds.addItem(categoryCmb);
             cmbCategoryProd.addItem(categoryCmb);
-           
-            
-           
+
 //           cmbCategoryProd.addItem(lista.get(i));
         }
-        
+        categoryDefault.setNameC("Todos");
+        cmbCategoryProds.addItem(categoryDefault);
     }
-   
+
     //cargar datos de la tabla products
-     void cargar(){
-          String titulos[]={"ID","Producto","Precio venta","Existencias","cantidad por paquete","inicial Precio"};
-        DefaultTableModel  df=new DefaultTableModel(null,titulos){
+    void cargar() {
+        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "Imagen", "IdCategoria"};
+        DefaultTableModel df = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-        
         };
-        D_product Pm=new D_product();
-        ArrayList<E_product> producto=Pm.showProducts();
-        Iterator i =producto.iterator();
-        String Filas[]=new String[6];
-        while(i.hasNext()){
+        D_product Pm = new D_product();
+        ArrayList<E_product> producto = Pm.showProducts();
+        Iterator i = producto.iterator();
+        String Filas[] = new String[8];
+
+        while (i.hasNext()) {
             E_product pr;
-            pr=(E_product)i.next();
-            int id=pr.getIdProduct();
-            Filas[0]=String.valueOf(id);
-            Filas[1]=pr.getProductName();
-            double price=pr.getSalePrice();
-            Filas[2]=String.valueOf(price);
-            int Stock=pr.getStock();
-            Filas[3]=String.valueOf(Stock);
-            
-            int cpq=pr.getQuantityPerPackage();
-            Filas[4]=String.valueOf(cpq);
-            
-            double inicialprecio=pr.getInitialPrice();
-            Filas[5]=String.valueOf(inicialprecio);
-            
+            pr = (E_product) i.next();
+            int id = pr.getIdProduct();
+            double priceSale = pr.getSalePrice();
+            int Stock = pr.getStock();
+            int cpq = pr.getQuantityPerProduct();
+            double inicialprecio = pr.getInitialPrice();
+
+            Filas[0] = String.valueOf(id);
+            Filas[1] = pr.getProductName();
+            Filas[2] = String.valueOf(cpq);
+            Filas[3] = String.valueOf(inicialprecio);
+            Filas[4] = String.valueOf(priceSale);
+            Filas[5] = String.valueOf(Stock);
+            Filas[6] = pr.getImage();
+            Filas[7] = String.valueOf(pr.getIdCategory());
+
             df.addRow(Filas);
         }
+
         tbProducts.setModel(df);
-        
+
+        tbProducts.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbProducts.getColumnModel().getColumn(0).setMinWidth(50);
+        tbProducts.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(50);
+        tbProducts.getTableHeader().getColumnModel().getColumn(0).setMinWidth(50);
+
+        tbProducts.getColumnModel().getColumn(3).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(3).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+
+        tbProducts.getColumnModel().getColumn(6).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(6).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
+
+        tbProducts.getColumnModel().getColumn(7).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(7).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
     }
-    
-     
-     public void cargarbycategory(String nombre){
-          String titulos[]={"ID","Producto","Precio venta","Existencias","cantidad por paquete","inicial Precio"};
-        DefaultTableModel  df=new DefaultTableModel(null,titulos){
+
+    public void cargarByCategory(String nombre) {
+
+        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "Imagen", "IdCategoria"};
+        DefaultTableModel df = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-        
-    };
-        
-            
-        D_product Pm=new D_product();
-        ArrayList<E_product> producto=Pm.showProductsbycategory(nombre);
-        Iterator i =producto.iterator();
-        
-        String Filas[]=new String[6];
-        while(i.hasNext()){
+        };
+        D_product Pm = new D_product();
+        ArrayList<E_product> producto = Pm.showProductsbycategory(nombre);
+        Iterator i = producto.iterator();
+        String Filas[] = new String[8];
+
+        while (i.hasNext()) {
             E_product pr;
-            pr=(E_product)i.next();
-            int id=pr.getIdProduct();
-            Filas[0]=String.valueOf(id);
-            Filas[1]=pr.getProductName();
-            double price=pr.getSalePrice();
-            Filas[2]=String.valueOf(price);
-            int Stock=pr.getStock();
-            Filas[3]=String.valueOf(Stock);
-            String categoria;   
-            int cpq=pr.getQuantityPerPackage();
-            Filas[4]=String.valueOf(cpq); 
-            double inicialprecio=pr.getInitialPrice();
-            Filas[5]=String.valueOf(inicialprecio);
-             
+            pr = (E_product) i.next();
+            int id = pr.getIdProduct();
+            double priceSale = pr.getSalePrice();
+            int Stock = pr.getStock();
+            int cpq = pr.getQuantityPerProduct();
+            double inicialprecio = pr.getInitialPrice();
+
+            Filas[0] = String.valueOf(id);
+            Filas[1] = pr.getProductName();
+            Filas[2] = String.valueOf(cpq);
+            Filas[3] = String.valueOf(inicialprecio);
+            Filas[4] = String.valueOf(priceSale);
+            Filas[5] = String.valueOf(Stock);
+            Filas[6] = pr.getImage();
+            Filas[7] = String.valueOf(pr.getIdCategory());
+
             df.addRow(Filas);
-            
-           
-         
-           
-            
-            
-        
-                     
         }
+
         tbProducts.setModel(df);
+
+        tbProducts.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbProducts.getColumnModel().getColumn(0).setMinWidth(50);
+        tbProducts.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(50);
+        tbProducts.getTableHeader().getColumnModel().getColumn(0).setMinWidth(50);
+
+        tbProducts.getColumnModel().getColumn(3).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(3).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+
+        tbProducts.getColumnModel().getColumn(6).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(6).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
+
+        tbProducts.getColumnModel().getColumn(7).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(7).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
     }
-    
-     public void cargarbyserch(String nombre){
-        D_product Pm=new D_product();
-         E_product EP=new E_product();
-          String titulos[]={"ID","Producto","Precio venta","Existencias","cantidad por paquete","inicial Precio"};
-        DefaultTableModel  df=new DefaultTableModel(null,titulos){
+
+    public void cargarbyserch(String nombre) {
+        deleteRows();
+        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "Imagen", "IdCategoria"};
+        DefaultTableModel df = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-        
-    };
-        
-         
-         
-        ArrayList<E_product> producto=Pm.sherchProduct(nombre);
-        Iterator i =producto.iterator();
-        String Filas[]=new String[6];
-        System.out.println(""+txtSearchProd.getText());
-        while(i.hasNext()){
-             E_product pr;
-            pr=(E_product)i.next();
-            int id=pr.getIdProduct();
-            Filas[0]=String.valueOf(id);
-            Filas[1]=pr.getProductName();
-            double price=pr.getSalePrice();
-            Filas[2]=String.valueOf(price);
-            int Stock=pr.getStock();
-            Filas[3]=String.valueOf(Stock);
-            
-            int cpq=pr.getQuantityPerPackage();
-            Filas[4]=String.valueOf(cpq);
-            
-           double inicialprecio=pr.getInitialPrice();
-            Filas[5]=String.valueOf(inicialprecio);
-            
-           
+        };
+        D_product Pm = new D_product();
+        ArrayList<E_product> producto = Pm.sherchProduct(nombre);
+        Iterator i = producto.iterator();
+        String Filas[] = new String[8];
+
+        while (i.hasNext()) {
+            E_product pr;
+            pr = (E_product) i.next();
+            int id = pr.getIdProduct();
+            double priceSale = pr.getSalePrice();
+            int Stock = pr.getStock();
+            int cpq = pr.getQuantityPerProduct();
+            double inicialprecio = pr.getInitialPrice();
+
+            Filas[0] = String.valueOf(id);
+            Filas[1] = pr.getProductName();
+            Filas[2] = String.valueOf(cpq);
+            Filas[3] = String.valueOf(inicialprecio);
+            Filas[4] = String.valueOf(priceSale);
+            Filas[5] = String.valueOf(Stock);
+            Filas[6] = pr.getImage();
+            Filas[7] = String.valueOf(pr.getIdCategory());
+
             df.addRow(Filas);
         }
-         tbProducts.setModel(df);
-         
-          
+
+        tbProducts.setModel(df);
+
+        tbProducts.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbProducts.getColumnModel().getColumn(0).setMinWidth(50);
+        tbProducts.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(50);
+        tbProducts.getTableHeader().getColumnModel().getColumn(0).setMinWidth(50);
+
+        tbProducts.getColumnModel().getColumn(3).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(3).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+
+        tbProducts.getColumnModel().getColumn(6).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(6).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
+
+        tbProducts.getColumnModel().getColumn(7).setMaxWidth(0);
+        tbProducts.getColumnModel().getColumn(7).setMinWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
+        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
+
     }
-   
-    
-    
-    
+
     /*  MAIN METHOD  */
     
 //    /**
@@ -832,13 +989,11 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelAll;
     private javax.swing.JButton btnChangeImg;
     private javax.swing.JButton btnDeleteProd;
-    private javax.swing.JButton btnEditPriceSale;
     private javax.swing.JButton btnEditProd;
     private javax.swing.JButton btnEditStock;
     private javax.swing.JButton btnNewProd;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRefresh1;
-    private javax.swing.JButton btnSaveAll;
     private javax.swing.JComboBox<Object> cmbCategoryProd;
     private javax.swing.JComboBox<Object> cmbCategoryProds;
     private javax.swing.JLabel jLabel10;
@@ -847,10 +1002,8 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -862,13 +1015,10 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JPanel pnTable;
     private javax.swing.JTable tbProducts;
     private javax.swing.JTextField txtNameProd;
-    private javax.swing.JTextField txtPriceInit_P;
-    private javax.swing.JTextField txtPriceInit_U;
-    private javax.swing.JTextField txtPriceSale_P;
-    private javax.swing.JTextField txtPriceSale_U;
-    private javax.swing.JTextField txtQuantityPP;
+    private javax.swing.JTextField txtPriceInit;
+    private javax.swing.JTextField txtPriceSale;
+    private javax.swing.JTextField txtQuantity;
     private javax.swing.JTextField txtSearchProd;
-    private javax.swing.JTextField txtStockP;
-    private javax.swing.JTextField txtStockU;
+    private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
 }

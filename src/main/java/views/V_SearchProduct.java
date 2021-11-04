@@ -45,7 +45,7 @@ public class V_SearchProduct extends javax.swing.JDialog {
             
             rows[0] = String.valueOf(product.getIdProduct());
             rows[1] = product.getProductName();
-            rows[2] = String.valueOf(product.getQuantityPerPackage());
+            rows[2] = String.valueOf(product.getQuantityPerProduct());
             rows[3] = String.valueOf(product.getInitialPrice());
             rows[4] = String.valueOf(product.getSalePrice());
             rows[5] = String.valueOf(product.getStock());

@@ -33,9 +33,7 @@ public class D_clients {
                 client.setNumberphone(rs.getString("numberphone"));
                 
                 list.add(client);
-                System.out.println("Add data to list...");
             }
-            System.out.println("Data added!..");
             rs.close();
             ps.close();
         } catch (SQLException e) {
@@ -99,15 +97,16 @@ public class D_clients {
             
             ps.setInt(1, client.getIdClient());
             
-            int rowsDeleted = ps.executeUpdate();
+            ps.execute();
 
-            if (rowsDeleted > 0) {
-                return true;
-            }
+//            if (rowsDeleted > 0) {
+//                return true;
+//            }
         } catch (SQLException e) {
             System.out.println("Error al intentar eliminar el registro: " + e.getMessage());
+            return false;
         }
-        return false;
+        return true;
     }
     
      public boolean insertGenericClient() {

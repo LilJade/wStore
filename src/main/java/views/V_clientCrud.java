@@ -1,10 +1,12 @@
 package views;
+
 import entities.E_clients;
 import business.B_clients;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,6 +18,7 @@ public class V_clientCrud extends javax.swing.JDialog {
     int x, y;
     E_clients client = new E_clients();
     B_clients business = new B_clients();
+
     // Creates new form V_clientCrud
     public V_clientCrud(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
@@ -24,58 +27,58 @@ public class V_clientCrud extends javax.swing.JDialog {
         cleanFields();
         blockFields();
         buttonsByDefault();
-        
+
         showListClients();
     }
-    
+
     public void showListClients() {
         String titles[] = {"Id", "Nombres", "Apellidos", "Telefono"};
-        
+
         DefaultTableModel df = new DefaultTableModel(null, titles);
-        
+
         ArrayList<E_clients> list = business.B_listClients();
         Iterator i = list.iterator();
         String rows[] = new String[4];
-        
-        while (i.hasNext()) {            
+
+        while (i.hasNext()) {
             E_clients client;
-            client= (E_clients) i.next();
-            
+            client = (E_clients) i.next();
+
             rows[0] = String.valueOf(client.getIdClient());
             rows[1] = client.getFirstName();
             rows[2] = client.getLastName();
             rows[3] = client.getNumberphone();
-            
+
             df.addRow(rows);
         }
-        
+
         tbClients.setModel(df);
-        
+
         tbClients.getColumnModel().getColumn(0).setMaxWidth(25);
         tbClients.getColumnModel().getColumn(0).setMinWidth(25);
         tbClients.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(25);
         tbClients.getTableHeader().getColumnModel().getColumn(0).setMinWidth(25);
     }
-    
+
     void cleanFields() {
         lblIdClient.setText("");
         txtFirstNameClient.setText("");
         txtLastNameClient.setText("");
         txtNumberPhoneClient.setText("");
     }
-    
+
     void blockFields() {
         txtFirstNameClient.setEnabled(false);
         txtLastNameClient.setEnabled(false);
         txtNumberPhoneClient.setEnabled(false);
     }
-    
+
     void unblockFields() {
         txtFirstNameClient.setEnabled(true);
         txtLastNameClient.setEnabled(true);
         txtNumberPhoneClient.setEnabled(true);
     }
-    
+
     void buttonsByDefault() {
         btnNewClient.setEnabled(true);
         btnEditClient.setEnabled(false);
@@ -170,7 +173,6 @@ public class V_clientCrud extends javax.swing.JDialog {
 
         lblIdClient.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblIdClient.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblIdClient.setText("11111001111");
         lblIdClient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txtFirstNameClient.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -182,6 +184,11 @@ public class V_clientCrud extends javax.swing.JDialog {
         lblTitleToMove5.setText("Apellidos:");
 
         txtNumberPhoneClient.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        txtNumberPhoneClient.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumberPhoneClientKeyTyped(evt);
+            }
+        });
 
         lblTitleToMove6.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblTitleToMove6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -265,10 +272,10 @@ public class V_clientCrud extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(lblTitleToMove1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIdClient)
-                    .addComponent(lblTitleToMove3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTitleToMove3)
+                    .addComponent(lblIdClient, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTitleToMove2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFirstNameClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -280,7 +287,7 @@ public class V_clientCrud extends javax.swing.JDialog {
                 .addComponent(lblTitleToMove6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNumberPhoneClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(btnNewClient, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEditClient, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -418,45 +425,76 @@ public class V_clientCrud extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNewClientActionPerformed
 
     private void btnEditClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditClientActionPerformed
-        client.setIdClient(Integer.parseInt(lblIdClient.getText()));
-        client.setFirstName(txtFirstNameClient.getText());
-        client.setLastName(txtLastNameClient.getText());
-        client.setNumberphone(txtNumberPhoneClient.getText());
-        
-        business.B_updateClient(client);
-        
-        cleanFields();
-        blockFields();
-        buttonsByDefault();
-        showListClients();
+        if (btnEditClient.getText().equals("Editar")) {
+            btnEditClient.setText("Guardar Cambios");
+            btnDeleteClient.setEnabled(false);
+            unblockFields();
+
+        } else if (btnEditClient.getText().equals("Guardar Cambios")) {
+            if (txtFirstNameClient.getText().equals("") || txtLastNameClient.getText().equals("") || txtNumberPhoneClient.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Debe asegurarse de rellenar todos los campos!");
+            } else {
+                if (txtNumberPhoneClient.getText().length() < 8) {
+                    JOptionPane.showMessageDialog(null, "El número de telefono debe contener 8 dígitos!");
+                } else {
+                    btnEditClient.setText("Editar");
+                    client.setIdClient(Integer.parseInt(lblIdClient.getText()));
+                    client.setFirstName(txtFirstNameClient.getText());
+                    client.setLastName(txtLastNameClient.getText());
+                    client.setNumberphone(txtNumberPhoneClient.getText());
+
+                    business.B_updateClient(client);
+
+                    cleanFields();
+                    blockFields();
+                    buttonsByDefault();
+                    showListClients();
+                }
+            }
+        }
     }//GEN-LAST:event_btnEditClientActionPerformed
 
     private void btnDeleteClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteClientActionPerformed
+        client = new E_clients();
         client.setIdClient(Integer.parseInt(lblIdClient.getText()));
-        
-        business.B_deleteClient(client);
-        
+
+        if (business.B_deleteClient(client) == false) {
+            JOptionPane.showMessageDialog(null, "No puede eliminar un cliente con registros de compras!");
+        }
+
         cleanFields();
         blockFields();
         buttonsByDefault();
         showListClients();
+
     }//GEN-LAST:event_btnDeleteClientActionPerformed
 
     private void tbClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClientsMouseClicked
         int selectedRow = tbClients.rowAtPoint(evt.getPoint());
-        
+
         btnNewClient.setEnabled(false);
         btnEditClient.setEnabled(true);
         btnDeleteClient.setEnabled(true);
         btnCancel.setEnabled(true);
-        
-        unblockFields();
-        
+
         lblIdClient.setText(tbClients.getValueAt(selectedRow, 0).toString());
         txtFirstNameClient.setText(tbClients.getValueAt(selectedRow, 1).toString());
         txtLastNameClient.setText(tbClients.getValueAt(selectedRow, 2).toString());
         txtNumberPhoneClient.setText(tbClients.getValueAt(selectedRow, 3).toString());
     }//GEN-LAST:event_tbClientsMouseClicked
+
+    private void txtNumberPhoneClientKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumberPhoneClientKeyTyped
+        char caracter = evt.getKeyChar();
+
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '\n')) {
+            evt.consume();
+            System.out.println("NOO!");
+        }
+
+        if (txtNumberPhoneClient.getText().length() >= 8) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumberPhoneClientKeyTyped
 
 //    /**
 //     * @param args the command line arguments

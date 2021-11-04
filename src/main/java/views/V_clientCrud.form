@@ -187,11 +187,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblTitleToMove1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblIdClient" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblTitleToMove3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblTitleToMove3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblIdClient" min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblTitleToMove2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtFirstNameClient" min="-2" max="-2" attributes="0"/>
@@ -203,7 +203,7 @@
                       <Component id="lblTitleToMove6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtNumberPhoneClient" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="75" max="32767" attributes="0"/>
                       <Component id="btnNewClient" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnEditClient" min="-2" pref="35" max="-2" attributes="0"/>
@@ -250,7 +250,6 @@
                   <Font name="MADE TOMMY" size="14" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="11111001111"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -287,6 +286,9 @@
                   <Font name="MADE TOMMY" size="14" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNumberPhoneClientKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblTitleToMove6">
               <Properties>

@@ -38,6 +38,7 @@ public class B_clients {
     
     public boolean B_deleteClient(E_clients client) {
         if (data.deleteClient(client) == false) {
+            System.out.println("Errorrrrr");
             return false;
         }
         

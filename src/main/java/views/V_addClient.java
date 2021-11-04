@@ -1,8 +1,10 @@
 package views;
+
 import entities.E_clients;
 import business.B_clients;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,6 +15,7 @@ public class V_addClient extends javax.swing.JDialog {
     int x, y;
     E_clients client = new E_clients();
     B_clients business = new B_clients();
+
     // Creates new form V_addUser
     public V_addClient(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
@@ -75,6 +78,11 @@ public class V_addClient extends javax.swing.JDialog {
         txtPhone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPhoneActionPerformed(evt);
+            }
+        });
+        txtPhone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPhoneKeyTyped(evt);
             }
         });
 
@@ -230,15 +238,37 @@ public class V_addClient extends javax.swing.JDialog {
     }//GEN-LAST:event_txtPhoneActionPerformed
 
     private void btnAddNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewClientActionPerformed
-        client.setFirstName(txtNames.getText());
-        client.setLastName(txtLastNames.getText());
-        client.setNumberphone(txtPhone.getText());
-        
-        business.B_insertClient(client);
-        V_clientCrud.btnRefresh.doClick();
-        
-        this.dispose();
+        if (txtNames.getText().equals("") || txtLastNames.getText().equals("") || txtPhone.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Debe asegurarse de rellenar todos los campos!");
+        } else {
+            if (txtPhone.getText().length() < 8) {
+                JOptionPane.showMessageDialog(null, "El número de telefono debe contener 8 dígitos!");
+            } else {
+                client.setFirstName(txtNames.getText());
+                client.setLastName(txtLastNames.getText());
+                client.setNumberphone(txtPhone.getText());
+
+                business.B_insertClient(client);
+                V_clientCrud.btnRefresh.doClick();
+
+                this.dispose();
+
+            }
+        }
     }//GEN-LAST:event_btnAddNewClientActionPerformed
+
+    private void txtPhoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyTyped
+        char caracter = evt.getKeyChar();
+
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '\n')) {
+            evt.consume();
+            System.out.println("NOO!");
+        }
+
+        if (txtPhone.getText().length() >= 8) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPhoneKeyTyped
 
 //    /**
 //     * @param args the command line arguments

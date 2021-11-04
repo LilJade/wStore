@@ -276,6 +276,9 @@
                   <Font name="MADE TOMMY" size="14" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFirstNameUserKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLastNameUser">
               <Properties>
@@ -283,6 +286,9 @@
                   <Font name="MADE TOMMY" size="14" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtLastNameUserKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblTitleToMove5">
               <Properties>
@@ -299,6 +305,9 @@
                   <Font name="MADE TOMMY" size="14" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtEmailUserKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblTitleToMove6">
               <Properties>
@@ -403,8 +412,14 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="txtPassUser">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPassUserKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JPasswordField" name="txtRepeatPassUser">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtRepeatPassUserKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblTitleToMove8">
               <Properties>

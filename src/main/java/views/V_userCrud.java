@@ -1,13 +1,12 @@
 package views;
+
 import entities.E_users;
 import business.B_users;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.JTable;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,7 +18,7 @@ public class V_userCrud extends javax.swing.JDialog {
     int x, y;
     B_users business = new B_users();
     E_users user = new E_users();
-    
+
     // Creates new form V_userCrud
     public V_userCrud(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -28,39 +27,39 @@ public class V_userCrud extends javax.swing.JDialog {
         cleanFields();
         blockFields();
         buttonsByDefault();
-        
+
         showListUsers();
     }
-    
+
     void showListUsers() {
         String titles[] = {"Id", "Nombres", "Apellidos", "Correo", "Password"};
-        
+
         DefaultTableModel df = new DefaultTableModel(null, titles);
-        
+
         ArrayList<E_users> list = business.B_listUsers();
         Iterator i = list.iterator();
         String rows[] = new String[5];
-        
-        while (i.hasNext()) {            
+
+        while (i.hasNext()) {
             E_users user;
             user = (E_users) i.next();
-            
+
             rows[0] = String.valueOf(user.getIdUser());
             rows[1] = user.getFirstName();
             rows[2] = user.getLastName();
             rows[3] = user.getEmail();
             rows[4] = user.getPass();
-            
+
             df.addRow(rows);
         }
-        
+
         tbUsers.setModel(df);
-        
+
         tbUsers.getColumnModel().getColumn(0).setMaxWidth(25);
         tbUsers.getColumnModel().getColumn(0).setMinWidth(25);
         tbUsers.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(25);
         tbUsers.getTableHeader().getColumnModel().getColumn(0).setMinWidth(25);
-        
+
         tbUsers.getColumnModel().getColumn(4).setMaxWidth(0);
         tbUsers.getColumnModel().getColumn(4).setMinWidth(0);
         tbUsers.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(0);
@@ -75,7 +74,7 @@ public class V_userCrud extends javax.swing.JDialog {
         txtPassUser.setText("");
         txtRepeatPassUser.setText("");
     }
-    
+
     void blockFields() {
         txtFirstNameUser.setEnabled(false);
         txtLastNameUser.setEnabled(false);
@@ -83,7 +82,7 @@ public class V_userCrud extends javax.swing.JDialog {
         txtPassUser.setEnabled(false);
         txtRepeatPassUser.setEnabled(false);
     }
-    
+
     void unblockFields() {
         txtFirstNameUser.setEnabled(true);
         txtLastNameUser.setEnabled(true);
@@ -91,20 +90,16 @@ public class V_userCrud extends javax.swing.JDialog {
         txtPassUser.setEnabled(true);
         txtRepeatPassUser.setEnabled(true);
     }
-    
+
     void buttonsByDefault() {
         btnNewUser.setEnabled(true);
+        btnNewUser.setText("Nuevo Usuario");
         btnEditUser.setEnabled(false);
+        btnEditUser.setText("Editar");
         btnDeleteUser.setEnabled(false);
         btnCancel.setEnabled(false);
     }
-    
-    void evilButtonsByDefault() {
-        btnNewUser.setEnabled(false);
-        btnEditUser.setEnabled(true);
-        btnDeleteUser.setEnabled(true);
-        btnCancel.setEnabled(true);
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -200,14 +195,29 @@ public class V_userCrud extends javax.swing.JDialog {
         lblIdUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txtFirstNameUser.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        txtFirstNameUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFirstNameUserKeyReleased(evt);
+            }
+        });
 
         txtLastNameUser.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        txtLastNameUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtLastNameUserKeyReleased(evt);
+            }
+        });
 
         lblTitleToMove5.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblTitleToMove5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblTitleToMove5.setText("Apellidos:");
 
         txtEmailUser.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        txtEmailUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEmailUserKeyReleased(evt);
+            }
+        });
 
         lblTitleToMove6.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblTitleToMove6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -264,6 +274,18 @@ public class V_userCrud extends javax.swing.JDialog {
         lblTitleToMove7.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblTitleToMove7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblTitleToMove7.setText("Contraseña:");
+
+        txtPassUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPassUserKeyReleased(evt);
+            }
+        });
+
+        txtRepeatPassUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtRepeatPassUserKeyReleased(evt);
+            }
+        });
 
         lblTitleToMove8.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblTitleToMove8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -452,41 +474,53 @@ public class V_userCrud extends javax.swing.JDialog {
         blockFields();
         buttonsByDefault();
         showListUsers();
-        btnNewUser.setText("Nuevo Usuario");
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewUserActionPerformed
         String valueButton = btnNewUser.getText();
-        
+
         System.out.println(valueButton);
-        
-        switch(valueButton) {
+
+        switch (valueButton) {
             case "Nuevo Usuario":
+
                 cleanFields();
                 unblockFields();
-                
+
                 btnNewUser.setEnabled(true);
                 btnNewUser.setText("Agregar");
                 btnCancel.setEnabled(true);
-                
+
                 System.out.println("Por agregar");
-            break;
-                
+
+                break;
+
             case "Agregar":
-                user.setFirstName(txtFirstNameUser.getText());
-                user.setLastName(txtLastNameUser.getText());
-                user.setEmail(txtEmailUser.getText());
-                user.setPass(txtPassUser.getText());
-                business.B_insertUser(user);
-                btnNewUser.setText("Nuevo Usuario");
-                
-                cleanFields();
-                blockFields();
-                buttonsByDefault();
-                System.out.println("Agregando");
-            break;
+                if (txtFirstNameUser.getText().equals("") || txtLastNameUser.getText().equals("")
+                        || txtEmailUser.getText().equals("") || txtPassUser.getText().equals("")
+                        || txtRepeatPassUser.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios!");
+                } else {
+                    if (!txtPassUser.getText().equals(txtRepeatPassUser.getText())) {
+                        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
+                    } else {
+                        user.setFirstName(txtFirstNameUser.getText());
+                        user.setLastName(txtLastNameUser.getText());
+                        user.setEmail(txtEmailUser.getText());
+                        user.setPass(txtPassUser.getText());
+                        business.B_insertUser(user);
+                        btnNewUser.setText("Nuevo Usuario");
+
+                        cleanFields();
+                        blockFields();
+                        buttonsByDefault();
+                        System.out.println("Agregando");
+                    }
+                }
+
+                break;
         }
-        
+
         showListUsers();
     }//GEN-LAST:event_btnNewUserActionPerformed
 
@@ -498,40 +532,64 @@ public class V_userCrud extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void tbUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsersMouseClicked
+        int seleccionar = tbUsers.rowAtPoint(evt.getPoint());
+
+        lblIdUser.setText(String.valueOf(tbUsers.getValueAt(seleccionar, 0)));
+        txtFirstNameUser.setText(String.valueOf(tbUsers.getValueAt(seleccionar, 1)));
+        txtLastNameUser.setText(String.valueOf(tbUsers.getValueAt(seleccionar, 2)));
+        txtEmailUser.setText(String.valueOf(tbUsers.getValueAt(seleccionar, 3)));
+        txtPassUser.setText(String.valueOf(tbUsers.getValueAt(seleccionar, 4)));
+        txtRepeatPassUser.setText(String.valueOf(tbUsers.getValueAt(seleccionar, 4)));
+
         btnNewUser.setEnabled(false);
         btnEditUser.setEnabled(true);
         btnDeleteUser.setEnabled(true);
         btnCancel.setEnabled(true);
-        
-        unblockFields();
-        
-        Point p = evt.getPoint();
-        int selectedRow = tbUsers.rowAtPoint(p);
-        
-        lblIdUser.setText(tbUsers.getValueAt(selectedRow, 0).toString());
-        txtFirstNameUser.setText(tbUsers.getValueAt(selectedRow, 1).toString());
-        txtLastNameUser.setText(tbUsers.getValueAt(selectedRow, 2).toString());
-        txtEmailUser.setText(tbUsers.getValueAt(selectedRow, 3).toString());
     }//GEN-LAST:event_tbUsersMouseClicked
 
     private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
-        user.setIdUser(Integer.parseInt(lblIdUser.getText()));
-        user.setFirstName(txtFirstNameUser.getText());
-        user.setLastName(txtLastNameUser.getText());
-        user.setEmail(txtEmailUser.getText());
-        user.setPass(txtPassUser.getText());
-        
-        business.B_updateUser(user);
-        
-        cleanFields();
-        blockFields();
-        buttonsByDefault();
-        showListUsers();
+        String buttonValue = btnEditUser.getText();
+
+        switch (buttonValue) {
+            case "Editar":
+                btnEditUser.setText("Guardar Cambios");
+                btnNewUser.setEnabled(false);
+                btnDeleteUser.setEnabled(false);
+                btnCancel.setEnabled(true);
+                unblockFields();
+                break;
+
+            case "Guardar Cambios":
+                if (txtFirstNameUser.getText().equals("") || txtLastNameUser.getText().equals("")
+                        || txtEmailUser.getText().equals("") || txtPassUser.getText().equals("")
+                        || txtRepeatPassUser.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios!");
+                } else {
+                    if (!txtPassUser.getText().equals(txtRepeatPassUser.getText())) {
+                        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
+                    } else {
+                        user.setIdUser(Integer.parseInt(lblIdUser.getText()));
+                        user.setFirstName(txtFirstNameUser.getText());
+                        user.setLastName(txtLastNameUser.getText());
+                        user.setEmail(txtEmailUser.getText());
+                        user.setPass(txtPassUser.getText());
+
+                        business.B_updateUser(user);
+
+                        btnEditUser.setText("Editar");
+                        cleanFields();
+                        blockFields();
+                        buttonsByDefault();
+                        showListUsers();
+                    }
+                }
+                break;
+        }
     }//GEN-LAST:event_btnEditUserActionPerformed
 
     private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
         user.setIdUser(Integer.parseInt(lblIdUser.getText()));
-        
+
         business.B_deleteUser(user);
 
         cleanFields();
@@ -540,47 +598,79 @@ public class V_userCrud extends javax.swing.JDialog {
         showListUsers();
     }//GEN-LAST:event_btnDeleteUserActionPerformed
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(V_userCrud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(V_userCrud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(V_userCrud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(V_userCrud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                V_userCrud dialog = new V_userCrud(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
+    private void txtFirstNameUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFirstNameUserKeyReleased
+        if (evt.getExtendedKeyCode() == evt.VK_ENTER) {
+            txtLastNameUser.requestFocus();
+        }
+    }//GEN-LAST:event_txtFirstNameUserKeyReleased
+
+    private void txtLastNameUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastNameUserKeyReleased
+        if (evt.getExtendedKeyCode() == evt.VK_ENTER) {
+            txtEmailUser.requestFocus();
+        }
+    }//GEN-LAST:event_txtLastNameUserKeyReleased
+
+    private void txtEmailUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailUserKeyReleased
+        if (evt.getExtendedKeyCode() == evt.VK_ENTER) {
+            txtPassUser.requestFocus();
+        }
+    }//GEN-LAST:event_txtEmailUserKeyReleased
+
+    private void txtPassUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassUserKeyReleased
+        if (evt.getExtendedKeyCode() == evt.VK_ENTER) {
+            txtRepeatPassUser.requestFocus();
+        }
+    }//GEN-LAST:event_txtPassUserKeyReleased
+
+    private void txtRepeatPassUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRepeatPassUserKeyReleased
+        if (evt.getExtendedKeyCode() == evt.VK_ENTER) {
+            if (!txtPassUser.getText().equals(txtRepeatPassUser.getText())) {
+                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
+            }
+        }
+    }//GEN-LAST:event_txtRepeatPassUserKeyReleased
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(V_userCrud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(V_userCrud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(V_userCrud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(V_userCrud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                V_userCrud dialog = new V_userCrud(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

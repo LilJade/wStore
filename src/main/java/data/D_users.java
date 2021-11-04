@@ -66,8 +66,6 @@ public class D_users {
                 list.add(user);
             }
             
-            System.out.println("Sending data...");
-            
             rs.close();
             ps.close();
         } catch (SQLException e) {

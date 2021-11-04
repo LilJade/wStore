@@ -506,11 +506,11 @@ public class V_clientCrud extends javax.swing.JDialog {
     private javax.swing.JButton btnEditClient;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnNewClient;
-    private javax.swing.JButton btnRefresh;
-    private javax.swing.JPanel jPanel1;
+    public static javax.swing.JButton btnRefresh;
+    public static javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    public static javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblIdClient;
     private javax.swing.JLabel lblTitleToMove;

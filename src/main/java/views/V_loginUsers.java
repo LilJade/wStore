@@ -8,6 +8,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import entities.E_users;
 import business.B_users;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -58,7 +59,7 @@ public class V_loginUsers extends javax.swing.JFrame {
         lblExit.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         lblExit.setForeground(new java.awt.Color(255, 0, 0));
         lblExit.setText("X");
-        lblExit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lblExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblExitMouseClicked(evt);
@@ -101,6 +102,11 @@ public class V_loginUsers extends javax.swing.JFrame {
                 txtUserNameActionPerformed(evt);
             }
         });
+        txtUserName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUserNameKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 290, 30));
 
         lblErrName.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -113,6 +119,11 @@ public class V_loginUsers extends javax.swing.JFrame {
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, -1, -1));
 
         txtUserPass.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
+        txtUserPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUserPassKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtUserPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 290, 30));
 
         lblErrPass.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -218,9 +229,6 @@ public class V_loginUsers extends javax.swing.JFrame {
         
         user.setEmail(txtUserName.getText());
         user.setPass(txtUserPass.getText());
-        
-       /* lblErrResult.setText(business.B_loginUsers(user));
-        System.out.println("User logged: " + user.toString());*/
        
         if (business.B_loginUsers(user) == null) {
             lblErrResult.setForeground(Color.red);
@@ -252,6 +260,43 @@ public class V_loginUsers extends javax.swing.JFrame {
     private void btnLoginMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseReleased
         jpContBtnLogin.setBackground(new Color(51, 204, 0));
     }//GEN-LAST:event_btnLoginMouseReleased
+
+    private void txtUserPassKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserPassKeyReleased
+        if (evt.getExtendedKeyCode() == evt.VK_ENTER) {
+            if (txtUserPass.getText().equals("")) {
+                lblErrPass.setText("Este campo es obligatorio*");
+            } else {
+                lblErrPass.setText("");
+                user.setEmail(txtUserName.getText());
+                user.setPass(txtUserPass.getText());
+                
+                if (business.B_loginUsers(user) == null) {
+                    lblErrResult.setForeground(Color.red);
+                    lblErrResult.setText("Login Fail!");
+                } else {
+                    lblErrResult.setForeground(new Color(0, 255, 0));
+                    lblErrResult.setText("Login Success! Welcome " + user.getFirstName() + " " + user.getLastName());
+                    System.out.println("User logged: " + user.toString());
+                    
+                    V_Sale win = new V_Sale();
+                    win.setVisible(true);
+                
+                    this.dispose();
+                }
+            }
+        }
+    }//GEN-LAST:event_txtUserPassKeyReleased
+
+    private void txtUserNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserNameKeyReleased
+        if (evt.getExtendedKeyCode() == evt.VK_ENTER) {
+            if (txtUserName.getText().equals("")) {
+                lblErrName.setText("Este campo es obligatorio*");
+            } else {
+                lblErrName.setText("");
+                txtUserPass.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txtUserNameKeyReleased
 
     /**
      * @param args the command line arguments

@@ -24,7 +24,7 @@ public class D_category {
     
      Connection con =db.connectDB();
     
-    public ArrayList<E_category> showcatergory(){
+    public ArrayList<E_category> showCategory(){
          ArrayList<E_category> category=new ArrayList<>();
        
          try {
@@ -37,17 +37,14 @@ public class D_category {
                 c.setNameC(rs.getString("nameC"));
                 
                 c.setDescriptionC(rs.getString("descriptionC"));
-                category.add(c);
-              
+                category.add(c); 
             }
+            
         } catch (Exception e) {
              System.out.println(e);
         }
          
-        System.out.println("Categories: "+category);
         return category;
-        
-        
     }
     
     public void insertarCategoria(E_category category){
@@ -91,36 +88,4 @@ public class D_category {
             System.out.println("error macro"+e);
         }
     }
-    
-public ArrayList<E_category> listUsers() {
-        Connection con = db.connectDB();
-        PreparedStatement ps;
-        ResultSet rs;
-        ArrayList<E_category> list = new ArrayList();
-        E_category category;
-        
-        try {
-            ps = con.prepareStatement("select * from category");
-            rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                category = new E_category();
-                category.setIdCategory(Integer.parseInt(rs.getString("idCategory")));
-                category.setNameC(rs.getString("nameC"));
-                
-                list.add(category);
-            }
-            
-            System.out.println("Sending data of categories...");
-            
-            rs.close();
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println("Error al consultar la lista de categorias: " + e.getMessage());
-        }
-        
-        return list;
-    }    
-
-
 }

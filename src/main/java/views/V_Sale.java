@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package views;
 
 import business.B_clients;
@@ -799,7 +795,7 @@ public class V_Sale extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductActionPerformed
 
     private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
-        V_categoryCrud win = new V_categoryCrud();
+        V_CategoryCrud win = new V_CategoryCrud(this, true);
         
         win.setVisible(true);
     }//GEN-LAST:event_btnCategoryActionPerformed

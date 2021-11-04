@@ -235,9 +235,7 @@ public class V_addClient extends javax.swing.JDialog {
         client.setNumberphone(txtPhone.getText());
         
         business.B_insertClient(client);
-        V_clientCrud win = new V_clientCrud(null, false);
-        
-        win.showListClients();
+        V_clientCrud.btnRefresh.doClick();
         
         this.dispose();
     }//GEN-LAST:event_btnAddNewClientActionPerformed

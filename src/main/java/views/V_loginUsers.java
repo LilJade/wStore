@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package views;
 import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import entities.E_users;
 import business.B_users;
-import java.awt.event.KeyEvent;
 
 /**
  *

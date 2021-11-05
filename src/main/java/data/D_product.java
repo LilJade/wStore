@@ -99,7 +99,7 @@ public class D_product {
                 category.setNameC(rs.getString("nameC"));
                 category.setDescriptionC(rs.getString("descriptionC"));
                 p.setIdCategory(category);
-                
+
                 product.add(p);
             }
         } catch (Exception e) {
@@ -179,5 +179,4 @@ public class D_product {
         } catch (Exception e) {
         }
     }
-
 }

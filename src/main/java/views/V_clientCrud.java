@@ -421,6 +421,7 @@ public class V_clientCrud extends javax.swing.JDialog {
 
     private void btnNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewClientActionPerformed
         V_addClient win = new V_addClient(new javax.swing.JDialog(), true);
+        win.crudOrSale = 1;
         win.setVisible(true);
     }//GEN-LAST:event_btnNewClientActionPerformed
 

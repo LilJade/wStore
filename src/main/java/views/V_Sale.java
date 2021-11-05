@@ -5,116 +5,243 @@ import business.B_sale;
 import business.B_saleDetail;
 import entities.E_clients;
 import entities.E_product;
+import business.B_products;
 import entities.E_sale;
 import entities.E_saleDetail;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author LilJade
  */
 public class V_Sale extends javax.swing.JFrame {
-    
-    
-     E_saleDetail saleDetail= new E_saleDetail();
+
+    E_product product = new E_product();
+    B_products businessProducts = new B_products();
+
+    E_saleDetail saleDetail = new E_saleDetail();
     B_saleDetail businessSaleDetail = new B_saleDetail();
-    
+
     E_sale sale = new E_sale();
     B_sale businessSale = new B_sale();
-    
+
     E_clients client = new E_clients();
     B_clients businessClient = new B_clients();
-    
-    E_product product = new E_product();
-    
+
     DefaultTableModel model = new DefaultTableModel();
-    
+
     int cantidad;
     double precio;
     double totalPagar;
+    int totalArticles;
 
-    /**
-     * Creates new form V_Sale
-     */
+    // Creates new form V_Sale
     public V_Sale() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         blockButtons();
         cleanFields();
         blockFields();
+        lblIdSale.setText("");
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        lblDate.setText(dtf.format(LocalDateTime.now()));
     }
-    
-    
-      //Recibe y carga la informacion del producto buscado
+
+    //Recibe y carga la informacion del producto buscado
     public static void reciveProductData(E_product product) {
         if (product != null) {
             lblSelectedProd.setText(product.getProductName());
             lblPrice.setText(String.valueOf(product.getSalePrice()));
             lblStock.setText(String.valueOf(product.getStock()));
             lblIdProd.setText(String.valueOf(product.getIdProduct()));
+
+            btnAddProduct.setEnabled(true);
+            btnCancelAddProd.setEnabled(true);
         }
     }
-    
+
     void cleanFields() {
         lblSelectedProd.setText("");
-        txtQuantityU.setText("");
+        txtCodeProd.setText("");
         lblPrice.setText("");
         lblStock.setText("");
         lblIdProd.setText("");
         lblArtSale.setText("");
         txtTotalNeto.setText("");
-        
+
         txtSearchClient.setText("");
+        btnSelectClient.setText("Seleccionar");
     }
-    
+
     void blockFields() {
-        txtQuantityU.setEnabled(false);
+        txtCodeProd.setEnabled(false);
         tbDetailSale.setEnabled(false);
         txtTotalNeto.setEnabled(false);
-        
+
         txtSearchClient.setEnabled(false);
         tbClient.setEnabled(false);
-        
+
         rbGenericClient.setEnabled(false);
         rbRegisterClient.setEnabled(false);
         rbGenericClient.setSelected(true);
     }
-    
+
     void unblockFields() {
-        txtQuantityU.setEnabled(true);
+        txtCodeProd.setEnabled(true);
         tbDetailSale.setEnabled(true);
         txtTotalNeto.setEnabled(true);
-        
+
         rbGenericClient.setEnabled(true);
         rbRegisterClient.setEnabled(true);
     }
-    
+
     void blockButtons() {
         btnSearchProd.setEnabled(false);
         btnAddProduct.setEnabled(false);
         btnCancelAddProd.setEnabled(false);
         btnDeleteProd.setEnabled(false);
-        
+
         btnSelectClient.setEnabled(false);
+        btnRefreshClients.setEnabled(false);
         btnAddClient.setEnabled(false);
-        
+
         btnCompleteSale.setEnabled(false);
         btnPrint.setEnabled(false);
         btnCancelSale.setEnabled(false);
     }
-    
+
     void unblockButtons() {
         btnSearchProd.setEnabled(true);
-        btnAddProduct.setEnabled(true);
-        btnCancelAddProd.setEnabled(true);
-        btnDeleteProd.setEnabled(true);
-        
+//        btnAddProduct.setEnabled(true);
+//        btnCancelAddProd.setEnabled(true);
+//        btnDeleteProd.setEnabled(true);
+
         btnCompleteSale.setEnabled(true);
         btnPrint.setEnabled(true);
         btnCancelSale.setEnabled(true);
+    }
+
+    void lblSearchProductsByDefault() {
+        lblSelectedProd.setText("");
+        lblPrice.setText("");
+        lblStock.setText("");
+        lblIdProd.setText("");
+
+        btnCancelAddProd.setEnabled(false);
+        btnAddProduct.setEnabled(false);
+    }
+
+    void calcularTotales() {
+        totalPagar = 0;
+        totalArticles = 0;
+
+        for (int i = 0; i < tbDetailSale.getRowCount(); i++) {
+            cantidad = Integer.parseInt(tbDetailSale.getValueAt(i, 2).toString());
+            precio = Double.parseDouble(tbDetailSale.getValueAt(i, 3).toString());
+            double subTotal = (cantidad * precio);
+            tbDetailSale.setValueAt(subTotal, i, 4);
+
+            totalPagar = totalPagar + (cantidad * precio);
+
+            int article = Integer.parseInt(tbDetailSale.getValueAt(i, 2).toString());
+            totalArticles = totalArticles + article;
+        }
+
+        txtTotalNeto.setText("" + totalPagar);
+        lblArtSale.setText("" + totalArticles);
+    }
+
+    boolean amountDetails(E_product product) {
+        if (product == null) {
+            for (int i = 0; i < tbDetailSale.getRowCount(); i++) {
+
+                if (lblIdProd.getText().equals(String.valueOf(tbDetailSale.getValueAt(i, 0)))) {
+                    int cantidad = Integer.parseInt(String.valueOf(tbDetailSale.getValueAt(i, 2)));
+                    cantidad = cantidad + 1;
+
+                    tbDetailSale.setValueAt(cantidad, i, 2);
+
+                    calcularTotales();
+                    return true;
+                }
+            }
+
+            return false;
+        } else {
+            for (int i = 0; i < tbDetailSale.getRowCount(); i++) {
+
+                if (String.valueOf(product.getIdProduct()).equals(String.valueOf(tbDetailSale.getValueAt(i, 0)))) {
+                    int cantidad = Integer.parseInt(String.valueOf(tbDetailSale.getValueAt(i, 2)));
+                    cantidad = cantidad + 1;
+
+                    tbDetailSale.setValueAt(cantidad, i, 2);
+
+                    calcularTotales();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    void deleteRows(JTable table) {
+        DefaultTableModel df = (DefaultTableModel) table.getModel();
+
+        while (table.getRowCount() > 0) {
+            df.removeRow(0);
+        }
+    }
+
+    public void showListClients() {
+        String titles[] = {"Id", "Nombres", "Apellidos", "Telefono"};
+
+        DefaultTableModel df = new DefaultTableModel(null, titles);
+
+        ArrayList<E_clients> list = businessClient.B_listClients();
+        Iterator i = list.iterator();
+        String rows[] = new String[4];
+
+        while (i.hasNext()) {
+            E_clients client;
+            client = (E_clients) i.next();
+
+            rows[0] = String.valueOf(client.getIdClient());
+            rows[1] = client.getFirstName();
+            rows[2] = client.getLastName();
+            rows[3] = client.getNumberphone();
+
+            df.addRow(rows);
+        }
+
+        tbClient.setModel(df);
+
+        tbClient.getColumnModel().getColumn(0).setMaxWidth(0);
+        tbClient.getColumnModel().getColumn(0).setMinWidth(0);
+        tbClient.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
+        tbClient.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+
+        tbClient.getColumnModel().getColumn(3).setMaxWidth(0);
+        tbClient.getColumnModel().getColumn(3).setMinWidth(0);
+        tbClient.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
+        tbClient.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+    }
+    
+    void filtro(String consulta, JTable jtableBuscar) {
+        model = (DefaultTableModel) jtableBuscar.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(model);
+        jtableBuscar.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(consulta));
     }
 
     /**
@@ -139,6 +266,7 @@ public class V_Sale extends javax.swing.JFrame {
         tbClient = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
         btnSelectClient = new javax.swing.JButton();
+        btnRefreshClients = new javax.swing.JButton();
         btnNewSale = new javax.swing.JButton();
         btnCompleteSale = new javax.swing.JButton();
         btnCancelSale = new javax.swing.JButton();
@@ -151,7 +279,7 @@ public class V_Sale extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnSearchProd = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        txtQuantityU = new javax.swing.JTextField();
+        txtCodeProd = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         lblIdProd = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -163,10 +291,12 @@ public class V_Sale extends javax.swing.JFrame {
         lblPrice = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         pnlOptions = new javax.swing.JPanel();
+        btnUsers1 = new javax.swing.JButton();
         btnUsers = new javax.swing.JButton();
         btnClients = new javax.swing.JButton();
         btnProduct = new javax.swing.JButton();
         btnCategory = new javax.swing.JButton();
+        btnUsers2 = new javax.swing.JButton();
         pnlTableSale = new javax.swing.JPanel();
         txtTotalNeto = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -201,6 +331,11 @@ public class V_Sale extends javax.swing.JFrame {
         pnlCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txtSearchClient.setFont(new java.awt.Font("MADE TOMMY", 0, 14)); // NOI18N
+        txtSearchClient.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchClientKeyReleased(evt);
+            }
+        });
 
         btnAddClient.setFont(new java.awt.Font("MADE TOMMY", 0, 18)); // NOI18N
         btnAddClient.setText("Registrar nuevo cliente");
@@ -224,7 +359,11 @@ public class V_Sale extends javax.swing.JFrame {
                 "ID", "Nombre"
             }
         ));
-        tbClient.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tbClient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbClientMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbClient);
         if (tbClient.getColumnModel().getColumnCount() > 0) {
             tbClient.getColumnModel().getColumn(0).setPreferredWidth(25);
@@ -239,6 +378,22 @@ public class V_Sale extends javax.swing.JFrame {
         btnSelectClient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnSelectClient.setContentAreaFilled(false);
         btnSelectClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnSelectClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectClientActionPerformed(evt);
+            }
+        });
+
+        btnRefreshClients.setFont(new java.awt.Font("MADE TOMMY", 0, 18)); // NOI18N
+        btnRefreshClients.setText("Recargar Clientes");
+        btnRefreshClients.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnRefreshClients.setContentAreaFilled(false);
+        btnRefreshClients.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnRefreshClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshClientsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlClienteLayout = new javax.swing.GroupLayout(pnlCliente);
         pnlCliente.setLayout(pnlClienteLayout);
@@ -247,16 +402,15 @@ public class V_Sale extends javax.swing.JFrame {
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSelectClient, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtSearchClient)
                     .addComponent(btnAddClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlClienteLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSelectClient, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlClienteLayout.createSequentialGroup()
                         .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel16)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnRefreshClients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlClienteLayout.setVerticalGroup(
@@ -264,13 +418,15 @@ public class V_Sale extends javax.swing.JFrame {
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSearchClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSelectClient)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRefreshClients)
+                .addGap(20, 20, 20)
                 .addComponent(btnAddClient)
                 .addContainerGap())
         );
@@ -429,10 +585,18 @@ public class V_Sale extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel3.setText("Producto Seleccionado:");
 
-        txtQuantityU.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
-        txtQuantityU.addActionListener(new java.awt.event.ActionListener() {
+        txtCodeProd.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
+        txtCodeProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQuantityUActionPerformed(evt);
+                txtCodeProdActionPerformed(evt);
+            }
+        });
+        txtCodeProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodeProdKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodeProdKeyTyped(evt);
             }
         });
 
@@ -510,7 +674,7 @@ public class V_Sale extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProdsAddLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(lblSelectedProd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(txtQuantityU, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCodeProd, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProdsAddLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -540,7 +704,7 @@ public class V_Sale extends javax.swing.JFrame {
                 .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlProdsAddLayout.createSequentialGroup()
                         .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtQuantityU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodeProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -569,6 +733,19 @@ public class V_Sale extends javax.swing.JFrame {
         pnlOptions.setBackground(new java.awt.Color(255, 255, 255));
         pnlOptions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlOptions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnUsers1.setBackground(new java.awt.Color(204, 0, 0));
+        btnUsers1.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnUsers1.setForeground(new java.awt.Color(255, 255, 255));
+        btnUsers1.setText("Cerrar Sesión");
+        btnUsers1.setBorder(null);
+        btnUsers1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnUsers1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsers1ActionPerformed(evt);
+            }
+        });
+        pnlOptions.add(btnUsers1, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 0, 160, 30));
 
         btnUsers.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         btnUsers.setText("Administrar Usuarios");
@@ -618,6 +795,19 @@ public class V_Sale extends javax.swing.JFrame {
         });
         pnlOptions.add(btnCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 20));
 
+        btnUsers2.setBackground(new java.awt.Color(204, 0, 0));
+        btnUsers2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnUsers2.setForeground(new java.awt.Color(255, 255, 255));
+        btnUsers2.setText("Cerrar Sesión y Salir");
+        btnUsers2.setBorder(null);
+        btnUsers2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnUsers2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsers2ActionPerformed(evt);
+            }
+        });
+        pnlOptions.add(btnUsers2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 0, 160, 30));
+
         pnlTableSale.setBackground(new java.awt.Color(153, 204, 255));
         pnlTableSale.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -636,6 +826,11 @@ public class V_Sale extends javax.swing.JFrame {
                 "IdProducto", "NombreProducto", "Cantidad", "Precio", "SubTotal"
             }
         ));
+        tbDetailSale.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDetailSaleMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbDetailSale);
 
         jLabel8.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -718,47 +913,77 @@ public class V_Sale extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+int selectedRow;
     private void btnDeleteProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProdActionPerformed
-        // TODO add your handling code here:
+
+        ((DefaultTableModel) tbDetailSale.getModel()).removeRow(selectedRow);
     }//GEN-LAST:event_btnDeleteProdActionPerformed
 
     private void btnNewSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaleActionPerformed
         unblockFields();
         unblockButtons();
         btnNewSale.setEnabled(false);
-        
-          businessSale.B_insertDirectSale();
+        txtCodeProd.requestFocus();
+
+        businessSale.B_insertDirectSale();
         sale = businessSale.B_lastIdSale();
-        
+
         System.out.println("Sale Id: " + sale.getIdSale());
         lblIdSale.setText(String.valueOf(sale.getIdSale()));
     }//GEN-LAST:event_btnNewSaleActionPerformed
 
     private void btnCompleteSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteSaleActionPerformed
-        calcularTotales();
-        completeSale();
-        saveSaleDetail();
+        if (tbDetailSale.getRowCount() > 0) {
+            calcularTotales();
+            if (completeSale() == true) {
+                saveSaleDetail();
+
+                deleteRows(tbDetailSale);
+                lblSearchProductsByDefault();
+                cleanFields();
+                blockFields();
+                blockButtons();
+                btnNewSale.setEnabled(true);
+
+                deleteRows(tbClient);
+                txtSearchClient.setText("");
+                txtSearchClient.setEnabled(false);
+                btnSelectClient.setEnabled(false);
+                btnAddClient.setEnabled(false);
+                tbClient.setEnabled(false);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Agregue productos a la venta!");
+        }
     }//GEN-LAST:event_btnCompleteSaleActionPerformed
 
-      void completeSale() {
-        
+    boolean completeSale() {
         if (rbGenericClient.isSelected()) {
             businessClient.B_insertGenericClient();
-            
+
             client = businessClient.B_lastIdClient();
             System.out.println("Id client: " + client.getIdClient());
+            sale.setIdClient(client);
         }
-        
+
+        if (rbRegisterClient.isSelected()) {
+            if (btnSelectClient.getText().equals("Seleccionado")) {
+                sale.setIdClient(clientSelected);
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe especificar el cliente!");
+                return false;
+            }
+        }
+
         sale.setIdSale(Integer.parseInt(lblIdSale.getText()));
         sale.setTotalNeto(totalPagar);
-        
-        sale.setIdClient(client);
-        
+
         businessSale.B_completeSale(sale);
+
+        return true;
     }
-    
-    void  saveSaleDetail(){
+
+    void saveSaleDetail() {
         int idSale = Integer.parseInt(lblIdSale.getText());
         sale.setIdSale(idSale);
         for (int i = 0; i < tbDetailSale.getRowCount(); i++) {
@@ -766,18 +991,20 @@ public class V_Sale extends javax.swing.JFrame {
             int canti = Integer.parseInt(tbDetailSale.getValueAt(i, 2).toString());
             double subtotal = Double.parseDouble(tbDetailSale.getValueAt(i, 4).toString());
             saleDetail = new E_saleDetail();
-            
+
             saleDetail.setSoldUnits(canti);
             saleDetail.setSubtotal(subtotal);
             saleDetail.setIdSale(sale);
             saleDetail.setIdProduct(product);
-            
+
             businessSaleDetail.B_insertSaleDetail(saleDetail);
         }
-        
+
     }
-    
+
     private void btnCancelSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelSaleActionPerformed
+        deleteRows(tbDetailSale);
+        deleteRows(tbClient);
         cleanFields();
         blockFields();
         blockButtons();
@@ -790,18 +1017,19 @@ public class V_Sale extends javax.swing.JFrame {
 
     private void btnProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductActionPerformed
         V_productsCrud win = new V_productsCrud();
-        
+
         win.setVisible(true);
     }//GEN-LAST:event_btnProductActionPerformed
 
     private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
         V_CategoryCrud win = new V_CategoryCrud(this, true);
-        
+
         win.setVisible(true);
     }//GEN-LAST:event_btnCategoryActionPerformed
 
     private void btnAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClientActionPerformed
         V_addClient win = new V_addClient(new javax.swing.JDialog(), true);
+        win.crudOrSale = 0;
         win.setVisible(true);
     }//GEN-LAST:event_btnAddClientActionPerformed
 
@@ -811,28 +1039,33 @@ public class V_Sale extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchProdActionPerformed
 
     private void btnCancelAddProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAddProdActionPerformed
-        // TODO add your handling code here:
+        btnAddProduct.setEnabled(false);
+        btnCancelAddProd.setEnabled(false);
+        lblSearchProductsByDefault();
     }//GEN-LAST:event_btnCancelAddProdActionPerformed
 
-    private void txtQuantityUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityUActionPerformed
+    private void txtCodeProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeProdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantityUActionPerformed
+    }//GEN-LAST:event_txtCodeProdActionPerformed
 
     private void rbGenericClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbGenericClientMouseClicked
-        if (rbGenericClient.isSelected()) {
-            txtSearchClient.setText("");
-            txtSearchClient.setEnabled(false);
-            btnSelectClient.setEnabled(false);
-            btnAddClient.setEnabled(false);
-        }
+        deleteRows(tbClient);
+        txtSearchClient.setText("");
+        txtSearchClient.setEnabled(false);
+        btnSelectClient.setEnabled(false);
+        btnAddClient.setEnabled(false);
+        tbClient.setEnabled(false);
     }//GEN-LAST:event_rbGenericClientMouseClicked
 
     private void rbRegisterClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbRegisterClientMouseClicked
-        if (rbRegisterClient.isSelected()) {
-            txtSearchClient.setEnabled(true);
-            btnSelectClient.setEnabled(true);
-            btnAddClient.setEnabled(true);
-        }
+        showListClients();
+        pnlCliente.setEnabled(true);
+        tbClient.setEnabled(true);
+        txtSearchClient.setEnabled(true);
+        btnSelectClient.setText("Seleccionar");
+        btnRefreshClients.setEnabled(true);
+        btnAddClient.setEnabled(true);
+
     }//GEN-LAST:event_rbRegisterClientMouseClicked
 
     private void btnClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientsActionPerformed
@@ -846,66 +1079,147 @@ public class V_Sale extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUsersActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
-        double total;
-        model = (DefaultTableModel)tbDetailSale.getModel();
-        //int idP = Integer.parseInt(lblIdProd.getText());
-        //int idC = Integer.parseInt(lblIdSale.getText());
-        //String nombreP = lblSelectedProd.getText();
-        //cantidad = Integer.parseInt(spCantidad.getValue().toString());
-        precio = Double.parseDouble(lblPrice.getText());
-        int stock = Integer.parseInt(lblStock.getText());
-        //String fecha = lblDate.getText();
-        total = 1 * precio;
-        
-        ArrayList lista = new ArrayList();
-        
-        if(stock > 0){
-            lista.add(Integer.parseInt(lblIdProd.getText()));
-            lista.add(lblSelectedProd.getText());
-            lista.add(1);
-            lista.add(Double.parseDouble(lblPrice.getText()));
-            lista.add(total);
-            
-            Object[] ob = new Object[5];
-            
-            ob[0] = lista.get(0);
-            ob[1] = lista.get(1);
-            ob[2] = lista.get(2);
-            ob[3] = lista.get(3);
-            ob[4] = lista.get(4);
+        if (amountDetails(null) == true) {
 
-            model.addRow(ob);
-            tbDetailSale.setModel(model);
-        }else{
-           JOptionPane.showMessageDialog(this, "Stock Producto no disponible"); 
+        } else {
+            double total;
+            model = (DefaultTableModel) tbDetailSale.getModel();
+            precio = Double.parseDouble(lblPrice.getText());
+            int stock = Integer.parseInt(lblStock.getText());
+            total = 1 * precio;
+
+            ArrayList lista = new ArrayList();
+
+            if (stock > 0) {
+                lista.add(Integer.parseInt(lblIdProd.getText()));
+                lista.add(lblSelectedProd.getText());
+                lista.add(1);
+                lista.add(Double.parseDouble(lblPrice.getText()));
+                lista.add(total);
+
+                Object[] ob = new Object[5];
+
+                ob[0] = lista.get(0);
+                ob[1] = lista.get(1);
+                ob[2] = lista.get(2);
+                ob[3] = lista.get(3);
+                ob[4] = lista.get(4);
+
+                model.addRow(ob);
+                tbDetailSale.setModel(model);
+            } else {
+                JOptionPane.showMessageDialog(this, "Stock Producto no disponible");
+            }
+
+            lblSearchProductsByDefault();
+            btnAddProduct.setEnabled(false);
+            btnCancelAddProd.setEnabled(false);
+            calcularTotales();
         }
-        
-        calcularTotales();
-                                           
     }//GEN-LAST:event_btnAddProductActionPerformed
 
-    
-    
-    void calcularTotales(){
-        totalPagar=0;
-        
-        for (int i = 0; i < tbDetailSale.getRowCount(); i++) {
-            cantidad = Integer.parseInt(tbDetailSale.getValueAt(i, 2).toString());
-            precio = Double.parseDouble(tbDetailSale.getValueAt(i, 3).toString());
-            
-            double subTotal = (cantidad * precio);
-            
-            tbDetailSale.setValueAt(subTotal, i, 4);
-            
-            totalPagar = totalPagar + (cantidad * precio);  
+    private void tbDetailSaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDetailSaleMouseClicked
+        selectedRow = tbDetailSale.rowAtPoint(evt.getPoint());
+        btnDeleteProd.setEnabled(true);
+    }//GEN-LAST:event_tbDetailSaleMouseClicked
+
+    private void btnUsers1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsers1ActionPerformed
+        V_loginUsers win = new V_loginUsers();
+        win.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnUsers1ActionPerformed
+
+    private void btnUsers2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsers2ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnUsers2ActionPerformed
+
+    private void txtCodeProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeProdKeyReleased
+        if (evt.getExtendedKeyCode() == evt.VK_ENTER) {
+            if (txtCodeProd.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Ingrese un ID válido!");
+            } else {
+                product = new E_product();
+                int id = Integer.parseInt(txtCodeProd.getText());
+                product.setIdProduct(id);
+                product = businessProducts.B_productSearchById(product);
+
+                if (product == null) {
+                    JOptionPane.showMessageDialog(null, "ID no válido!\nAsegúrese de escribir el ID correctamente!");
+                } else {
+                    if (amountDetails(product) == true) {
+
+                    } else {
+                        double total;
+                        model = (DefaultTableModel) tbDetailSale.getModel();
+                        precio = product.getSalePrice();
+                        int stock = product.getStock();
+                        total = 1 * precio;
+
+                        ArrayList lista = new ArrayList();
+
+                        if (stock > 0) {
+                            lista.add(product.getIdProduct());
+                            lista.add(product.getProductName());
+                            lista.add(1);
+                            lista.add(product.getSalePrice());
+                            lista.add(total);
+
+                            Object[] ob = new Object[5];
+
+                            ob[0] = lista.get(0);
+                            ob[1] = lista.get(1);
+                            ob[2] = lista.get(2);
+                            ob[3] = lista.get(3);
+                            ob[4] = lista.get(4);
+
+                            model.addRow(ob);
+                            tbDetailSale.setModel(model);
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Stock Producto no disponible");
+                        }
+
+                        lblSearchProductsByDefault();
+                        calcularTotales();
+                    }
+                }
+
+                txtCodeProd.setText("");
+            }
+
         }
-        
-        txtTotalNeto.setText("" + totalPagar);
-        
-    }
-    
+    }//GEN-LAST:event_txtCodeProdKeyReleased
+
+    private void txtCodeProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeProdKeyTyped
+        char caracter = evt.getKeyChar();
+
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCodeProdKeyTyped
+
+    int selectedRowClient;
+    E_clients clientSelected;
+    private void tbClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClientMouseClicked
+        btnSelectClient.setEnabled(true);
+        clientSelected = new E_clients();
+        selectedRowClient = tbClient.rowAtPoint(evt.getPoint());
+    }//GEN-LAST:event_tbClientMouseClicked
+
+    private void btnSelectClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectClientActionPerformed
+        btnSelectClient.setText("Seleccionado");
+        clientSelected.setIdClient(Integer.parseInt(tbClient.getValueAt(selectedRowClient, 0).toString()));
+    }//GEN-LAST:event_btnSelectClientActionPerformed
+
+    private void btnRefreshClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshClientsActionPerformed
+        showListClients();
+    }//GEN-LAST:event_btnRefreshClientsActionPerformed
+
+    private void txtSearchClientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchClientKeyReleased
+        filtro(txtSearchClient.getText(), tbClient);
+    }//GEN-LAST:event_txtSearchClientKeyReleased
+
     /*  MAIN METHOD  */
-    
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -943,19 +1257,22 @@ public class V_Sale extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddClient;
-    private javax.swing.JButton btnAddProduct;
-    private javax.swing.JButton btnCancelAddProd;
+    public static javax.swing.JButton btnAddProduct;
+    public static javax.swing.JButton btnCancelAddProd;
     private javax.swing.JButton btnCancelSale;
     private javax.swing.JButton btnCategory;
     private javax.swing.JButton btnClients;
     private javax.swing.JButton btnCompleteSale;
-    private javax.swing.JButton btnDeleteProd;
+    public static javax.swing.JButton btnDeleteProd;
     private javax.swing.JButton btnNewSale;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnProduct;
+    public static javax.swing.JButton btnRefreshClients;
     private javax.swing.JButton btnSearchProd;
     private javax.swing.JButton btnSelectClient;
     private javax.swing.JButton btnUsers;
+    private javax.swing.JButton btnUsers1;
+    private javax.swing.JButton btnUsers2;
     private javax.swing.ButtonGroup btngTypeClient;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -988,7 +1305,7 @@ public class V_Sale extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbRegisterClient;
     private javax.swing.JTable tbClient;
     private javax.swing.JTable tbDetailSale;
-    private javax.swing.JTextField txtQuantityU;
+    private javax.swing.JTextField txtCodeProd;
     private javax.swing.JTextField txtSearchClient;
     private javax.swing.JTextField txtTotalNeto;
     // End of variables declaration//GEN-END:variables

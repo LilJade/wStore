@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
  */
 public class V_addClient extends javax.swing.JDialog {
 
+    int crudOrSale;
     int x, y;
     E_clients client = new E_clients();
     B_clients business = new B_clients();
@@ -249,7 +250,14 @@ public class V_addClient extends javax.swing.JDialog {
                 client.setNumberphone(txtPhone.getText());
 
                 business.B_insertClient(client);
-                V_clientCrud.btnRefresh.doClick();
+                
+                if (crudOrSale == 1) {
+                    V_clientCrud.btnRefresh.doClick();
+                }
+                
+                if (crudOrSale == 0) {
+                    V_Sale.btnRefreshClients.doClick();
+                }
 
                 this.dispose();
 

@@ -1,7 +1,9 @@
 package business;
 
 import data.D_products;
+import entities.E_product;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,6 +25,15 @@ public class B_products {
         }
         
         return list;
+    }
+    
+    public E_product B_productSearchById(E_product product) {
+        product = data.searchProductById(product);
+        if (product != null) {
+            return product;
+        }
+
+        return null;
     }
     
 }

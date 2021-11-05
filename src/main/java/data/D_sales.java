@@ -80,7 +80,6 @@ public class D_sales {
             ps.executeUpdate();
             
             System.out.println("Sale updated...");   
-            JOptionPane.showMessageDialog(null, "Venta realizada con exito weiii XD");
         } catch (SQLException e) {
             System.out.println("Error al intentar actualizar el registro del usuario: " + e.getMessage());
         }

@@ -32,4 +32,13 @@ public class B_sale {
         return true;
     }
     
+    public E_sale B_confirmPreviousSale() {
+        E_sale sale = data.confirmPreviousSale();
+        if(sale != null) {
+            return sale;
+        }
+        
+        return null;
+    }
+    
 }

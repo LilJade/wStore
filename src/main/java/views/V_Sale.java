@@ -55,6 +55,7 @@ public class V_Sale extends javax.swing.JFrame {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         lblDate.setText(dtf.format(LocalDateTime.now()));
+
     }
 
     //Recibe y carga la informacion del producto buscado
@@ -71,6 +72,7 @@ public class V_Sale extends javax.swing.JFrame {
     }
 
     void cleanFields() {
+        lblIdSale.setText("");
         lblSelectedProd.setText("");
         txtCodeProd.setText("");
         lblPrice.setText("");
@@ -122,9 +124,6 @@ public class V_Sale extends javax.swing.JFrame {
 
     void unblockButtons() {
         btnSearchProd.setEnabled(true);
-//        btnAddProduct.setEnabled(true);
-//        btnCancelAddProd.setEnabled(true);
-//        btnDeleteProd.setEnabled(true);
 
         btnCompleteSale.setEnabled(true);
         btnPrint.setEnabled(true);
@@ -132,6 +131,7 @@ public class V_Sale extends javax.swing.JFrame {
     }
 
     void lblSearchProductsByDefault() {
+        lblMaxStock.setText("");
         lblSelectedProd.setText("");
         lblPrice.setText("");
         lblStock.setText("");
@@ -166,13 +166,24 @@ public class V_Sale extends javax.swing.JFrame {
             for (int i = 0; i < tbDetailSale.getRowCount(); i++) {
 
                 if (lblIdProd.getText().equals(String.valueOf(tbDetailSale.getValueAt(i, 0)))) {
+
                     int cantidad = Integer.parseInt(String.valueOf(tbDetailSale.getValueAt(i, 2)));
                     cantidad = cantidad + 1;
 
-                    tbDetailSale.setValueAt(cantidad, i, 2);
+                    int ultimaCantidad = Integer.parseInt(String.valueOf(tbDetailSale.getValueAt(i, 2)));
+                    System.out.println("Last amount valid: " + ultimaCantidad);
+                    if (cantidad > Integer.parseInt(String.valueOf(tbDetailSale.getValueAt(i, 5)))) {
+                        JOptionPane.showMessageDialog(null, "Ya no quedan mas productos para esta venta!");
 
-                    calcularTotales();
-                    return true;
+                        tbDetailSale.setValueAt(ultimaCantidad, i, 2);
+                        
+                        return false;
+                    } else {
+                        tbDetailSale.setValueAt(cantidad, i, 2);
+
+                        calcularTotales();
+                        return true;
+                    }
                 }
             }
 
@@ -184,10 +195,20 @@ public class V_Sale extends javax.swing.JFrame {
                     int cantidad = Integer.parseInt(String.valueOf(tbDetailSale.getValueAt(i, 2)));
                     cantidad = cantidad + 1;
 
-                    tbDetailSale.setValueAt(cantidad, i, 2);
+                    int ultimaCantidad = Integer.parseInt(String.valueOf(tbDetailSale.getValueAt(i, 2)));
+                    System.out.println("Last amount valid: " + ultimaCantidad);
+                    if (cantidad > Integer.parseInt(String.valueOf(tbDetailSale.getValueAt(i, 5)))) {
+                        JOptionPane.showMessageDialog(null, "Ya no quedan mas productos para esta venta!");
 
-                    calcularTotales();
-                    return true;
+                        tbDetailSale.setValueAt(ultimaCantidad, i, 2);
+                        
+                        return true;
+                    } else {
+                        tbDetailSale.setValueAt(cantidad, i, 2);
+
+                        calcularTotales();
+                        return true;
+                    }
                 }
             }
 
@@ -236,7 +257,7 @@ public class V_Sale extends javax.swing.JFrame {
         tbClient.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
         tbClient.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
     }
-    
+
     void filtro(String consulta, JTable jtableBuscar) {
         model = (DefaultTableModel) jtableBuscar.getModel();
         TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(model);
@@ -305,6 +326,8 @@ public class V_Sale extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         btnDeleteProd = new javax.swing.JButton();
         lblArtSale = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        lblMaxStock = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -823,12 +846,17 @@ public class V_Sale extends javax.swing.JFrame {
 
             },
             new String [] {
-                "IdProducto", "NombreProducto", "Cantidad", "Precio", "SubTotal"
+                "IdProducto", "NombreProducto", "Cantidad", "Precio", "SubTotal", "Stock"
             }
         ));
         tbDetailSale.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbDetailSaleMouseClicked(evt);
+            }
+        });
+        tbDetailSale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbDetailSaleKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tbDetailSale);
@@ -850,8 +878,14 @@ public class V_Sale extends javax.swing.JFrame {
 
         lblArtSale.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblArtSale.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblArtSale.setText("11111001111");
         lblArtSale.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel9.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        jLabel9.setText("Stock: ");
+
+        lblMaxStock.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        lblMaxStock.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMaxStock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout pnlTableSaleLayout = new javax.swing.GroupLayout(pnlTableSale);
         pnlTableSale.setLayout(pnlTableSaleLayout);
@@ -861,11 +895,15 @@ public class V_Sale extends javax.swing.JFrame {
             .addGroup(pnlTableSaleLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnDeleteProd, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(235, 235, 235)
-                .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblMaxStock, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblArtSale, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTotalNeto)
@@ -874,14 +912,16 @@ public class V_Sale extends javax.swing.JFrame {
         pnlTableSaleLayout.setVerticalGroup(
             pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTableSaleLayout.createSequentialGroup()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtTotalNeto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
-                        .addComponent(jLabel8)
-                        .addComponent(lblArtSale, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblArtSale, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9)
+                        .addComponent(lblMaxStock, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8))
                     .addComponent(btnDeleteProd, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -920,16 +960,27 @@ int selectedRow;
     }//GEN-LAST:event_btnDeleteProdActionPerformed
 
     private void btnNewSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSaleActionPerformed
-        unblockFields();
-        unblockButtons();
-        btnNewSale.setEnabled(false);
-        txtCodeProd.requestFocus();
+        if (businessSale.B_confirmPreviousSale() != null) {
+            unblockFields();
+            unblockButtons();
+            btnNewSale.setEnabled(false);
+            txtCodeProd.requestFocus();
 
-        businessSale.B_insertDirectSale();
-        sale = businessSale.B_lastIdSale();
+            sale = businessSale.B_lastIdSale();
+            System.out.println("Sale Id: " + sale.getIdSale());
+            lblIdSale.setText(String.valueOf(sale.getIdSale()));
+        } else {
+            unblockFields();
+            unblockButtons();
+            btnNewSale.setEnabled(false);
+            txtCodeProd.requestFocus();
 
-        System.out.println("Sale Id: " + sale.getIdSale());
-        lblIdSale.setText(String.valueOf(sale.getIdSale()));
+            businessSale.B_insertDirectSale();
+            sale = businessSale.B_lastIdSale();
+
+            System.out.println("Sale Id: " + sale.getIdSale());
+            lblIdSale.setText(String.valueOf(sale.getIdSale()));
+        }
     }//GEN-LAST:event_btnNewSaleActionPerformed
 
     private void btnCompleteSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteSaleActionPerformed
@@ -1084,6 +1135,19 @@ int selectedRow;
         } else {
             double total;
             model = (DefaultTableModel) tbDetailSale.getModel();
+            String titulos[] = {"IdProducto", "NombreProducto", "Cantidad", "Precio", "SubTotal", "Stock"};
+            DefaultTableModel df = new DefaultTableModel(null, titulos) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    if (column == 2) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            };
+
+            model = df;
             precio = Double.parseDouble(lblPrice.getText());
             int stock = Integer.parseInt(lblStock.getText());
             total = 1 * precio;
@@ -1096,17 +1160,24 @@ int selectedRow;
                 lista.add(1);
                 lista.add(Double.parseDouble(lblPrice.getText()));
                 lista.add(total);
+                lista.add(stock);
 
-                Object[] ob = new Object[5];
+                Object[] ob = new Object[6];
 
                 ob[0] = lista.get(0);
                 ob[1] = lista.get(1);
                 ob[2] = lista.get(2);
                 ob[3] = lista.get(3);
                 ob[4] = lista.get(4);
+                ob[5] = lista.get(5);
 
                 model.addRow(ob);
                 tbDetailSale.setModel(model);
+
+                tbDetailSale.getColumnModel().getColumn(5).setMaxWidth(0);
+                tbDetailSale.getColumnModel().getColumn(5).setMinWidth(0);
+                tbDetailSale.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(0);
+                tbDetailSale.getTableHeader().getColumnModel().getColumn(5).setMinWidth(0);
             } else {
                 JOptionPane.showMessageDialog(this, "Stock Producto no disponible");
             }
@@ -1117,9 +1188,12 @@ int selectedRow;
             calcularTotales();
         }
     }//GEN-LAST:event_btnAddProductActionPerformed
-
+    int originalAmount;
     private void tbDetailSaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDetailSaleMouseClicked
         selectedRow = tbDetailSale.rowAtPoint(evt.getPoint());
+        lblMaxStock.setText(String.valueOf(tbDetailSale.getValueAt(selectedRow, 5)));
+        originalAmount = Integer.parseInt(tbDetailSale.getValueAt(selectedRow, 2).toString());
+        System.out.println("Amount: " + originalAmount);
         btnDeleteProd.setEnabled(true);
     }//GEN-LAST:event_tbDetailSaleMouseClicked
 
@@ -1152,6 +1226,19 @@ int selectedRow;
                     } else {
                         double total;
                         model = (DefaultTableModel) tbDetailSale.getModel();
+                        String titulos[] = {"IdProducto", "NombreProducto", "Cantidad", "Precio", "SubTotal", "Stock"};
+                        DefaultTableModel df = new DefaultTableModel(null, titulos) {
+                            @Override
+                            public boolean isCellEditable(int row, int column) {
+                                if (column == 2) {
+                                    return true;
+                                }
+
+                                return false;
+                            }
+                        };
+
+                        model = df;
                         precio = product.getSalePrice();
                         int stock = product.getStock();
                         total = 1 * precio;
@@ -1164,17 +1251,24 @@ int selectedRow;
                             lista.add(1);
                             lista.add(product.getSalePrice());
                             lista.add(total);
+                            lista.add(stock);
 
-                            Object[] ob = new Object[5];
+                            Object[] ob = new Object[6];
 
                             ob[0] = lista.get(0);
                             ob[1] = lista.get(1);
                             ob[2] = lista.get(2);
                             ob[3] = lista.get(3);
                             ob[4] = lista.get(4);
+                            ob[5] = lista.get(5);
 
                             model.addRow(ob);
                             tbDetailSale.setModel(model);
+
+                            tbDetailSale.getColumnModel().getColumn(5).setMaxWidth(0);
+                            tbDetailSale.getColumnModel().getColumn(5).setMinWidth(0);
+                            tbDetailSale.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(0);
+                            tbDetailSale.getTableHeader().getColumnModel().getColumn(5).setMinWidth(0);
                         } else {
                             JOptionPane.showMessageDialog(this, "Stock Producto no disponible");
                         }
@@ -1219,7 +1313,21 @@ int selectedRow;
         filtro(txtSearchClient.getText(), tbClient);
     }//GEN-LAST:event_txtSearchClientKeyReleased
 
+    private void tbDetailSaleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetailSaleKeyReleased
+        int amount = Integer.parseInt(tbDetailSale.getValueAt(selectedRow, 2).toString());
+        int limitAmount = Integer.parseInt(lblMaxStock.getText());
+
+        if (amount > limitAmount) {
+            JOptionPane.showMessageDialog(null, "La cantidad sobrepasa el inventario!");
+            System.out.println("Amount before: " + amount);
+            tbDetailSale.setValueAt(originalAmount, selectedRow, 2);
+        } else {
+            calcularTotales();
+        }
+    }//GEN-LAST:event_tbDetailSaleKeyReleased
+
     /*  MAIN METHOD  */
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -1286,6 +1394,7 @@ int selectedRow;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblArtSale;
@@ -1293,6 +1402,7 @@ int selectedRow;
     private static javax.swing.JLabel lblIdProd;
     private javax.swing.JLabel lblIdSale;
     private javax.swing.JLabel lblLogoWStore;
+    private javax.swing.JLabel lblMaxStock;
     public static javax.swing.JLabel lblPrice;
     public static javax.swing.JLabel lblSelectedProd;
     public static javax.swing.JLabel lblStock;

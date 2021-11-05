@@ -68,7 +68,7 @@ public class D_products {
                 product.setInitialPrice(rs.getDouble("initialPrice"));
                 product.setSalePrice(rs.getDouble("salePrice"));
                 product.setStock(rs.getInt("stock"));
-                
+
                 return product;
             }
 
@@ -76,5 +76,24 @@ public class D_products {
             System.out.println("Error al buscar producto por ID" + e);
         }
         return null;
+    }
+
+    public boolean subtractStock(E_product product, int amount) {
+        Connection con = db.connectDB();
+        PreparedStatement ps;
+        product = searchProductById(product);
+
+        int newStock = product.getStock() - amount;
+        System.out.println("Stock: " + product.getStock() + "\nVendido: " + amount + "\nNuevo Stock: " + newStock);
+        
+        try {
+            ps = con.prepareStatement("update product set stock=? WHERE idProduct=?");
+            ps.setInt(1, newStock);
+            ps.setInt(2, product.getIdProduct());
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println("Error al restar la cantidad del stock del producto: " + e.getMessage());
+        }
+        return false;
     }
 }

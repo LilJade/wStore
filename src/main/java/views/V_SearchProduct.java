@@ -7,17 +7,23 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author LilJade
  */
 public class V_SearchProduct extends javax.swing.JDialog {
-    
-     B_products business = new B_products();
 
-    int x,y;
+    B_products business = new B_products();
+
+    DefaultTableModel dfm = new DefaultTableModel();
+
+    int x, y;
+
     /**
      * Creates new form V_SearchProduct
      */
@@ -25,24 +31,28 @@ public class V_SearchProduct extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         showListProducts();
     }
-    
-    
-     void showListProducts() {
+
+    void showListProducts() {
         String titles[] = {"Id", "Nombre", "Cantidad por Paquete", "Precio Inicial", "Precio Venta", "Stock", "Imagen", "Categoria"};
-        
-        DefaultTableModel df = new DefaultTableModel(null, titles);
-        
+
+        DefaultTableModel df = new DefaultTableModel(null, titles) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         ArrayList<E_product> list = business.B_listProducts();
         Iterator i = list.iterator();
         String rows[] = new String[8];
-        
-        while (i.hasNext()) {            
+
+        while (i.hasNext()) {
             E_product product;
-            product= (E_product) i.next();
-            
+            product = (E_product) i.next();
+
             rows[0] = String.valueOf(product.getIdProduct());
             rows[1] = product.getProductName();
             rows[2] = String.valueOf(product.getQuantityPerProduct());
@@ -51,32 +61,38 @@ public class V_SearchProduct extends javax.swing.JDialog {
             rows[5] = String.valueOf(product.getStock());
             rows[6] = String.valueOf(product.getImage());
             rows[7] = String.valueOf(product.getIdCategory());
-            
-            
+
             df.addRow(rows);
         }
-        
+
         tbResultProd.setModel(df);
-        
+
         tbResultProd.getColumnModel().getColumn(0).setMaxWidth(75);
         tbResultProd.getColumnModel().getColumn(0).setMinWidth(75);
         tbResultProd.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(75);
         tbResultProd.getTableHeader().getColumnModel().getColumn(0).setMinWidth(75);
-        
+
         tbResultProd.getColumnModel().getColumn(3).setMaxWidth(0);
         tbResultProd.getColumnModel().getColumn(3).setMinWidth(0);
         tbResultProd.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
         tbResultProd.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
-        
+
         tbResultProd.getColumnModel().getColumn(6).setMaxWidth(0);
         tbResultProd.getColumnModel().getColumn(6).setMinWidth(0);
         tbResultProd.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
         tbResultProd.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
-        
+
         tbResultProd.getColumnModel().getColumn(7).setMaxWidth(0);
         tbResultProd.getColumnModel().getColumn(7).setMinWidth(0);
         tbResultProd.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
         tbResultProd.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
+    }
+
+    void filtro(String consulta, JTable jtableBuscar) {
+        dfm = (DefaultTableModel) jtableBuscar.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dfm);
+        jtableBuscar.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(consulta));
     }
 
     /**
@@ -88,19 +104,14 @@ public class V_SearchProduct extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnGroupSearchBy = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         lblTitleToMove = new javax.swing.JLabel();
         btnCancel = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtSearchProdBar = new javax.swing.JTextField();
-        rdNameProd = new javax.swing.JRadioButton();
-        rdIdProd = new javax.swing.JRadioButton();
-        rdCategoryProd = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbResultProd = new javax.swing.JTable();
-        cmbCategories = new javax.swing.JComboBox<>();
         btnSelectProd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -157,7 +168,7 @@ public class V_SearchProduct extends javax.swing.JDialog {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel2.setText("Buscar por: ");
+        jLabel2.setText("Puede buscar el producto por nombre o Id*");
 
         txtSearchProdBar.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         txtSearchProdBar.addActionListener(new java.awt.event.ActionListener() {
@@ -165,18 +176,11 @@ public class V_SearchProduct extends javax.swing.JDialog {
                 txtSearchProdBarActionPerformed(evt);
             }
         });
-
-        btnGroupSearchBy.add(rdNameProd);
-        rdNameProd.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        rdNameProd.setText("Nombre");
-
-        btnGroupSearchBy.add(rdIdProd);
-        rdIdProd.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        rdIdProd.setText("ID");
-
-        btnGroupSearchBy.add(rdCategoryProd);
-        rdCategoryProd.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        rdCategoryProd.setText("Categoría");
+        txtSearchProdBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchProdBarKeyReleased(evt);
+            }
+        });
 
         tbResultProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -190,8 +194,6 @@ public class V_SearchProduct extends javax.swing.JDialog {
             }
         ));
         jScrollPane1.setViewportView(tbResultProd);
-
-        cmbCategories.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnSelectProd.setBackground(new java.awt.Color(51, 0, 204));
         btnSelectProd.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
@@ -215,15 +217,8 @@ public class V_SearchProduct extends javax.swing.JDialog {
                     .addComponent(txtSearchProdBar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(rdNameProd)
-                        .addGap(18, 18, 18)
-                        .addComponent(rdIdProd)
-                        .addGap(18, 18, 18)
-                        .addComponent(rdCategoryProd)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbCategories, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
                     .addComponent(btnSelectProd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -233,15 +228,10 @@ public class V_SearchProduct extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(txtSearchProdBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(rdNameProd)
-                    .addComponent(rdIdProd)
-                    .addComponent(rdCategoryProd)
-                    .addComponent(cmbCategories, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(btnSelectProd, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -265,40 +255,37 @@ public class V_SearchProduct extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSelectProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectProdActionPerformed
-      
-          //Objeto para enviar los datos del producto
+        //Objeto para enviar los datos del producto
         E_product product = new E_product();
-        
-        if(tbResultProd.getSelectedRow()>=0){
-          
-          try {
-              DefaultTableModel enviar = ( DefaultTableModel)tbResultProd.getModel();
-            
-              int idProduct = Integer.parseInt(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(),0)));
-              String nombre = String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(),1));
-              double precioVenta = Double.parseDouble(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(),4)));
-              int stock = Integer.parseInt(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(),5)));
-              
-              //Se pasan los datos de la tabla al objeto
-              product.setIdProduct(idProduct);
-              product.setProductName(nombre);
-              product.setSalePrice(precioVenta);
-              product.setStock(stock);
-                
-              //Se envian al form V_Sale
-              V_Sale.reciveProductData(product);
-           
-              System.out.println(product);
-          } catch (Exception e) {
-              JOptionPane.showMessageDialog(this, "No se ha podido cargar ningun dato" );
-          }          
-        }else{
-            JOptionPane.showMessageDialog(this, "DEBE SELECCIONAR ALMENOS UN PRODUCTO","", JOptionPane.WARNING_MESSAGE);
+
+        if (tbResultProd.getSelectedRowCount() == 1) {
+            try {
+                DefaultTableModel enviar = (DefaultTableModel) tbResultProd.getModel();
+
+                int idProduct = Integer.parseInt(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 0)));
+                String nombre = String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 1));
+                double precioVenta = Double.parseDouble(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 4)));
+                int stock = Integer.parseInt(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 5)));
+
+                //Se pasan los datos de la tabla al objeto
+                product.setIdProduct(idProduct);
+                product.setProductName(nombre);
+                product.setSalePrice(precioVenta);
+                product.setStock(stock);
+
+                //Se envian al form V_Sale
+                V_Sale.reciveProductData(product);
+
+                System.out.println(product);
+
+                //Se cierra el form V_SearchProduct
+                this.dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "No se ha podido cargar ningun dato");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "DEBE SELECCIONAR UN PRODUCTO", "", JOptionPane.WARNING_MESSAGE);
         }
-    
-        //Se cierra el form V_SearchProduct
-        this.dispose();
-                                                
     }//GEN-LAST:event_btnSelectProdActionPerformed
 
     private void txtSearchProdBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchProdBarActionPerformed
@@ -318,6 +305,10 @@ public class V_SearchProduct extends javax.swing.JDialog {
         Point p = MouseInfo.getPointerInfo().getLocation();
         setLocation(p.x - x, p.y - y);
     }//GEN-LAST:event_lblTitleToMoveMouseDragged
+
+    private void txtSearchProdBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchProdBarKeyReleased
+        filtro(txtSearchProdBar.getText(), tbResultProd);
+    }//GEN-LAST:event_txtSearchProdBarKeyReleased
 
 //    /**
 //     * @param args the command line arguments
@@ -363,17 +354,12 @@ public class V_SearchProduct extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
-    private javax.swing.ButtonGroup btnGroupSearchBy;
     private javax.swing.JButton btnSelectProd;
-    private javax.swing.JComboBox<String> cmbCategories;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitleToMove;
-    private javax.swing.JRadioButton rdCategoryProd;
-    private javax.swing.JRadioButton rdIdProd;
-    private javax.swing.JRadioButton rdNameProd;
     private javax.swing.JTable tbResultProd;
     private javax.swing.JTextField txtSearchProdBar;
     // End of variables declaration//GEN-END:variables

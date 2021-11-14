@@ -68,6 +68,11 @@ public class V_Reportes extends javax.swing.JFrame {
         btnReportVenta.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnReportVenta.setForeground(new java.awt.Color(0, 153, 153));
         btnReportVenta.setText("Ventas");
+        btnReportVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportVentaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -140,6 +145,31 @@ public class V_Reportes extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnReportProductActionPerformed
+
+    private void btnReportVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportVentaActionPerformed
+         try {
+            db_connection db= new db_connection();
+            
+            Connection con = db.connectDB();
+            
+            JasperReport rp = null;
+            
+            String path="src\\main\\java\\reportes\\reportSale.jasper";
+            
+            rp = (JasperReport) JRLoader.loadObjectFromFile(path);
+            
+            
+            
+            JasperPrint jprint = JasperFillManager.fillReport(rp, null, con);
+            JasperViewer view = new JasperViewer(jprint, false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+                    
+                    } catch (JRException ex) {
+            Logger.getLogger(V_Sale.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnReportVentaActionPerformed
 
     /**
      * @param args the command line arguments

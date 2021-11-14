@@ -318,6 +318,7 @@ public class V_Sale extends javax.swing.JFrame {
         btnProduct = new javax.swing.JButton();
         btnCategory = new javax.swing.JButton();
         btnUsers2 = new javax.swing.JButton();
+        btnReportes = new javax.swing.JButton();
         pnlTableSale = new javax.swing.JPanel();
         txtTotalNeto = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -831,6 +832,18 @@ public class V_Sale extends javax.swing.JFrame {
         });
         pnlOptions.add(btnUsers2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 0, 160, 30));
 
+        btnReportes.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnReportes.setText("Ver Reportes");
+        btnReportes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnReportes.setContentAreaFilled(false);
+        btnReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
+        pnlOptions.add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 10, 160, 20));
+
         pnlTableSale.setBackground(new java.awt.Color(153, 204, 255));
         pnlTableSale.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -915,13 +928,13 @@ public class V_Sale extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblArtSale, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
                     .addGroup(pnlTableSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtTotalNeto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
-                        .addComponent(lblArtSale, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9)
-                        .addComponent(lblMaxStock, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel8))
+                        .addComponent(lblMaxStock, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnDeleteProd, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -1326,6 +1339,12 @@ int selectedRow;
         }
     }//GEN-LAST:event_tbDetailSaleKeyReleased
 
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+       V_Reportes re = new V_Reportes();
+       re.setVisible(true);
+       
+    }//GEN-LAST:event_btnReportesActionPerformed
+
     /*  MAIN METHOD  */
 
 //    /**
@@ -1376,6 +1395,7 @@ int selectedRow;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnProduct;
     public static javax.swing.JButton btnRefreshClients;
+    private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnSearchProd;
     private javax.swing.JButton btnSelectClient;
     private javax.swing.JButton btnUsers;

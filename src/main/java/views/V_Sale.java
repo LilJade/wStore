@@ -1,9 +1,6 @@
 package views;
-
-import business.B_clients;
 import business.B_sale;
 import business.B_saleDetail;
-import entities.E_clients;
 import entities.E_product;
 import business.B_products;
 import entities.E_sale;
@@ -11,7 +8,6 @@ import entities.E_saleDetail;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -32,9 +28,6 @@ public class V_Sale extends javax.swing.JFrame {
 
     E_sale sale = new E_sale();
     B_sale businessSale = new B_sale();
-
-    E_clients client = new E_clients();
-    B_clients businessClient = new B_clients();
 
     DefaultTableModel model = new DefaultTableModel();
 
@@ -81,30 +74,18 @@ public class V_Sale extends javax.swing.JFrame {
         lblArtSale.setText("");
         txtTotalNeto.setText("");
 
-        txtSearchClient.setText("");
-        btnSelectClient.setText("Seleccionar");
     }
 
     void blockFields() {
         txtCodeProd.setEnabled(false);
         tbDetailSale.setEnabled(false);
         txtTotalNeto.setEnabled(false);
-
-        txtSearchClient.setEnabled(false);
-        tbClient.setEnabled(false);
-
-        rbGenericClient.setEnabled(false);
-        rbRegisterClient.setEnabled(false);
-        rbGenericClient.setSelected(true);
     }
 
     void unblockFields() {
         txtCodeProd.setEnabled(true);
         tbDetailSale.setEnabled(true);
         txtTotalNeto.setEnabled(true);
-
-        rbGenericClient.setEnabled(true);
-        rbRegisterClient.setEnabled(true);
     }
 
     void blockButtons() {
@@ -112,10 +93,6 @@ public class V_Sale extends javax.swing.JFrame {
         btnAddProduct.setEnabled(false);
         btnCancelAddProd.setEnabled(false);
         btnDeleteProd.setEnabled(false);
-
-        btnSelectClient.setEnabled(false);
-        btnRefreshClients.setEnabled(false);
-        btnAddClient.setEnabled(false);
 
         btnCompleteSale.setEnabled(false);
         btnPrint.setEnabled(false);
@@ -224,40 +201,6 @@ public class V_Sale extends javax.swing.JFrame {
         }
     }
 
-    public void showListClients() {
-        String titles[] = {"Id", "Nombres", "Apellidos", "Telefono"};
-
-        DefaultTableModel df = new DefaultTableModel(null, titles);
-
-        ArrayList<E_clients> list = businessClient.B_listClients();
-        Iterator i = list.iterator();
-        String rows[] = new String[4];
-
-        while (i.hasNext()) {
-            E_clients client;
-            client = (E_clients) i.next();
-
-            rows[0] = String.valueOf(client.getIdClient());
-            rows[1] = client.getFirstName();
-            rows[2] = client.getLastName();
-            rows[3] = client.getNumberphone();
-
-            df.addRow(rows);
-        }
-
-        tbClient.setModel(df);
-
-        tbClient.getColumnModel().getColumn(0).setMaxWidth(0);
-        tbClient.getColumnModel().getColumn(0).setMinWidth(0);
-        tbClient.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
-        tbClient.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
-
-        tbClient.getColumnModel().getColumn(3).setMaxWidth(0);
-        tbClient.getColumnModel().getColumn(3).setMinWidth(0);
-        tbClient.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
-        tbClient.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
-    }
-
     void filtro(String consulta, JTable jtableBuscar) {
         model = (DefaultTableModel) jtableBuscar.getModel();
         TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(model);
@@ -280,21 +223,10 @@ public class V_Sale extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
-        pnlCliente = new javax.swing.JPanel();
-        txtSearchClient = new javax.swing.JTextField();
-        btnAddClient = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbClient = new javax.swing.JTable();
-        jLabel16 = new javax.swing.JLabel();
-        btnSelectClient = new javax.swing.JButton();
-        btnRefreshClients = new javax.swing.JButton();
         btnNewSale = new javax.swing.JButton();
         btnCompleteSale = new javax.swing.JButton();
         btnCancelSale = new javax.swing.JButton();
         btnPrint = new javax.swing.JButton();
-        rbGenericClient = new javax.swing.JRadioButton();
-        rbRegisterClient = new javax.swing.JRadioButton();
-        jLabel17 = new javax.swing.JLabel();
         pnlProdsAdd = new javax.swing.JPanel();
         lblLogoWStore = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -314,7 +246,6 @@ public class V_Sale extends javax.swing.JFrame {
         pnlOptions = new javax.swing.JPanel();
         btnUsers1 = new javax.swing.JButton();
         btnUsers = new javax.swing.JButton();
-        btnClients = new javax.swing.JButton();
         btnProduct = new javax.swing.JButton();
         btnCategory = new javax.swing.JButton();
         btnUsers2 = new javax.swing.JButton();
@@ -350,110 +281,6 @@ public class V_Sale extends javax.swing.JFrame {
         lblDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDate.setText("31 / 12 / 9999");
         lblDate.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        pnlCliente.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        txtSearchClient.setFont(new java.awt.Font("MADE TOMMY", 0, 14)); // NOI18N
-        txtSearchClient.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchClientKeyReleased(evt);
-            }
-        });
-
-        btnAddClient.setFont(new java.awt.Font("MADE TOMMY", 0, 18)); // NOI18N
-        btnAddClient.setText("Registrar nuevo cliente");
-        btnAddClient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnAddClient.setContentAreaFilled(false);
-        btnAddClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnAddClient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddClientActionPerformed(evt);
-            }
-        });
-
-        tbClient.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "ID", "Nombre"
-            }
-        ));
-        tbClient.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbClientMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tbClient);
-        if (tbClient.getColumnModel().getColumnCount() > 0) {
-            tbClient.getColumnModel().getColumn(0).setPreferredWidth(25);
-            tbClient.getColumnModel().getColumn(1).setPreferredWidth(195);
-        }
-
-        jLabel16.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel16.setText("Buscar Cliente:");
-
-        btnSelectClient.setFont(new java.awt.Font("MADE TOMMY", 0, 18)); // NOI18N
-        btnSelectClient.setText("Seleccionar");
-        btnSelectClient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnSelectClient.setContentAreaFilled(false);
-        btnSelectClient.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnSelectClient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelectClientActionPerformed(evt);
-            }
-        });
-
-        btnRefreshClients.setFont(new java.awt.Font("MADE TOMMY", 0, 18)); // NOI18N
-        btnRefreshClients.setText("Recargar Clientes");
-        btnRefreshClients.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnRefreshClients.setContentAreaFilled(false);
-        btnRefreshClients.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnRefreshClients.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshClientsActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlClienteLayout = new javax.swing.GroupLayout(pnlCliente);
-        pnlCliente.setLayout(pnlClienteLayout);
-        pnlClienteLayout.setHorizontalGroup(
-            pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlClienteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSelectClient, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtSearchClient)
-                    .addComponent(btnAddClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnlClienteLayout.createSequentialGroup()
-                        .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnRefreshClients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        pnlClienteLayout.setVerticalGroup(
-            pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlClienteLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSearchClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSelectClient)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRefreshClients)
-                .addGap(20, 20, 20)
-                .addComponent(btnAddClient)
-                .addContainerGap())
-        );
 
         btnNewSale.setBackground(new java.awt.Color(0, 153, 51));
         btnNewSale.setFont(new java.awt.Font("MADE TOMMY", 1, 18)); // NOI18N
@@ -503,27 +330,6 @@ public class V_Sale extends javax.swing.JFrame {
             }
         });
 
-        btngTypeClient.add(rbGenericClient);
-        rbGenericClient.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        rbGenericClient.setText("Genérico");
-        rbGenericClient.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rbGenericClientMouseClicked(evt);
-            }
-        });
-
-        btngTypeClient.add(rbRegisterClient);
-        rbRegisterClient.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        rbRegisterClient.setText("Específico");
-        rbRegisterClient.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rbRegisterClientMouseClicked(evt);
-            }
-        });
-
-        jLabel17.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel17.setText("Cliente:");
-
         javax.swing.GroupLayout pnlConfigSaleLayout = new javax.swing.GroupLayout(pnlConfigSale);
         pnlConfigSale.setLayout(pnlConfigSaleLayout);
         pnlConfigSaleLayout.setHorizontalGroup(
@@ -531,27 +337,19 @@ public class V_Sale extends javax.swing.JFrame {
             .addGroup(pnlConfigSaleLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlConfigSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlConfigSaleLayout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
                         .addComponent(lblIdSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlConfigSaleLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnCompleteSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCancelSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPrint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNewSale, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pnlConfigSaleLayout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pnlConfigSaleLayout.createSequentialGroup()
-                        .addComponent(rbGenericClient)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(rbRegisterClient)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlConfigSaleLayout.createSequentialGroup()
+                        .addGap(0, 75, Short.MAX_VALUE)
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         pnlConfigSaleLayout.setVerticalGroup(
@@ -565,15 +363,7 @@ public class V_Sale extends javax.swing.JFrame {
                 .addGroup(pnlConfigSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlConfigSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbGenericClient)
-                    .addComponent(rbRegisterClient))
-                .addGap(61, 61, 61)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCompleteSale, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -781,19 +571,7 @@ public class V_Sale extends javax.swing.JFrame {
                 btnUsersActionPerformed(evt);
             }
         });
-        pnlOptions.add(btnUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 160, 20));
-
-        btnClients.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        btnClients.setText("Administrar Clientes");
-        btnClients.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnClients.setContentAreaFilled(false);
-        btnClients.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnClients.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClientsActionPerformed(evt);
-            }
-        });
-        pnlOptions.add(btnClients, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 160, 20));
+        pnlOptions.add(btnUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 160, 20));
 
         btnProduct.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         btnProduct.setText("Inventario");
@@ -842,7 +620,7 @@ public class V_Sale extends javax.swing.JFrame {
                 btnReportesActionPerformed(evt);
             }
         });
-        pnlOptions.add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 10, 160, 20));
+        pnlOptions.add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 160, 20));
 
         pnlTableSale.setBackground(new java.awt.Color(153, 204, 255));
         pnlTableSale.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -998,8 +776,9 @@ int selectedRow;
 
     private void btnCompleteSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteSaleActionPerformed
         if (tbDetailSale.getRowCount() > 0) {
-            calcularTotales();
             if (completeSale() == true) {
+                JOptionPane.showMessageDialog(null, "Venta Completada!\nTotal de la venta: " + txtTotalNeto.getText() + "$");
+                
                 saveSaleDetail();
 
                 deleteRows(tbDetailSale);
@@ -1008,13 +787,6 @@ int selectedRow;
                 blockFields();
                 blockButtons();
                 btnNewSale.setEnabled(true);
-
-                deleteRows(tbClient);
-                txtSearchClient.setText("");
-                txtSearchClient.setEnabled(false);
-                btnSelectClient.setEnabled(false);
-                btnAddClient.setEnabled(false);
-                tbClient.setEnabled(false);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Agregue productos a la venta!");
@@ -1022,25 +794,8 @@ int selectedRow;
     }//GEN-LAST:event_btnCompleteSaleActionPerformed
 
     boolean completeSale() {
-        if (rbGenericClient.isSelected()) {
-            businessClient.B_insertGenericClient();
-
-            client = businessClient.B_lastIdClient();
-            System.out.println("Id client: " + client.getIdClient());
-            sale.setIdClient(client);
-        }
-
-        if (rbRegisterClient.isSelected()) {
-            if (btnSelectClient.getText().equals("Seleccionado")) {
-                sale.setIdClient(clientSelected);
-            } else {
-                JOptionPane.showMessageDialog(null, "Debe especificar el cliente!");
-                return false;
-            }
-        }
-
         sale.setIdSale(Integer.parseInt(lblIdSale.getText()));
-        sale.setTotalNeto(totalPagar);
+        sale.setTotalNeto(Double.parseDouble(txtTotalNeto.getText()));
 
         businessSale.B_completeSale(sale);
 
@@ -1068,7 +823,6 @@ int selectedRow;
 
     private void btnCancelSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelSaleActionPerformed
         deleteRows(tbDetailSale);
-        deleteRows(tbClient);
         cleanFields();
         blockFields();
         blockButtons();
@@ -1091,12 +845,6 @@ int selectedRow;
         win.setVisible(true);
     }//GEN-LAST:event_btnCategoryActionPerformed
 
-    private void btnAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddClientActionPerformed
-        V_addClient win = new V_addClient(new javax.swing.JDialog(), true);
-        win.crudOrSale = 0;
-        win.setVisible(true);
-    }//GEN-LAST:event_btnAddClientActionPerformed
-
     private void btnSearchProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchProdActionPerformed
         V_SearchProduct win = new V_SearchProduct(this, true);
         win.setVisible(true);
@@ -1112,31 +860,6 @@ int selectedRow;
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodeProdActionPerformed
 
-    private void rbGenericClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbGenericClientMouseClicked
-        deleteRows(tbClient);
-        txtSearchClient.setText("");
-        txtSearchClient.setEnabled(false);
-        btnSelectClient.setEnabled(false);
-        btnAddClient.setEnabled(false);
-        tbClient.setEnabled(false);
-    }//GEN-LAST:event_rbGenericClientMouseClicked
-
-    private void rbRegisterClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbRegisterClientMouseClicked
-        showListClients();
-        pnlCliente.setEnabled(true);
-        tbClient.setEnabled(true);
-        txtSearchClient.setEnabled(true);
-        btnSelectClient.setText("Seleccionar");
-        btnRefreshClients.setEnabled(true);
-        btnAddClient.setEnabled(true);
-
-    }//GEN-LAST:event_rbRegisterClientMouseClicked
-
-    private void btnClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientsActionPerformed
-        V_clientCrud win = new V_clientCrud(this, true);
-        win.setVisible(true);
-    }//GEN-LAST:event_btnClientsActionPerformed
-
     private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
         V_userCrud win = new V_userCrud(this, true);
         win.setVisible(true);
@@ -1148,19 +871,7 @@ int selectedRow;
         } else {
             double total;
             model = (DefaultTableModel) tbDetailSale.getModel();
-            String titulos[] = {"IdProducto", "NombreProducto", "Cantidad", "Precio", "SubTotal", "Stock"};
-            DefaultTableModel df = new DefaultTableModel(null, titulos) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    if (column == 2) {
-                        return true;
-                    }
-
-                    return false;
-                }
-            };
-
-            model = df;
+            
             precio = Double.parseDouble(lblPrice.getText());
             int stock = Integer.parseInt(lblStock.getText());
             total = 1 * precio;
@@ -1239,19 +950,7 @@ int selectedRow;
                     } else {
                         double total;
                         model = (DefaultTableModel) tbDetailSale.getModel();
-                        String titulos[] = {"IdProducto", "NombreProducto", "Cantidad", "Precio", "SubTotal", "Stock"};
-                        DefaultTableModel df = new DefaultTableModel(null, titulos) {
-                            @Override
-                            public boolean isCellEditable(int row, int column) {
-                                if (column == 2) {
-                                    return true;
-                                }
-
-                                return false;
-                            }
-                        };
-
-                        model = df;
+                        
                         precio = product.getSalePrice();
                         int stock = product.getStock();
                         total = 1 * precio;
@@ -1305,27 +1004,6 @@ int selectedRow;
         }
     }//GEN-LAST:event_txtCodeProdKeyTyped
 
-    int selectedRowClient;
-    E_clients clientSelected;
-    private void tbClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClientMouseClicked
-        btnSelectClient.setEnabled(true);
-        clientSelected = new E_clients();
-        selectedRowClient = tbClient.rowAtPoint(evt.getPoint());
-    }//GEN-LAST:event_tbClientMouseClicked
-
-    private void btnSelectClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectClientActionPerformed
-        btnSelectClient.setText("Seleccionado");
-        clientSelected.setIdClient(Integer.parseInt(tbClient.getValueAt(selectedRowClient, 0).toString()));
-    }//GEN-LAST:event_btnSelectClientActionPerformed
-
-    private void btnRefreshClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshClientsActionPerformed
-        showListClients();
-    }//GEN-LAST:event_btnRefreshClientsActionPerformed
-
-    private void txtSearchClientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchClientKeyReleased
-        filtro(txtSearchClient.getText(), tbClient);
-    }//GEN-LAST:event_txtSearchClientKeyReleased
-
     private void tbDetailSaleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetailSaleKeyReleased
         int amount = Integer.parseInt(tbDetailSale.getValueAt(selectedRow, 2).toString());
         int limitAmount = Integer.parseInt(lblMaxStock.getText());
@@ -1342,7 +1020,6 @@ int selectedRow;
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
        V_Reportes re = new V_Reportes();
        re.setVisible(true);
-       
     }//GEN-LAST:event_btnReportesActionPerformed
 
     /*  MAIN METHOD  */
@@ -1383,21 +1060,17 @@ int selectedRow;
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddClient;
     public static javax.swing.JButton btnAddProduct;
     public static javax.swing.JButton btnCancelAddProd;
     private javax.swing.JButton btnCancelSale;
     private javax.swing.JButton btnCategory;
-    private javax.swing.JButton btnClients;
     private javax.swing.JButton btnCompleteSale;
     public static javax.swing.JButton btnDeleteProd;
     private javax.swing.JButton btnNewSale;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnProduct;
-    public static javax.swing.JButton btnRefreshClients;
     private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnSearchProd;
-    private javax.swing.JButton btnSelectClient;
     private javax.swing.JButton btnUsers;
     private javax.swing.JButton btnUsers1;
     private javax.swing.JButton btnUsers2;
@@ -1407,8 +1080,6 @@ int selectedRow;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1416,7 +1087,6 @@ int selectedRow;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblArtSale;
     private javax.swing.JLabel lblDate;
     private static javax.swing.JLabel lblIdProd;
@@ -1426,17 +1096,12 @@ int selectedRow;
     public static javax.swing.JLabel lblPrice;
     public static javax.swing.JLabel lblSelectedProd;
     public static javax.swing.JLabel lblStock;
-    private javax.swing.JPanel pnlCliente;
     private javax.swing.JPanel pnlConfigSale;
     private javax.swing.JPanel pnlOptions;
     private javax.swing.JPanel pnlProdsAdd;
     private javax.swing.JPanel pnlTableSale;
-    private javax.swing.JRadioButton rbGenericClient;
-    private javax.swing.JRadioButton rbRegisterClient;
-    private javax.swing.JTable tbClient;
     private javax.swing.JTable tbDetailSale;
     private javax.swing.JTextField txtCodeProd;
-    private javax.swing.JTextField txtSearchClient;
     private javax.swing.JTextField txtTotalNeto;
     // End of variables declaration//GEN-END:variables
 }

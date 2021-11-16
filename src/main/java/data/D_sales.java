@@ -19,14 +19,12 @@ public class D_sales {
     public boolean insertDirectSale() {
         Connection con = db.connectDB();
         PreparedStatement ps;
-        ResultSet rs;
 
         try {
-            ps = con.prepareStatement("insert into sale(saleDate, totalNeto, idClient) values(?, ?, ?)");
+            ps = con.prepareStatement("insert into sale(saleDate, totalNeto) values(?, ?)");
 
             ps.setString(1, new java.sql.Date(System.currentTimeMillis()).toString());
             ps.setString(2, "0");
-            ps.setInt(3, 1);
 
             ps.executeUpdate();
 
@@ -68,13 +66,11 @@ public class D_sales {
         ResultSet rs;
 
         try {
-            ps = con.prepareStatement("update sale set saleDate=?, totalNeto=?, idClient=? where idSale=?");
+            ps = con.prepareStatement("update sale set saleDate=?, totalNeto=?, where idSale=?");
 
             ps.setString(1, new java.sql.Date(System.currentTimeMillis()).toString());
             ps.setDouble(2, sale.getTotalNeto());
-            System.out.println("Client Id to Sale: " + sale.getIdClient().getIdClient());
-            ps.setInt(3, sale.getIdClient().getIdClient());
-            ps.setInt(4, sale.getIdSale());
+            ps.setInt(3, sale.getIdSale());
 
             ps.executeUpdate();
 

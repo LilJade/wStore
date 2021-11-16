@@ -145,6 +145,7 @@ public class V_productsCrud extends javax.swing.JFrame {
         txtQuantity = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        btnEditStock2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lblTittle = new javax.swing.JLabel();
         btnRefresh1 = new javax.swing.JButton();
@@ -348,7 +349,7 @@ public class V_productsCrud extends javax.swing.JFrame {
                 btnEditStockActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 430, 190, 26));
+        jPanel1.add(btnEditStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 490, 160, 26));
 
         btnCancelAll.setBackground(new java.awt.Color(204, 0, 0));
         btnCancelAll.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -418,7 +419,7 @@ public class V_productsCrud extends javax.swing.JFrame {
         jPanel1.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 12, 145, 20));
 
         jLabel12.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel12.setText("Cantidad por Producto:");
+        jLabel12.setText("Unidad por Producto:");
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 170, -1));
 
         txtQuantity.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
@@ -443,6 +444,19 @@ public class V_productsCrud extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel5.setText("Precio Inicial");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
+
+        btnEditStock2.setBackground(new java.awt.Color(153, 204, 255));
+        btnEditStock2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnEditStock2.setText("Historial CompraVenta");
+        btnEditStock2.setBorder(null);
+        btnEditStock2.setBorderPainted(false);
+        btnEditStock2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnEditStock2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditStock2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditStock2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 160, 26));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 380, 660));
 
@@ -502,11 +516,6 @@ public class V_productsCrud extends javax.swing.JFrame {
     private void btnChangeImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeImgActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnChangeImgActionPerformed
-
-    private void btnEditStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditStockActionPerformed
-        V_stockProdConfig winStockConfig = new V_stockProdConfig(this, true);
-        winStockConfig.setVisible(true);
-    }//GEN-LAST:event_btnEditStockActionPerformed
 
     //cancell all operations
     private void btnCancelAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAllActionPerformed
@@ -746,6 +755,15 @@ public class V_productsCrud extends javax.swing.JFrame {
     private void txtSearchProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchProdKeyTyped
 
     }//GEN-LAST:event_txtSearchProdKeyTyped
+
+    private void btnEditStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditStockActionPerformed
+        V_stockProdConfig winStockConfig = new V_stockProdConfig(this, true);
+        winStockConfig.setVisible(true);
+    }//GEN-LAST:event_btnEditStockActionPerformed
+
+    private void btnEditStock2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditStock2ActionPerformed
+        JOptionPane.showMessageDialog(null, "Not programming yet!");
+    }//GEN-LAST:event_btnEditStock2ActionPerformed
 
     //llenar combobox
     public void llenar() {
@@ -991,6 +1009,7 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteProd;
     private javax.swing.JButton btnEditProd;
     private javax.swing.JButton btnEditStock;
+    private javax.swing.JButton btnEditStock2;
     private javax.swing.JButton btnNewProd;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRefresh1;

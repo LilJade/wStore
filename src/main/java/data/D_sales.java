@@ -63,10 +63,9 @@ public class D_sales {
     public boolean completeSale(E_sale sale) {
         Connection con = db.connectDB();
         PreparedStatement ps;
-        ResultSet rs;
 
         try {
-            ps = con.prepareStatement("update sale set saleDate=?, totalNeto=?, where idSale=?");
+            ps = con.prepareStatement("update sale set saleDate=?, totalNeto=? where idSale=?");
 
             ps.setString(1, new java.sql.Date(System.currentTimeMillis()).toString());
             ps.setDouble(2, sale.getTotalNeto());
@@ -76,7 +75,7 @@ public class D_sales {
 
             System.out.println("Sale updated...");
         } catch (SQLException e) {
-            System.out.println("Error al intentar actualizar el registro del usuario: " + e.getMessage());
+            System.out.println("Error al intentar completar el registro de la venta: " + e.getMessage());
         }
 
         return true;

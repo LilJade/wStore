@@ -24,12 +24,8 @@ public class B_sale {
         return data.lastIdSale();
     }
     
-    public boolean B_completeSale(E_sale sale) {
-        if (data.completeSale(sale) == false) {
-            return false;
-        }
-        
-        return true;
+    public boolean B_completeSale(E_sale sale) {        
+        return data.completeSale(sale);
     }
     
     public E_sale B_confirmPreviousSale() {

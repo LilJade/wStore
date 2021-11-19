@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package business;
 
 import data.D_saleDetail;
+import entities.E_product;
 import entities.E_saleDetail;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,11 +14,18 @@ public class B_saleDetail {
       D_saleDetail data = new D_saleDetail();
     
     public boolean B_insertSaleDetail(E_saleDetail saleDetail) {
-        if (data.insertSaleDetail(saleDetail) == false) {
-            return false;
+        return data.insertSaleDetail(saleDetail);
+    }
+    
+    public ArrayList<E_saleDetail> listProductSalesMonth(int month, int year, E_product product) {
+        ArrayList<E_saleDetail> list = data.productSalesMonth(month, year, product);
+        
+        if (list == null) {
+            System.out.println("Error al cargar la lista de ventas de productos mensual!");
+            return null;
         }
         
-        return true;
+        return list;
     }
     
 }

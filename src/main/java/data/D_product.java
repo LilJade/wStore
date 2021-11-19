@@ -59,7 +59,6 @@ public class D_product {
                 p.setInitialPrice(rs.getDouble("initialPrice"));
                 p.setSalePrice(rs.getDouble("salePrice"));
                 p.setStock(rs.getInt("stock"));
-                p.setImage(rs.getString("image"));
                 E_category category = new E_category();
                 category.setIdCategory(rs.getInt("idcategory"));
                 category.setNameC(rs.getString("nameC"));
@@ -93,7 +92,6 @@ public class D_product {
                 p.setInitialPrice(rs.getDouble("initialPrice"));
                 p.setSalePrice(rs.getDouble("salePrice"));
                 p.setStock(rs.getInt("stock"));
-                p.setImage(rs.getString("image"));
                 E_category category = new E_category();
                 category.setIdCategory(rs.getInt("idcategory"));
                 category.setNameC(rs.getString("nameC"));

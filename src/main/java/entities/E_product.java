@@ -14,7 +14,6 @@ public class E_product {
     private double initialPrice;
     private double salePrice;
     private int stock;
-    private String image;
     private E_category idCategory;
 
     
@@ -67,14 +66,6 @@ public class E_product {
         this.stock = stock;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public E_category getIdCategory() {
         return idCategory;
     }
@@ -88,24 +79,22 @@ public class E_product {
     public E_product() {
     }
 
-    public E_product(String productName, int quantityPerProduct, double initialPrice, double salePrice, int stock, String image, E_category idCategory) {
+    public E_product(String productName, int quantityPerProduct, double initialPrice, double salePrice, int stock, E_category idCategory) {
         this.productName = productName;
         this.quantityPerProduct = quantityPerProduct;
         this.initialPrice = initialPrice;
         this.salePrice = salePrice;
         this.stock = stock;
-        this.image = image;
         this.idCategory = idCategory;
     }
 
-    public E_product(int idProduct, String productName, int quantityPerProduct, double initialPrice, double salePrice, int stock, String image, E_category idCategory) {
+    public E_product(int idProduct, String productName, int quantityPerProduct, double initialPrice, double salePrice, int stock, E_category idCategory) {
         this.idProduct = idProduct;
         this.productName = productName;
         this.quantityPerProduct = quantityPerProduct;
         this.initialPrice = initialPrice;
         this.salePrice = salePrice;
         this.stock = stock;
-        this.image = image;
         this.idCategory = idCategory;
     }
 
@@ -116,6 +105,6 @@ public class E_product {
         return "D_product{" + "idProduct=" + idProduct + ", productName=" + 
                 productName + ", quantityPerProduct=" + quantityPerProduct +
                 ", initialPrice=" + initialPrice + ", salePrice=" + salePrice + 
-                ", stock=" + stock + ", image=" + image + ", idCategory=" + idCategory + '}';
+                ", stock=" + stock + ", idCategory=" + idCategory + '}';
     }
 }

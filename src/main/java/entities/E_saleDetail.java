@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entities;
-
+import java.sql.Date;
+import java.sql.Timestamp;
 /**
  *
  * @author diaz1
@@ -14,6 +11,7 @@ public class E_saleDetail {
     private int idSaleDetail;
     private int soldUnits;
     private double subtotal;
+    private Timestamp dateSaleDetail;
     private E_sale idSale;
     private E_product idProduct;
 
@@ -42,6 +40,14 @@ public class E_saleDetail {
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
     }
+    
+    public Timestamp getDateSaleDetail() {
+        return dateSaleDetail;
+    }
+
+    public void setDateSaleDetail(Timestamp dateSaleDetail) {
+        this.dateSaleDetail = dateSaleDetail;
+    }
 
     public E_sale getIdSale() {
         return idSale;
@@ -65,17 +71,19 @@ public class E_saleDetail {
     public E_saleDetail() {
     }
 
-    public E_saleDetail(int soldUnits, double subtotal, E_sale idSale, E_product idProduct) {
+    public E_saleDetail(int soldUnits, double subtotal, Timestamp dateSaleDetail, E_sale idSale, E_product idProduct) {
         this.soldUnits = soldUnits;
         this.subtotal = subtotal;
+        this.dateSaleDetail = dateSaleDetail;
         this.idSale = idSale;
         this.idProduct = idProduct;
     }
 
-    public E_saleDetail(int idSaleDetail, int soldUnits, double subtotal, E_sale idSale, E_product idProduct) {
+    public E_saleDetail(int idSaleDetail, int soldUnits, double subtotal, Timestamp dateSaleDetail, E_sale idSale, E_product idProduct) {
         this.idSaleDetail = idSaleDetail;
         this.soldUnits = soldUnits;
         this.subtotal = subtotal;
+        this.dateSaleDetail = dateSaleDetail;
         this.idSale = idSale;
         this.idProduct = idProduct;
     }
@@ -86,7 +94,7 @@ public class E_saleDetail {
     @Override
     public String toString() {
         return "E_saleDetail{" + "idSaleDetail=" + idSaleDetail + ", soldUnits=" +
-                soldUnits + ", subtotal=" + subtotal + ", idSale=" + idSale + 
-                ", idProduct=" + idProduct + '}';
+                soldUnits + ", subtotal=" + subtotal + ", dateSaleDetail=" + dateSaleDetail + 
+                ", idSale=" + idSale + ", idProduct=" + idProduct + '}';
     }
 }

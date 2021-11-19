@@ -40,7 +40,6 @@ public class V_productsCrud extends javax.swing.JFrame {
 
     //put the default state for all buttons
     void buttonsByDefault() {
-        btnChangeImg.setEnabled(false);
         btnEditStock.setEnabled(false);
 
         btnNewProd.setEnabled(true);
@@ -53,8 +52,7 @@ public class V_productsCrud extends javax.swing.JFrame {
 
     //clean all fields of the form
     void cleanFields() {
-        lblImgProd.setIcon(null);
-        lblId.setText("");
+        lblIdProduct.setText("");
         txtSearchProd.setText("");
         txtNameProd.setText("");
         txtPriceInit.setText("");
@@ -123,7 +121,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         txtSearchProd = new javax.swing.JTextField();
         btnRefresh = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        lblImgProd = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtNameProd = new javax.swing.JTextField();
         txtPriceInit = new javax.swing.JTextField();
@@ -131,7 +128,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         txtPriceSale = new javax.swing.JTextField();
         cmbCategoryProd = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        btnChangeImg = new javax.swing.JButton();
         txtStock = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         btnEditStock = new javax.swing.JButton();
@@ -140,10 +136,9 @@ public class V_productsCrud extends javax.swing.JFrame {
         btnDeleteProd = new javax.swing.JButton();
         btnNewProd = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        lblId = new javax.swing.JLabel();
+        lblIdProduct = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         btnEditStock2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -266,10 +261,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblImgProd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblImgProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(lblImgProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 36, 197, 110));
-
         jLabel3.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel3.setText("Nombre del producto:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 157, 360, -1));
@@ -311,20 +302,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel8.setText("Categoría:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 209, -1, -1));
-
-        btnChangeImg.setBackground(new java.awt.Color(102, 51, 255));
-        btnChangeImg.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        btnChangeImg.setForeground(new java.awt.Color(255, 255, 255));
-        btnChangeImg.setText("Cambiar Imagen");
-        btnChangeImg.setBorder(null);
-        btnChangeImg.setBorderPainted(false);
-        btnChangeImg.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnChangeImg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChangeImgActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnChangeImg, new org.netbeans.lib.awtextra.AbsoluteConstraints(231, 106, 140, 40));
 
         txtStock.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
         txtStock.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -412,11 +389,11 @@ public class V_productsCrud extends javax.swing.JFrame {
         jLabel11.setText("ID:");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 12, -1, -1));
 
-        lblId.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        lblId.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblId.setText("11111001111");
-        lblId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 12, 145, 20));
+        lblIdProduct.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        lblIdProduct.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblIdProduct.setText("11111001111");
+        lblIdProduct.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(lblIdProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 12, 145, 20));
 
         jLabel12.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel12.setText("Unidad por Producto:");
@@ -436,10 +413,6 @@ public class V_productsCrud extends javax.swing.JFrame {
             }
         });
         jPanel1.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 170, -1));
-
-        jLabel9.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        jLabel9.setText("Imagen del producto:");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 12, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel5.setText("Precio Inicial");
@@ -513,10 +486,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnChangeImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeImgActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnChangeImgActionPerformed
-
     //cancell all operations
     private void btnCancelAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAllActionPerformed
         cargar();
@@ -550,7 +519,6 @@ public class V_productsCrud extends javax.swing.JFrame {
                 btnEditProd.setEnabled(false);
                 btnDeleteProd.setEnabled(false);
                 btnCancelAll.setEnabled(true);
-                btnChangeImg.setEnabled(true);
                 btnEditStock.setEnabled(true);
 
                 unblockFields();
@@ -614,7 +582,7 @@ public class V_productsCrud extends javax.swing.JFrame {
 
     private void tbProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProductsMouseClicked
         int seleccionar = tbProducts.rowAtPoint(evt.getPoint());
-        lblId.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 0)));
+        lblIdProduct.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 0)));
         txtNameProd.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 1)));
         txtQuantity.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 2)));
         txtPriceInit.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 3)));
@@ -648,7 +616,7 @@ public class V_productsCrud extends javax.swing.JFrame {
     private void btnDeleteProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteProdMouseClicked
         ep = new E_product();
 
-        ep.setIdProduct(Integer.parseInt(lblId.getText()));
+        ep.setIdProduct(Integer.parseInt(lblIdProduct.getText()));
         dp.deleteproduct(ep);
 
         cargar();
@@ -687,7 +655,7 @@ public class V_productsCrud extends javax.swing.JFrame {
                         ep.setSalePrice(Double.parseDouble(txtPriceSale.getText()));
                         ep.setStock(Integer.parseInt(txtStock.getText()));
                         ep.setIdCategory((E_category) cmbCategoryProd.getSelectedItem());
-                        ep.setIdProduct(Integer.parseInt(lblId.getText()));
+                        ep.setIdProduct(Integer.parseInt(lblIdProduct.getText()));
 
                         dp.updateproduct(ep);
 
@@ -762,7 +730,11 @@ public class V_productsCrud extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditStockActionPerformed
 
     private void btnEditStock2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditStock2ActionPerformed
-        JOptionPane.showMessageDialog(null, "Not programming yet!");
+        V_SalesAndPurchases win = new V_SalesAndPurchases(this, true);
+        int id = Integer.parseInt(lblIdProduct.getText());
+        win.receiveIdProduct(id);
+        
+        win.setVisible(true);
     }//GEN-LAST:event_btnEditStock2ActionPerformed
 
     //llenar combobox
@@ -793,7 +765,7 @@ public class V_productsCrud extends javax.swing.JFrame {
 
     //cargar datos de la tabla products
     void cargar() {
-        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "Imagen", "IdCategoria"};
+        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "IdCategoria"};
         DefaultTableModel df = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -803,7 +775,7 @@ public class V_productsCrud extends javax.swing.JFrame {
         D_product Pm = new D_product();
         ArrayList<E_product> producto = Pm.showProducts();
         Iterator i = producto.iterator();
-        String Filas[] = new String[8];
+        String Filas[] = new String[7];
 
         while (i.hasNext()) {
             E_product pr;
@@ -820,8 +792,7 @@ public class V_productsCrud extends javax.swing.JFrame {
             Filas[3] = String.valueOf(inicialprecio);
             Filas[4] = String.valueOf(priceSale);
             Filas[5] = String.valueOf(Stock);
-            Filas[6] = pr.getImage();
-            Filas[7] = String.valueOf(pr.getIdCategory());
+            Filas[6] = String.valueOf(pr.getIdCategory());
 
             df.addRow(Filas);
         }
@@ -842,16 +813,11 @@ public class V_productsCrud extends javax.swing.JFrame {
         tbProducts.getColumnModel().getColumn(6).setMinWidth(0);
         tbProducts.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
         tbProducts.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
-
-        tbProducts.getColumnModel().getColumn(7).setMaxWidth(0);
-        tbProducts.getColumnModel().getColumn(7).setMinWidth(0);
-        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
-        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
     }
 
     public void cargarByCategory(String nombre) {
 
-        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "Imagen", "IdCategoria"};
+        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "IdCategoria"};
         DefaultTableModel df = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -861,7 +827,7 @@ public class V_productsCrud extends javax.swing.JFrame {
         D_product Pm = new D_product();
         ArrayList<E_product> producto = Pm.showProductsbycategory(nombre);
         Iterator i = producto.iterator();
-        String Filas[] = new String[8];
+        String Filas[] = new String[7];
 
         while (i.hasNext()) {
             E_product pr;
@@ -878,8 +844,7 @@ public class V_productsCrud extends javax.swing.JFrame {
             Filas[3] = String.valueOf(inicialprecio);
             Filas[4] = String.valueOf(priceSale);
             Filas[5] = String.valueOf(Stock);
-            Filas[6] = pr.getImage();
-            Filas[7] = String.valueOf(pr.getIdCategory());
+            Filas[6] = String.valueOf(pr.getIdCategory());
 
             df.addRow(Filas);
         }
@@ -900,16 +865,11 @@ public class V_productsCrud extends javax.swing.JFrame {
         tbProducts.getColumnModel().getColumn(6).setMinWidth(0);
         tbProducts.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
         tbProducts.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
-
-        tbProducts.getColumnModel().getColumn(7).setMaxWidth(0);
-        tbProducts.getColumnModel().getColumn(7).setMinWidth(0);
-        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
-        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
     }
 
     public void cargarbyserch(String nombre) {
         deleteRows();
-        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "Imagen", "IdCategoria"};
+        String titulos[] = {"ID", "Producto", "Cantidad por producto", "Precio Inicial", "Precio venta", "Existencias", "IdCategoria"};
         DefaultTableModel df = new DefaultTableModel(null, titulos) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -919,7 +879,7 @@ public class V_productsCrud extends javax.swing.JFrame {
         D_product Pm = new D_product();
         ArrayList<E_product> producto = Pm.sherchProduct(nombre);
         Iterator i = producto.iterator();
-        String Filas[] = new String[8];
+        String Filas[] = new String[7];
 
         while (i.hasNext()) {
             E_product pr;
@@ -936,8 +896,7 @@ public class V_productsCrud extends javax.swing.JFrame {
             Filas[3] = String.valueOf(inicialprecio);
             Filas[4] = String.valueOf(priceSale);
             Filas[5] = String.valueOf(Stock);
-            Filas[6] = pr.getImage();
-            Filas[7] = String.valueOf(pr.getIdCategory());
+            Filas[6] = String.valueOf(pr.getIdCategory());
 
             df.addRow(Filas);
         }
@@ -958,12 +917,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         tbProducts.getColumnModel().getColumn(6).setMinWidth(0);
         tbProducts.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
         tbProducts.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
-
-        tbProducts.getColumnModel().getColumn(7).setMaxWidth(0);
-        tbProducts.getColumnModel().getColumn(7).setMinWidth(0);
-        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
-        tbProducts.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
-
     }
 
     /*  MAIN METHOD  */
@@ -1005,7 +958,6 @@ public class V_productsCrud extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelAll;
-    private javax.swing.JButton btnChangeImg;
     private javax.swing.JButton btnDeleteProd;
     private javax.swing.JButton btnEditProd;
     private javax.swing.JButton btnEditStock;
@@ -1024,12 +976,10 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblImgProd;
+    private javax.swing.JLabel lblIdProduct;
     private javax.swing.JLabel lblTittle;
     private javax.swing.JPanel pnTable;
     private javax.swing.JTable tbProducts;

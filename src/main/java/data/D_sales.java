@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,10 +20,9 @@ public class D_sales {
         PreparedStatement ps;
 
         try {
-            ps = con.prepareStatement("insert into sale(saleDate, totalNeto) values(?, ?)");
+            ps = con.prepareStatement("insert into sale(totalNeto) values(?)");
 
-            ps.setString(1, new java.sql.Date(System.currentTimeMillis()).toString());
-            ps.setString(2, "0");
+            ps.setString(1, "0");
 
             ps.executeUpdate();
 
@@ -65,11 +63,10 @@ public class D_sales {
         PreparedStatement ps;
 
         try {
-            ps = con.prepareStatement("update sale set saleDate=?, totalNeto=? where idSale=?");
+            ps = con.prepareStatement("update sale set totalNeto=? where idSale=?");
 
-            ps.setString(1, new java.sql.Date(System.currentTimeMillis()).toString());
-            ps.setDouble(2, sale.getTotalNeto());
-            ps.setInt(3, sale.getIdSale());
+            ps.setDouble(1, sale.getTotalNeto());
+            ps.setInt(2, sale.getIdSale());
 
             ps.executeUpdate();
 
@@ -86,6 +83,10 @@ public class D_sales {
         PreparedStatement ps;
         ResultSet rs;
         E_sale previousSale = lastIdSale();
+        
+        if (previousSale == null) {
+            return null;
+        }
 
         try {
             ps = con.prepareStatement("select * from sale where idSale=? and totalNeto=0");

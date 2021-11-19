@@ -37,7 +37,6 @@ public class D_products {
                 product.setInitialPrice(rs.getDouble("initialPrice"));
                 product.setSalePrice(rs.getDouble("salePrice"));
                 product.setStock(rs.getInt("stock"));
-                product.setImage(rs.getString("image"));
                 E_category idCategory = new E_category();
                 idCategory.setIdCategory(rs.getInt("idCategory"));
                 product.setIdCategory(idCategory);

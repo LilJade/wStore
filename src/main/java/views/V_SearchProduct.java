@@ -47,7 +47,7 @@ public class V_SearchProduct extends javax.swing.JDialog {
 
         ArrayList<E_product> list = business.B_listProducts();
         Iterator i = list.iterator();
-        String rows[] = new String[8];
+        String rows[] = new String[7];
 
         while (i.hasNext()) {
             E_product product;
@@ -59,8 +59,7 @@ public class V_SearchProduct extends javax.swing.JDialog {
             rows[3] = String.valueOf(product.getInitialPrice());
             rows[4] = String.valueOf(product.getSalePrice());
             rows[5] = String.valueOf(product.getStock());
-            rows[6] = String.valueOf(product.getImage());
-            rows[7] = String.valueOf(product.getIdCategory());
+            rows[6] = String.valueOf(product.getIdCategory());
 
             df.addRow(rows);
         }
@@ -81,11 +80,6 @@ public class V_SearchProduct extends javax.swing.JDialog {
         tbResultProd.getColumnModel().getColumn(6).setMinWidth(0);
         tbResultProd.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
         tbResultProd.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
-
-        tbResultProd.getColumnModel().getColumn(7).setMaxWidth(0);
-        tbResultProd.getColumnModel().getColumn(7).setMinWidth(0);
-        tbResultProd.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
-        tbResultProd.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
     }
 
     void filtro(String consulta, JTable jtableBuscar) {

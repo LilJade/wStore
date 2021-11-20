@@ -82,7 +82,7 @@ public class D_product {
         try {
 
             CallableStatement st = con.prepareCall("SELECT * FROM w_store.product as p inner join w_store.category as c on p.idCategory = c.idCategory where nameC like '" + nameC + "'");
-            System.out.println("Consulta: " + st);
+
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 E_product p = new E_product();
@@ -104,7 +104,6 @@ public class D_product {
             System.out.println("" + e);
         }
 
-        System.out.println("product list: " + product);
         return product;
 
     }
@@ -124,7 +123,6 @@ public class D_product {
                 p.setSalePrice(rs.getDouble("salePrice"));
                 p.setStock(rs.getInt("stock"));
                 product.add(p);
-                System.out.println("" + p);
             }
 
         } catch (Exception e) {
@@ -155,7 +153,6 @@ public class D_product {
             ps.setInt(5, products.getStock());
             ps.setInt(6, products.getIdCategory().getIdCategory());
             ps.execute();
-            System.out.println("" + ps);
         } catch (Exception e) {
             System.out.println("erro" + e);
         }
@@ -173,7 +170,6 @@ public class D_product {
             ps.setInt(6, products.getIdCategory().getIdCategory());
             ps.setInt(7, products.getIdProduct());
             ps.execute();
-            System.out.println("" + ps);
         } catch (Exception e) {
         }
     }

@@ -13,6 +13,10 @@ public class B_productPurchaseHistory {
     
     D_productPurchaseHistory data = new D_productPurchaseHistory();
     
+    public boolean B_insertPPH(E_productPurchaseHistory pph) {
+        return data.insertPPH(pph);
+    }
+    
     public ArrayList<E_productPurchaseHistory> listProductPurchasesMonth(int month, int year, E_product product) {
         ArrayList<E_productPurchaseHistory> list = data.productPurchasesMonth(month, year, product);
         

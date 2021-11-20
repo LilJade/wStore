@@ -45,9 +45,13 @@ public class V_productsCrud extends javax.swing.JFrame {
         btnNewProd.setEnabled(true);
         btnNewProd.setText("Nuevo Producto");
         btnEditProd.setEnabled(false);
+        btnEditProd.setText("Editar");
         btnDeleteProd.setEnabled(false);
 
         btnCancelAll.setEnabled(false);
+        
+        btnHistory.setEnabled(false);
+        btnEditStock.setEnabled(false);
     }
 
     //clean all fields of the form
@@ -60,7 +64,7 @@ public class V_productsCrud extends javax.swing.JFrame {
         txtQuantity.setText("");
         txtPriceInit.setText("");
         txtPriceSale.setText("");
-        txtStock.setText("");
+        txtStock.setText("0");
         cmbCategoryProds.setSelectedIndex(cmbCategoryProds.getItemCount() - 1);
     }
 
@@ -81,10 +85,8 @@ public class V_productsCrud extends javax.swing.JFrame {
         txtNameProd.setEnabled(true);
         txtPriceInit.setEnabled(true);
         txtPriceSale.setEnabled(true);
-        // txtPriceInit_P.setEditable(true);
-        // txtPriceSale_P.setEditable(true);
         cmbCategoryProd.setEnabled(true);
-        txtStock.setEnabled(true);
+        //txtStock.setEnabled(true);
         txtQuantity.setEnabled(true);
     }
 
@@ -140,7 +142,7 @@ public class V_productsCrud extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        btnEditStock2 = new javax.swing.JButton();
+        btnHistory = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lblTittle = new javax.swing.JLabel();
         btnRefresh1 = new javax.swing.JButton();
@@ -263,10 +265,10 @@ public class V_productsCrud extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel3.setText("Nombre del producto:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 157, 360, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 360, -1));
 
         txtNameProd.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
-        jPanel1.add(txtNameProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 181, 360, -1));
+        jPanel1.add(txtNameProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 360, -1));
 
         txtPriceInit.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
         txtPriceInit.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -277,11 +279,11 @@ public class V_productsCrud extends javax.swing.JFrame {
                 txtPriceInitKeyTyped(evt);
             }
         });
-        jPanel1.add(txtPriceInit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 360, -1));
+        jPanel1.add(txtPriceInit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 360, -1));
 
         jLabel6.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel6.setText("Precio de Venta");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
         txtPriceSale.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
         txtPriceSale.addActionListener(new java.awt.event.ActionListener() {
@@ -294,26 +296,28 @@ public class V_productsCrud extends javax.swing.JFrame {
                 txtPriceSaleKeyTyped(evt);
             }
         });
-        jPanel1.add(txtPriceSale, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 360, -1));
+        jPanel1.add(txtPriceSale, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 360, -1));
 
         cmbCategoryProd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(cmbCategoryProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 209, 279, -1));
+        jPanel1.add(cmbCategoryProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 279, -1));
 
         jLabel8.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel8.setText("Categoría:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 209, -1, -1));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
 
         txtStock.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
+        txtStock.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtStock.setText("0");
         txtStock.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtStockKeyTyped(evt);
             }
         });
-        jPanel1.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, 273, -1));
+        jPanel1.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 273, -1));
 
         jLabel10.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel10.setText("Existencias:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, -1, -1));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, -1, -1));
 
         btnEditStock.setBackground(new java.awt.Color(153, 204, 255));
         btnEditStock.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -326,7 +330,7 @@ public class V_productsCrud extends javax.swing.JFrame {
                 btnEditStockActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 490, 160, 26));
+        jPanel1.add(btnEditStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 480, 170, 40));
 
         btnCancelAll.setBackground(new java.awt.Color(204, 0, 0));
         btnCancelAll.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -387,17 +391,17 @@ public class V_productsCrud extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel11.setText("ID:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 12, -1, -1));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         lblIdProduct.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         lblIdProduct.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblIdProduct.setText("11111001111");
         lblIdProduct.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(lblIdProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 12, 145, 20));
+        jPanel1.add(lblIdProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 330, 20));
 
         jLabel12.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel12.setText("Unidad por Producto:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 170, -1));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 170, -1));
 
         txtQuantity.setFont(new java.awt.Font("MADE TOMMY", 1, 12)); // NOI18N
         txtQuantity.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -412,24 +416,24 @@ public class V_productsCrud extends javax.swing.JFrame {
                 txtQuantityKeyTyped(evt);
             }
         });
-        jPanel1.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 170, -1));
+        jPanel1.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 170, -1));
 
         jLabel5.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
         jLabel5.setText("Precio Inicial");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
-        btnEditStock2.setBackground(new java.awt.Color(153, 204, 255));
-        btnEditStock2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
-        btnEditStock2.setText("Historial CompraVenta");
-        btnEditStock2.setBorder(null);
-        btnEditStock2.setBorderPainted(false);
-        btnEditStock2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEditStock2.addActionListener(new java.awt.event.ActionListener() {
+        btnHistory.setBackground(new java.awt.Color(153, 204, 255));
+        btnHistory.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
+        btnHistory.setText("Historial CompraVenta");
+        btnHistory.setBorder(null);
+        btnHistory.setBorderPainted(false);
+        btnHistory.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditStock2ActionPerformed(evt);
+                btnHistoryActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditStock2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 160, 26));
+        jPanel1.add(btnHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 480, 170, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 380, 660));
 
@@ -581,6 +585,10 @@ public class V_productsCrud extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshMouseClicked
 
     private void tbProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProductsMouseClicked
+        buttonsByDefault();
+        cleanFields();
+        blockFields();
+        
         int seleccionar = tbProducts.rowAtPoint(evt.getPoint());
         lblIdProduct.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 0)));
         txtNameProd.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 1)));
@@ -588,16 +596,13 @@ public class V_productsCrud extends javax.swing.JFrame {
         txtPriceInit.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 3)));
         txtPriceSale.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 4)));
         txtStock.setText(String.valueOf(tbProducts.getValueAt(seleccionar, 5)));
-        /*        System.out.println("Img" + String.valueOf(tbProducts.getValueAt(seleccionar, 6)));
-        E_category categoryReceived;
-        categoryReceived = (E_category) tbProducts.getValueAt(seleccionar, 7);
-        cmbCategoryProd.setSelectedItem(categoryReceived);
-        System.out.println("cat: " + categoryReceived.getIdCategory());*/
 
         btnNewProd.setEnabled(false);
         btnEditProd.setEnabled(true);
         btnDeleteProd.setEnabled(true);
         btnCancelAll.setEnabled(true);
+        btnHistory.setEnabled(true);
+        btnEditStock.setEnabled(true);
     }//GEN-LAST:event_tbProductsMouseClicked
 
     private void cmbCategoryProdsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoryProdsActionPerformed
@@ -725,17 +730,25 @@ public class V_productsCrud extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchProdKeyTyped
 
     private void btnEditStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditStockActionPerformed
-        V_stockProdConfig winStockConfig = new V_stockProdConfig(this, true);
-        winStockConfig.setVisible(true);
+        ep = new E_product();
+        ep.setIdProduct(Integer.parseInt(lblIdProduct.getText()));
+        ep.setProductName(txtNameProd.getText());
+        ep.setInitialPrice(Double.parseDouble(txtPriceInit.getText()));
+        ep.setSalePrice(Double.parseDouble(txtPriceSale.getText()));
+        ep.setStock(Integer.parseInt(txtStock.getText()));
+
+        V_stockProdConfig win = new V_stockProdConfig(this, true);
+        win.receiveData(ep);
+        win.setVisible(true);
     }//GEN-LAST:event_btnEditStockActionPerformed
 
-    private void btnEditStock2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditStock2ActionPerformed
+    private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
         V_SalesAndPurchases win = new V_SalesAndPurchases(this, true);
         int id = Integer.parseInt(lblIdProduct.getText());
         win.receiveIdProduct(id);
         
         win.setVisible(true);
-    }//GEN-LAST:event_btnEditStock2ActionPerformed
+    }//GEN-LAST:event_btnHistoryActionPerformed
 
     //llenar combobox
     public void llenar() {
@@ -746,8 +759,6 @@ public class V_productsCrud extends javax.swing.JFrame {
         cmbCategoryProd.removeAllItems();
         ArrayList<E_category> lista;
         lista = data.llenarcbx();
-
-        System.out.println("List Combobox Size: " + lista.size());
 
         for (int i = 0; i < lista.size(); i++) {
             E_category categoryCmb = new E_category();
@@ -961,9 +972,9 @@ public class V_productsCrud extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteProd;
     private javax.swing.JButton btnEditProd;
     private javax.swing.JButton btnEditStock;
-    private javax.swing.JButton btnEditStock2;
+    private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnNewProd;
-    private javax.swing.JButton btnRefresh;
+    public static javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRefresh1;
     private javax.swing.JComboBox<Object> cmbCategoryProd;
     private javax.swing.JComboBox<Object> cmbCategoryProds;

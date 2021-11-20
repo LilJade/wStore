@@ -1,5 +1,4 @@
 package data;
-
 import config.db_connection;
 import entities.E_product;
 import entities.E_productPurchaseHistory;
@@ -16,6 +15,28 @@ import java.util.ArrayList;
 public class D_productPurchaseHistory {
     
     db_connection db = new db_connection();
+    
+    public boolean insertPPH(E_productPurchaseHistory pph) {
+        Connection con = db.connectDB();
+        PreparedStatement ps;
+
+        try {
+            ps = con.prepareStatement("INSERT INTO productpurchasehistory (old_Stock, new_Stock, price, idProduct) VALUES (?, ?, ?, ?);");
+
+            ps.setInt(1, pph.getOld_Stock());
+            ps.setInt(2, pph.getNew_Stock());
+            ps.setDouble(3, pph.getPrice());
+            ps.setInt(4, pph.getIdProduct().getIdProduct());
+
+            ps.executeUpdate();
+
+            System.out.println("Product Purchase History added!..");
+        } catch (SQLException e) {
+            System.out.println("Error al intentar registrar un nuevo Detalle venta..." + e.getMessage());
+        }
+
+        return true;
+    }
     
     public ArrayList<E_productPurchaseHistory> productPurchasesMonth(int month, int year, E_product product) {
         Connection con = db.connectDB();

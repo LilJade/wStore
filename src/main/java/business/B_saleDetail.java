@@ -28,4 +28,15 @@ public class B_saleDetail {
         return list;
     }
     
+    public ArrayList<E_saleDetail> listProductSalesYear(int year, E_product product) {
+        ArrayList<E_saleDetail> list = data.productSalesYear(year, product);
+        
+        if (list == null) {
+            System.out.println("Error al cargar la lista de ventas de productos anual!");
+            return null;
+        }
+        
+        return list;
+    }
+    
 }

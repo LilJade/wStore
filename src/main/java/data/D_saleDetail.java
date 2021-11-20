@@ -81,5 +81,37 @@ public class D_saleDetail {
         
         return list;
     }
+    
+    public ArrayList<E_saleDetail> productSalesYear(int year, E_product product) {
+        Connection con = db.connectDB();
+        PreparedStatement ps;
+        ResultSet rs;
+        ArrayList<E_saleDetail> list = new ArrayList<>();
+        try {
+            ps = con.prepareStatement("SELECT * FROM saledetail WHERE YEAR(dateSaleDetail) = ? AND idProduct = ? ORDER BY dateSaleDetail DESC");
+            ps.setInt(1, year);
+            ps.setInt(2, product.getIdProduct());
+
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                E_saleDetail sd = new E_saleDetail();
+                sd.setSoldUnits(rs.getInt("soldUnits"));
+                sd.setSubtotal(rs.getDouble("subtotal"));
+                sd.setDateSaleDetail(rs.getTimestamp("dateSaleDetail"));
+                E_sale sale = new E_sale();
+                sale.setIdSale(rs.getInt("idSale"));
+                sd.setIdSale(sale);
+                sd.setIdProduct(product);
+                
+                list.add(sd);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al consultar lista de ventas de producto: " + e.getMessage());
+        }
+        
+        return list;
+    }
 
 }

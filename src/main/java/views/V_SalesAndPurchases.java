@@ -163,7 +163,7 @@ public class V_SalesAndPurchases extends javax.swing.JDialog {
 
             Filas[0] = String.valueOf(id);
             Filas[1] = String.valueOf(soldUnits);
-            Filas[2] = String.valueOf("$ " + subtotal);
+            Filas[2] = String.valueOf("$ " + String.format("%.2f", subtotal));
             Filas[3] = String.valueOf(date);
             Filas[4] = String.valueOf(idSale);
             Filas[5] = String.valueOf(idProduct);
@@ -229,7 +229,7 @@ public class V_SalesAndPurchases extends javax.swing.JDialog {
 
             Filas[0] = String.valueOf(id);
             Filas[1] = String.valueOf(soldUnits);
-            Filas[2] = String.valueOf("$ " + subtotal);
+            Filas[2] = String.valueOf("$ " + String.format("%.2f", subtotal));
             Filas[3] = String.valueOf(date);
             Filas[4] = String.valueOf(idSale);
             Filas[5] = String.valueOf(idProduct);
@@ -294,7 +294,7 @@ public class V_SalesAndPurchases extends javax.swing.JDialog {
             Filas[0] = String.valueOf(id);
             Filas[1] = String.valueOf(oldStock);
             Filas[2] = String.valueOf(newStock);
-            Filas[3] = String.valueOf("$ " + price);
+            Filas[3] = String.valueOf("$ " + String.format("%.2f", price));
             Filas[4] = String.valueOf(date);
             Filas[5] = String.valueOf(idProduct);
 
@@ -362,7 +362,7 @@ public class V_SalesAndPurchases extends javax.swing.JDialog {
             Filas[0] = String.valueOf(id);
             Filas[1] = String.valueOf(oldStock);
             Filas[2] = String.valueOf(newStock);
-            Filas[3] = String.valueOf("$ " + price);
+            Filas[3] = String.valueOf("$ " + String.format("%.2f", price));
             Filas[4] = String.valueOf(date);
             Filas[5] = String.valueOf(idProduct);
 

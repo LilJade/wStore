@@ -800,8 +800,8 @@ public class V_productsCrud extends javax.swing.JFrame {
             Filas[0] = String.valueOf(id);
             Filas[1] = pr.getProductName();
             Filas[2] = String.valueOf(cpq);
-            Filas[3] = String.valueOf(inicialprecio);
-            Filas[4] = String.valueOf(priceSale);
+            Filas[3] = String.valueOf(String.format("%.2f", inicialprecio));
+            Filas[4] = String.valueOf(String.format("%.2f", priceSale));
             Filas[5] = String.valueOf(Stock);
             Filas[6] = String.valueOf(pr.getIdCategory());
 

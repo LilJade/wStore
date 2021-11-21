@@ -36,7 +36,7 @@ public class V_SearchProduct extends javax.swing.JDialog {
     }
 
     void showListProducts() {
-        String titles[] = {"Id", "Nombre", "Cantidad por Paquete", "Precio Inicial", "Precio Venta", "Stock", "Imagen", "Categoria"};
+        String titles[] = {"Id", "Nombre", "Cantidad por Paquete", "Precio Inicial", "Precio Venta", "Stock", "Categoria"};
 
         DefaultTableModel df = new DefaultTableModel(null, titles) {
             @Override
@@ -56,8 +56,8 @@ public class V_SearchProduct extends javax.swing.JDialog {
             rows[0] = String.valueOf(product.getIdProduct());
             rows[1] = product.getProductName();
             rows[2] = String.valueOf(product.getQuantityPerProduct());
-            rows[3] = String.valueOf(product.getInitialPrice());
-            rows[4] = String.valueOf(product.getSalePrice());
+            rows[3] = String.valueOf("$ " + String.format("%.2f", product.getInitialPrice()));
+            rows[4] = String.valueOf("$ " + String.format("%.2f", product.getSalePrice()));
             rows[5] = String.valueOf(product.getStock());
             rows[6] = String.valueOf(product.getIdCategory());
 

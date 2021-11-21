@@ -126,7 +126,7 @@ public class V_Sale extends javax.swing.JFrame {
             cantidad = Integer.parseInt(tbDetailSale.getValueAt(i, 2).toString());
             precio = Double.parseDouble(tbDetailSale.getValueAt(i, 3).toString());
             double subTotal = (cantidad * precio);
-            tbDetailSale.setValueAt(subTotal, i, 4);
+            tbDetailSale.setValueAt(String.format("%.2f", subTotal), i, 4);
 
             totalPagar = totalPagar + (cantidad * precio);
 
@@ -134,7 +134,7 @@ public class V_Sale extends javax.swing.JFrame {
             totalArticles = totalArticles + article;
         }
 
-        txtTotalNeto.setText("" + totalPagar);
+        txtTotalNeto.setText("" + String.format("%.2f", totalPagar));
         lblArtSale.setText("" + totalArticles);
     }
 

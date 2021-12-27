@@ -5,9 +5,12 @@ import entities.E_product;
 import business.B_products;
 import entities.E_sale;
 import entities.E_saleDetail;
+import java.awt.Image;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -48,7 +51,13 @@ public class V_Sale extends javax.swing.JFrame {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         lblDate.setText(dtf.format(LocalDateTime.now()));
-
+        
+        ImageIcon logoWilber = new ImageIcon("F:\\NetBeansProjects\\wStore\\src\\main\\java\\imgs\\logoWilber.jpeg"); //F:\\NetBeansProjects\\wStore\\src\\main\\java\\imgs\\logoWilber.jpeg
+        Icon logoIcon = new ImageIcon(logoWilber.getImage().getScaledInstance(lblLogoWStore.getWidth(), lblLogoWStore.getHeight(), Image.SCALE_DEFAULT));
+        lblLogoWStore.setIcon(logoIcon);
+        this.repaint();
+        
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     //Recibe y carga la informacion del producto buscado
@@ -378,6 +387,7 @@ public class V_Sale extends javax.swing.JFrame {
         pnlProdsAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblLogoWStore.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogoWStore.setIcon(new javax.swing.ImageIcon("F:\\NetBeansProjects\\wStore\\src\\main\\java\\imgs\\logoWilber.jpeg")); // NOI18N
         lblLogoWStore.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setFont(new java.awt.Font("MADE TOMMY", 1, 14)); // NOI18N
@@ -476,8 +486,8 @@ public class V_Sale extends javax.swing.JFrame {
             pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlProdsAddLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblLogoWStore, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addComponent(lblLogoWStore, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlProdsAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)

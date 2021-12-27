@@ -258,7 +258,12 @@ public class V_SearchProduct extends javax.swing.JDialog {
 
                 int idProduct = Integer.parseInt(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 0)));
                 String nombre = String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 1));
-                double precioVenta = Double.parseDouble(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 4)));
+                
+                StringBuilder precioVentaSB = new StringBuilder(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 4)));
+                precioVentaSB.deleteCharAt(0);
+                precioVentaSB.deleteCharAt(0);
+                
+                double precioVenta = Double.parseDouble(String.valueOf(precioVentaSB));
                 int stock = Integer.parseInt(String.valueOf(enviar.getValueAt(tbResultProd.getSelectedRow(), 5)));
 
                 //Se pasan los datos de la tabla al objeto

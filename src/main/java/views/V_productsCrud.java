@@ -551,6 +551,8 @@ public class V_productsCrud extends javax.swing.JFrame {
                 }
                 break;
         }
+        
+        btnEditStock.setEnabled(false);
     }//GEN-LAST:event_btnNewProdActionPerformed
 
     //refresh components of the form
